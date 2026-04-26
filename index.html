@@ -1,17 +1,1385 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#F6F1E8" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="SONOSAKI" />
-    <title>SONOSAKI</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜プロトタイプ・ショーケース</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* === Paper grain texture overlay === */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100;
+    background-image: radial-gradient(rgba(20,17,27,.045) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+  }
+
+  /* === Layout === */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+  }
+
+  /* === Top sticky bar === */
+  .topbar {
+    position: sticky;
+    top: 0; z-index: 50;
+    background: var(--cream);
+    border-bottom: 2px solid var(--ink);
+    padding: 14px 0;
+  }
+  .topbar .container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .top-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--ink);
+    flex-shrink: 0;
+  }
+  .top-logo .mark {
+    width: 36px; height: 36px;
+    background: var(--ink); color: var(--sun);
+    border: 2px solid var(--ink); border-radius: 9px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 20px;
+    transform: rotate(-6deg);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .top-logo .name {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 14px;
+    line-height: 1.1;
+  }
+  .top-logo .name .en {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 8.5px;
+    letter-spacing: .25em; color: var(--vermillion);
+    margin-top: 1px;
+  }
+
+  .top-nav {
+    display: flex; gap: 4px;
+    flex: 1; justify-content: center;
+  }
+  .top-nav a {
+    padding: 8px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--ink-2); text-decoration: none;
+    letter-spacing: .04em;
+    border-radius: 8px;
+    transition: all .15s ease;
+  }
+  .top-nav a:hover { background: var(--cream-2); color: var(--ink); }
+  @media (max-width: 768px) { .top-nav { display: none; } }
+
+  .top-cta {
+    background: var(--ink); color: var(--sun);
+    padding: 8px 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    border: 2px solid var(--ink);
+    border-radius: 9px;
+    box-shadow: 3px 3px 0 var(--vermillion);
+    text-decoration: none;
+    letter-spacing: .05em;
+    transition: transform .15s ease;
+    flex-shrink: 0;
+  }
+  .top-cta:hover { transform: translateY(-2px); }
+
+  /* === Hero === */
+  .hero {
+    padding: 60px 0 40px;
+    position: relative;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 40px; right: -100px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(255,206,46,.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: -50px; left: -100px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(232,65,43,.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .hero-text .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--vermillion); letter-spacing: .3em;
+  }
+  .hero-text .kicker::before {
+    content: ""; width: 30px; height: 2px;
+    background: var(--vermillion);
+  }
+  .hero-text h1 {
+    margin: 16px 0 20px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5.5vw, 60px);
+    line-height: 1.1;
+    letter-spacing: -.025em;
+    color: var(--ink);
+  }
+  .hero-text h1 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 6px;
+  }
+  .hero-text h1 .vermillion-text {
+    color: var(--vermillion);
+  }
+  .hero-text p.lead {
+    margin: 0 0 32px;
+    font-size: 16px; line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 540px;
+    font-weight: 500;
+  }
+
+  /* Stats row */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 600px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+  }
+  .stat-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 14px 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .stat-card .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 30px;
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: var(--ink);
+  }
+  .stat-card .num .em {
+    font-size: 18px;
+    margin-right: 4px;
+  }
+  .stat-card .lbl {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .stat-card.accent { background: var(--vermillion); color: #fff; box-shadow: 3px 3px 0 var(--ink); }
+  .stat-card.accent .num { color: #fff; }
+  .stat-card.accent .lbl { color: rgba(255,255,255,.85); }
+
+  .hero-cta-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .btn {
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 13px 20px;
+    font-family: inherit; font-weight: 800; font-size: 14px;
+    cursor: pointer;
+    transition: all .15s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn:hover { transform: translateY(-3px); }
+  .btn-primary { background: var(--vermillion); color: #fff; box-shadow: 4px 4px 0 var(--ink); }
+  .btn-primary svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round;
+  }
+  .btn-secondary { background: var(--paper); color: var(--ink); }
+
+  /* Hero phone preview */
+  .hero-phone-wrap {
+    position: relative;
+    perspective: 1500px;
+    display: flex; justify-content: center;
+  }
+  .hero-phone {
+    width: 280px;
+    aspect-ratio: 9/19.5;
+    background: var(--cream);
+    border-radius: 36px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 2px #2A2333,
+      0 0 0 10px #14111B,
+      0 0 0 11px #322B3D,
+      0 40px 80px -20px rgba(0,0,0,.5),
+      0 20px 40px -10px rgba(0,0,0,.3);
+    transform: rotate(-4deg);
+    transition: transform .4s ease;
+  }
+  .hero-phone:hover { transform: rotate(0deg) scale(1.03); }
+  .hero-phone .notch-mini {
+    position: absolute; top: 6px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 22px;
+    background: #14111B; border-radius: 12px;
+    z-index: 10;
+  }
+  .hero-phone-content {
+    height: 100%;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    padding: 50px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero-phone-content .mark-big {
+    width: 100px; height: 100px;
+    background: var(--ink); color: var(--sun);
+    border: 2.5px solid var(--ink);
+    border-radius: 24px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 56px;
+    transform: rotate(-6deg);
+    box-shadow: 6px 6px 0 var(--vermillion), 12px 12px 0 var(--sun);
+    margin-top: 24px;
+    animation: hero-bob 3s ease-in-out infinite;
+  }
+  @keyframes hero-bob {
+    0%, 100% { transform: rotate(-6deg) translateY(0); }
+    50% { transform: rotate(-6deg) translateY(-6px); }
+  }
+  .hero-phone-content .name-jp {
+    margin-top: 32px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px; color: var(--ink);
+  }
+  .hero-phone-content .name-en {
+    margin-top: 4px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .hero-phone-content .tagline {
+    margin-top: 14px;
+    font-size: 11px; color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* === Section base === */
+  section {
+    padding: 80px 0;
+    position: relative;
+    border-top: 2px solid var(--ink);
+  }
+  section .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--vermillion); letter-spacing: .3em;
+  }
+  section .section-label::before {
+    content: ""; width: 30px; height: 2px; background: var(--vermillion);
+  }
+  section h2 {
+    margin: 16px 0 12px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.18;
+    letter-spacing: -.02em;
+    color: var(--ink);
+  }
+  section h2 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 6px;
+  }
+  section h2 .accent-r {
+    background: linear-gradient(transparent 60%, rgba(232,65,43,.4) 60%);
+    padding: 0 6px;
+  }
+  section .lead {
+    max-width: 640px;
+    font-size: 15px; color: var(--ink-2);
+    line-height: 1.7; font-weight: 500;
+    margin-bottom: 36px;
+  }
+
+  /* === Journey map === */
+  .journey {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .journey .section-label { color: var(--sun); }
+  .journey .section-label::before { background: var(--sun); }
+  .journey h2 { color: var(--cream); }
+  .journey h2 .accent { background: linear-gradient(transparent 60%, var(--vermillion) 60%); color: var(--cream); }
+  .journey .lead { color: rgba(251,245,229,.75); }
+
+  .journey-flow {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 16px 0 28px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--vermillion) transparent;
+  }
+  .journey-flow::-webkit-scrollbar { height: 8px; }
+  .journey-flow::-webkit-scrollbar-thumb {
+    background: var(--vermillion);
+    border-radius: 99px;
+  }
+  .journey-step {
+    flex-shrink: 0;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+  }
+  .journey-step::after {
+    content: "→";
+    position: absolute;
+    right: -16px; top: 60px;
+    font-size: 24px;
+    color: var(--vermillion);
+    font-weight: 900;
+    z-index: 2;
+  }
+  .journey-step:last-child::after { display: none; }
+  .journey-step .stage {
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    border: 1.5px solid var(--cream);
+    align-self: flex-start;
+    letter-spacing: .12em;
+  }
+  .journey-step .step-card {
+    background: rgba(255,255,255,.08);
+    border: 1.5px solid rgba(255,255,255,.2);
+    border-radius: 12px;
+    padding: 14px;
+    backdrop-filter: blur(8px);
+  }
+  .journey-step .step-card .em {
+    font-size: 24px; line-height: 1;
+    margin-bottom: 6px;
+  }
+  .journey-step .step-card .ttl {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 14px;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .journey-step .step-card .desc {
+    font-size: 11px; color: rgba(251,245,229,.7);
+    line-height: 1.55;
+  }
+  .journey-step .step-card .pages {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255,255,255,.15);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 9px;
+    color: var(--sun);
+    letter-spacing: .04em;
+  }
+
+  /* === Filter chips === */
+  .filter-chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .fchip {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--ink); cursor: pointer;
+    transition: all .15s ease;
+    user-select: none;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .fchip:hover { transform: translateY(-2px); }
+  .fchip.active {
+    background: var(--ink); color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .fchip .cnt {
+    background: var(--cream-2); color: var(--ink);
+    padding: 1px 6px; border-radius: 99px;
+    font-size: 9px; margin-left: 4px;
+  }
+  .fchip.active .cnt { background: var(--vermillion); color: #fff; }
+
+  /* === Screen gallery === */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 1100px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 768px) { .gallery { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+  @media (max-width: 480px) { .gallery { grid-template-columns: 1fr; } }
+
+  .screen-card {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: all .25s ease;
+    display: flex; flex-direction: column;
+    animation: fade-in .4s ease;
+  }
+  .screen-card.hidden { display: none; }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .screen-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 6px 8px 0 var(--vermillion);
+  }
+  .screen-card:hover .preview-frame { transform: rotate(0deg) scale(1.02); }
+
+  .preview-wrap {
+    background: linear-gradient(135deg, #2A2333, #14111B);
+    padding: 20px 16px;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .preview-wrap::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+  .preview-frame {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 9/19.5;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--cream);
+    box-shadow:
+      0 0 0 1px #2A2333,
+      0 0 0 5px #14111B,
+      0 12px 28px rgba(0,0,0,.4);
+    transform: rotate(-3deg);
+    transition: transform .35s ease;
+    position: relative;
+  }
+  .preview-frame iframe {
+    width: 100%; height: 100%;
+    border: none;
+    /* Scale to make 412px design fit in 200px */
+    transform: scale(0.485);
+    transform-origin: top left;
+    width: 412px;
+    height: 850px;
+    display: block;
+    pointer-events: none;
+  }
+  .preview-frame::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    /* fade bottom for nicer look */
+    background: linear-gradient(180deg, transparent 70%, rgba(20,17,27,.05) 100%);
+  }
+
+  /* Tag stamp on preview */
+  .screen-tag {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    letter-spacing: .12em;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    transform: rotate(8deg);
+    z-index: 3;
+  }
+  .screen-tag.cat-entry { background: var(--vermillion); }
+  .screen-tag.cat-discover { background: var(--indigo); }
+  .screen-tag.cat-create { background: var(--sun); color: var(--ink); }
+  .screen-tag.cat-self { background: var(--mint); color: var(--ink); }
+  .screen-tag.cat-react { background: var(--ink); color: var(--sun); }
+  .screen-tag.cat-collab { background: var(--purple); }
+  .screen-tag.cat-brand { background: #fff; color: var(--ink); }
+
+  .screen-info {
+    padding: 18px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .screen-info .num-pill {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    color: var(--ink-2);
+    letter-spacing: .15em;
+    margin-bottom: 4px;
+  }
+  .screen-info h3 {
+    margin: 0 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 17px;
+    color: var(--ink);
+    letter-spacing: -.02em;
+  }
+  .screen-info .filename {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px;
+    color: var(--vermillion);
+    letter-spacing: .04em;
+    margin-bottom: 8px;
+  }
+  .screen-info .desc {
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .screen-info .features {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(20,17,27,.18);
+    display: flex; flex-wrap: wrap;
+    gap: 4px;
+  }
+  .screen-info .feature {
+    background: var(--cream);
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    padding: 2px 7px;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* === Philosophy === */
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 768px) {
+    .philosophy-grid { grid-template-columns: 1fr; }
+  }
+  .principle {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .principle::before {
+    content: "";
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    opacity: .15;
+  }
+  .principle.p1::before { background: var(--vermillion); }
+  .principle.p2::before { background: var(--sun); }
+  .principle.p3::before { background: var(--mint); }
+  .principle.p4::before { background: var(--indigo); }
+
+  .principle .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 32px;
+    color: var(--vermillion);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .principle h3 {
+    margin: 0 0 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -.02em;
+    line-height: 1.25;
+  }
+  .principle p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .principle p strong { color: var(--ink); font-weight: 800; }
+
+  /* === Footer === */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 60px 0 32px;
+    border-top: 2px solid var(--ink);
+  }
+  footer .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 768px) {
+    footer .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+  footer .brand-block {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  footer .mark {
+    width: 56px; height: 56px;
+    background: var(--sun); color: var(--ink);
+    border: 2px solid var(--cream); border-radius: 14px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 28px;
+    transform: rotate(-6deg);
+    box-shadow: 4px 4px 0 var(--vermillion);
+    flex-shrink: 0;
+  }
+  footer .brand-text h4 {
+    margin: 0 0 6px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px;
+    color: var(--cream);
+  }
+  footer .brand-text .en {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--sun); letter-spacing: .25em;
+  }
+  footer .brand-text p {
+    margin: 12px 0 0;
+    font-size: 12px; color: rgba(251,245,229,.65);
+    line-height: 1.6;
+    max-width: 380px;
+  }
+  footer .col h5 {
+    margin: 0 0 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--sun); letter-spacing: .25em;
+  }
+  footer .col a {
+    display: block;
+    font-size: 12px; color: rgba(251,245,229,.7);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color .15s ease;
+  }
+  footer .col a:hover { color: var(--cream); }
+
+  footer .bottom {
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px;
+    color: rgba(251,245,229,.5);
+    letter-spacing: .08em;
+  }
+  footer .bottom strong { color: var(--vermillion); font-weight: 800; }
+</style>
+</head>
+<body>
+
+<!-- ===== Top sticky bar ===== -->
+<header class="topbar">
+  <div class="container">
+    <a class="top-logo" href="#top">
+      <div class="mark">閃</div>
+      <div class="name">
+        キャンパスイノベーション
+        <span class="en">CAMPUS × INNOVATION</span>
+      </div>
+    </a>
+    <nav class="top-nav">
+      <a href="#journey">JOURNEY</a>
+      <a href="#screens">SCREENS</a>
+      <a href="#philosophy">PHILOSOPHY</a>
+      <a href="design_system.html">DESIGN SYSTEM</a>
+    </nav>
+    <a class="top-cta" href="splash.html">▶︎ DEMO</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top" style="border-top: none;">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="kicker">— PROTOTYPE SHOWCASE</div>
+        <h1>
+          17画面の<br>
+          <span class="accent">完全プロト</span>タイプ、<br>
+          <span class="vermillion-text">ぜんぶ繋がっています。</span>
+        </h1>
+        <p class="lead">
+          大学生のひらめきが集まり、共感する仲間と出会い、<br>
+          一緒に作って、世界に届く ──。<br>
+          そんな体験を、リアルに動くプロトタイプにまとめました。
+        </p>
+
+        <div class="stat-row">
+          <div class="stat-card accent">
+            <div class="num"><span class="em">📱</span>17</div>
+            <div class="lbl">作り込んだ画面</div>
+          </div>
+          <div class="stat-card">
+            <div class="num"><span class="em">💡</span>11</div>
+            <div class="lbl">サンプル<br>アイディア</div>
+          </div>
+          <div class="stat-card">
+            <div class="num"><span class="em">🎨</span>8</div>
+            <div class="lbl">ブランド<br>カラー</div>
+          </div>
+          <div class="stat-card">
+            <div class="num"><span class="em">⚡</span>0</div>
+            <div class="lbl">外部依存<br>(全てHTML)</div>
+          </div>
+        </div>
+
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="splash.html">
+            ▶︎ デモを起動
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-secondary" href="#screens">画面ギャラリーへ</a>
+        </div>
+      </div>
+
+      <div class="hero-phone-wrap">
+        <a href="splash.html" class="hero-phone" style="cursor:pointer;text-decoration:none;color:inherit;display:block;">
+          <div class="notch-mini"></div>
+          <div class="hero-phone-content">
+            <div class="mark-big">閃</div>
+            <div class="name-jp">キャンパスイノベーション</div>
+            <div class="name-en">CAMPUS × INNOVATION</div>
+            <div class="tagline">あなたのひらめき、<br>キャンパスから世界へ。</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JOURNEY MAP ===== -->
+<section class="journey" id="journey">
+  <div class="container">
+    <div class="section-label">— USER JOURNEY</div>
+    <h2>
+      ユーザーの<span class="accent">物語</span>を、<br>
+      画面の流れで設計しました。
+    </h2>
+    <p class="lead">
+      新入生がアプリをインストールしてから、初投稿が世界に届くまで。<br>
+      6つのフェーズで、17画面が一本の物語として繋がります。
+    </p>
+
+    <div class="journey-flow">
+      <div class="journey-step">
+        <span class="stage">PHASE 1 · 入口</span>
+        <div class="step-card">
+          <div class="em">🌟</div>
+          <div class="ttl">第一印象</div>
+          <div class="desc">アプリを起動した瞬間、ブランドの世界観に引き込まれる。</div>
+          <div class="pages">SPLASH</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 2 · 認証</span>
+        <div class="step-card">
+          <div class="em">🔐</div>
+          <div class="ttl">招待コード</div>
+          <div class="desc">招待制でBeta感を演出。コードがなければウェイトリスト。</div>
+          <div class="pages">LOGIN · WAITLIST</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 3 · 設定</span>
+        <div class="step-card">
+          <div class="em">🎬</div>
+          <div class="ttl">プロフィール作成</div>
+          <div class="desc">5ステップで自分専用の世界が完成する瞬間。</div>
+          <div class="pages">ONBOARDING</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 4 · 発見</span>
+        <div class="step-card">
+          <div class="em">🔍</div>
+          <div class="ttl">アイディア探索</div>
+          <div class="desc">回転テーブル・タグ・ランキングで、共感する人を見つける。</div>
+          <div class="pages">HOME · EXPLORE · DETAIL</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 5 · 発信</span>
+        <div class="step-card">
+          <div class="em">✏️</div>
+          <div class="ttl">投稿する</div>
+          <div class="desc">3ステップで誰でも書ける、自分だけの一枚カード。</div>
+          <div class="pages">POST</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 6 · 反応</span>
+        <div class="step-card">
+          <div class="em">🔔</div>
+          <div class="ttl">反響を受ける</div>
+          <div class="desc">いいね、コメント、コラボ申請。世界からの返事。</div>
+          <div class="pages">NOTIFICATIONS</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 7 · 協働</span>
+        <div class="step-card">
+          <div class="em">🤝</div>
+          <div class="ttl">仲間と作る</div>
+          <div class="desc">コラボ申請を受け、チームを組み、実際に開発を進める。</div>
+          <div class="pages">COLLAB SEND/RECEIVE/ROOM</div>
+        </div>
+      </div>
+      <div class="journey-step">
+        <span class="stage">PHASE 8 · 成長</span>
+        <div class="step-card">
+          <div class="em">📊</div>
+          <div class="ttl">振り返る</div>
+          <div class="desc">ダッシュボードで自分のインパクトを数字で味わう。</div>
+          <div class="pages">MYPAGE · DASHBOARD · SETTINGS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREEN GALLERY ===== -->
+<section id="screens">
+  <div class="container">
+    <div class="section-label">— SCREEN GALLERY</div>
+    <h2>
+      <span class="accent-r">全17画面</span>を、<br>
+      一覧で。
+    </h2>
+    <p class="lead">
+      下のフィルタで絞り込むか、各カードをタップすると実際のページが開きます。
+    </p>
+
+    <div class="filter-chips" id="filterChips">
+      <button class="fchip active" data-cat="all">すべて <span class="cnt">17</span></button>
+      <button class="fchip" data-cat="entry">入口 <span class="cnt">4</span></button>
+      <button class="fchip" data-cat="discover">発見 <span class="cnt">3</span></button>
+      <button class="fchip" data-cat="create">発信 <span class="cnt">1</span></button>
+      <button class="fchip" data-cat="self">自己 <span class="cnt">4</span></button>
+      <button class="fchip" data-cat="react">反応 <span class="cnt">1</span></button>
+      <button class="fchip" data-cat="collab">協働 <span class="cnt">3</span></button>
+      <button class="fchip" data-cat="brand">ブランド <span class="cnt">1</span></button>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <!-- ENTRY -->
+      <a class="screen-card" data-cat="entry" href="splash.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-entry">ENTRY</span>
+          <div class="preview-frame"><iframe src="splash.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 01 / 17</div>
+          <h3>スプラッシュ</h3>
+          <div class="filename">splash.html</div>
+          <div class="desc">起動した瞬間、ブランドマークが弾けて出現。0.15→2.5秒で5段階のアニメーション。</div>
+          <div class="features">
+            <span class="feature">アニメーション</span>
+            <span class="feature">パーティクル</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="entry" href="login.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-entry">ENTRY</span>
+          <div class="preview-frame"><iframe src="login.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 02 / 17</div>
+          <h3>ログイン</h3>
+          <div class="filename">login.html</div>
+          <div class="desc">招待コード入力＋マジックリンク＋SNSログイン。Beta感のある限定空間を演出。</div>
+          <div class="features">
+            <span class="feature">招待制</span>
+            <span class="feature">3つのログイン方式</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="entry" href="waitlist.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-entry">ENTRY</span>
+          <div class="preview-frame"><iframe src="waitlist.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 03 / 17</div>
+          <h3>ウェイトリスト</h3>
+          <div class="filename">waitlist.html</div>
+          <div class="desc">未招待者の登録画面。シェアで順位を上げるグロースエンジン搭載。</div>
+          <div class="features">
+            <span class="feature">FOMO駆動</span>
+            <span class="feature">紹介システム</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="entry" href="onboarding.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-entry">ENTRY</span>
+          <div class="preview-frame"><iframe src="onboarding.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 04 / 17</div>
+          <h3>オンボーディング</h3>
+          <div class="filename">onboarding.html</div>
+          <div class="desc">5ステップのウェルカムフロー。最後にプロフィールカードが完成する瞬間に紙吹雪が舞う。</div>
+          <div class="features">
+            <span class="feature">5ステップ</span>
+            <span class="feature">ライブプレビュー</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- DISCOVER -->
+      <a class="screen-card" data-cat="discover" href="campus_innovation_home.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-discover">DISCOVER</span>
+          <div class="preview-frame"><iframe src="campus_innovation_home.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 05 / 17</div>
+          <h3>ホーム</h3>
+          <div class="filename">campus_innovation_home.html</div>
+          <div class="desc">3D回転テーブルで8アイディアが優雅に巡る、ジャンプ+風の新着グリッド。</div>
+          <div class="features">
+            <span class="feature">3Dカルーセル</span>
+            <span class="feature">回転テーブル</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="discover" href="explore.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-discover">DISCOVER</span>
+          <div class="preview-frame"><iframe src="explore.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 06 / 17</div>
+          <h3>エクスプロー</h3>
+          <div class="filename">explore.html</div>
+          <div class="desc">4タブ＋ライブ検索で24のアイディアを巡る。タグクラウドで世界観を表現。</div>
+          <div class="features">
+            <span class="feature">4タブ切替</span>
+            <span class="feature">タグクラウド</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="discover" href="detail.html?id=001">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-discover">DISCOVER</span>
+          <div class="preview-frame"><iframe src="detail.html?id=001" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 07 / 17</div>
+          <h3>アイディア詳細</h3>
+          <div class="filename">detail.html?id=001-011</div>
+          <div class="desc">11種のアイディア詳細。問題・アプローチ・ターゲットを構造化、コラボ導線付き。</div>
+          <div class="features">
+            <span class="feature">URLパラメータ</span>
+            <span class="feature">11バリエーション</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- CREATE -->
+      <a class="screen-card" data-cat="create" href="post.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-create">CREATE</span>
+          <div class="preview-frame"><iframe src="post.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 08 / 17</div>
+          <h3>投稿</h3>
+          <div class="filename">post.html</div>
+          <div class="desc">3ステップで自分のアイディアを世界に公開。リアルタイムでカードが完成する。</div>
+          <div class="features">
+            <span class="feature">3ステップ</span>
+            <span class="feature">ライブプレビュー</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- SELF -->
+      <a class="screen-card" data-cat="self" href="mypage.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-self">SELF</span>
+          <div class="preview-frame"><iframe src="mypage.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 09 / 17</div>
+          <h3>マイページ</h3>
+          <div class="filename">mypage.html</div>
+          <div class="desc">Innovation Score 1,840 + 7バッジ + 4タブ + アクティビティ。プロフィールの城。</div>
+          <div class="features">
+            <span class="feature">4タブ</span>
+            <span class="feature">9バッジ</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="self" href="dashboard.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-self">SELF</span>
+          <div class="preview-frame"><iframe src="dashboard.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 10 / 17</div>
+          <h3>ダッシュボード</h3>
+          <div class="filename">dashboard.html</div>
+          <div class="desc">時系列グラフ・ドーナツ・ヒートマップ。Spotify Wrapped 風の数字を味わう体験。</div>
+          <div class="features">
+            <span class="feature">SVGチャート</span>
+            <span class="feature">ヒートマップ</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="self" href="settings.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-self">SELF</span>
+          <div class="preview-frame"><iframe src="settings.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 11 / 17</div>
+          <h3>設定</h3>
+          <div class="filename">settings.html</div>
+          <div class="desc">8セクション・25項目以上の設定。マスター連動トグル、危険ゾーン分離。</div>
+          <div class="features">
+            <span class="feature">8セクション</span>
+            <span class="feature">マスター連動</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="self" href="invite.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-self">SELF</span>
+          <div class="preview-frame"><iframe src="invite.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 12 / 17</div>
+          <h3>招待コード</h3>
+          <div class="filename">invite.html</div>
+          <div class="desc">5枚の招待カード＋4種シェア（LINE/X/IG/QR）＋報酬ティア＋送信履歴。グロースエンジン。</div>
+          <div class="features">
+            <span class="feature">QRコード</span>
+            <span class="feature">4ティア報酬</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- REACT -->
+      <a class="screen-card" data-cat="react" href="notifications.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-react">REACT</span>
+          <div class="preview-frame"><iframe src="notifications.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 13 / 17</div>
+          <h3>通知</h3>
+          <div class="filename">notifications.html</div>
+          <div class="desc">7種類のカラフル通知＋日付グルーピング＋一括既読＋アクション可能。</div>
+          <div class="features">
+            <span class="feature">7タイプ</span>
+            <span class="feature">フィルター</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- COLLAB -->
+      <a class="screen-card" data-cat="collab" href="collab_send.html?id=001">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-collab">COLLAB</span>
+          <div class="preview-frame"><iframe src="collab_send.html?id=001" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 14 / 17</div>
+          <h3>コラボ送信</h3>
+          <div class="filename">collab_send.html</div>
+          <div class="desc">手紙感のある封筒型カード＋5セクションのフォーム。「一緒に作りたい」を本気で送る。</div>
+          <div class="features">
+            <span class="feature">封筒UI</span>
+            <span class="feature">5セクション</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="collab" href="collab_receive.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-collab">COLLAB</span>
+          <div class="preview-frame"><iframe src="collab_receive.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 15 / 17</div>
+          <h3>コラボ受信</h3>
+          <div class="filename">collab_receive.html</div>
+          <div class="desc">送り主のプロフィール＋手紙風メッセージ＋共通点＋過去投稿で人物像が伝わる重厚レビュー。</div>
+          <div class="features">
+            <span class="feature">人物プロフィール</span>
+            <span class="feature">3択アクション</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="screen-card" data-cat="collab" href="collab_room.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-collab">COLLAB</span>
+          <div class="preview-frame"><iframe src="collab_room.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 16 / 17</div>
+          <h3>コラボルーム</h3>
+          <div class="filename">collab_room.html</div>
+          <div class="desc">7種のメッセージタイプ（テキスト/タスク/投票/リンク/シェア/ピン/システム）が動く協働チャット。</div>
+          <div class="features">
+            <span class="feature">7メッセージ型</span>
+            <span class="feature">フェーズ管理</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- BRAND -->
+      <a class="screen-card" data-cat="brand" href="app_icon.html">
+        <div class="preview-wrap">
+          <span class="screen-tag cat-brand">BRAND</span>
+          <div class="preview-frame"><iframe src="app_icon.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="screen-info">
+          <div class="num-pill">— 17 / 17</div>
+          <h3>ブランドキット</h3>
+          <div class="filename">app_icon.html</div>
+          <div class="desc">アプリアイコン6種＋5サイズ＋iOS/Androidホーム画面プレビュー＋仕様書。</div>
+          <div class="features">
+            <span class="feature">6バリアント</span>
+            <span class="feature">SVGコピー</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PHILOSOPHY ===== -->
+<section id="philosophy">
+  <div class="container">
+    <div class="section-label">— DESIGN PHILOSOPHY</div>
+    <h2>
+      このプロトタイプを支える<br>
+      <span class="accent">4つの原則</span>。
+    </h2>
+    <p class="lead">
+      ただの画面じゃなく、思想の塊として作りました。<br>
+      どこを切っても、同じ哲学が滲み出るように。
+    </p>
+
+    <div class="philosophy-grid">
+      <div class="principle p1">
+        <div class="num">01</div>
+        <h3>触ってわかる<br>「ステッカー感」</h3>
+        <p>
+          全ての要素に <strong>2px の黒い縁取り</strong> と <strong>3-4px のオフセット影</strong> をつけて、
+          紙のステッカーを貼ったような立体感を統一。
+          リソグラフ印刷の質感を、Webで再現しています。
+        </p>
+      </div>
+
+      <div class="principle p2">
+        <div class="num">02</div>
+        <h3>4色だけで<br>世界を表現</h3>
+        <p>
+          <strong>クリーム / インク / バーミリオン / サン</strong> の4色を基本に、
+          補助色を5色まで限定。色を絞ることで、
+          各画面が同じ世界の住民であることが一目でわかります。
+        </p>
+      </div>
+
+      <div class="principle p3">
+        <div class="num">03</div>
+        <h3>3つのフォントで<br>役割を分ける</h3>
+        <p>
+          <strong>Zen Kaku Gothic New 900</strong> で見出し、
+          <strong>RocknRoll One</strong> でロゴとアバター、
+          <strong>Bricolage Grotesque 800</strong> で英字と数字。
+          フォントが声色になります。
+        </p>
+      </div>
+
+      <div class="principle p4">
+        <div class="num">04</div>
+        <h3>使った瞬間に<br>笑顔になる細部</h3>
+        <p>
+          紙吹雪、回転テーブル、絵文字の揺れ、ボタンを押した時の沈み込み。
+          <strong>機能じゃなく、感情を設計</strong> しています。
+          学生の「ひらめき」に似合う、軽やかな手触りを目指しました。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="brand-block">
+        <div class="mark">閃</div>
+        <div class="brand-text">
+          <h4>キャンパスイノベーション</h4>
+          <div class="en">CAMPUS × INNOVATION</div>
+          <p>大学生のひらめきが集まる場所。問題意識を共有し、共感する仲間と出会い、世界を少しだけ変える ── そんな体験を、リアルに動くプロトタイプとして設計しました。</p>
+        </div>
+      </div>
+
+      <div class="col">
+        <h5>— SCREENS</h5>
+        <a href="splash.html">SPLASH</a>
+        <a href="login.html">LOGIN</a>
+        <a href="onboarding.html">ONBOARDING</a>
+        <a href="campus_innovation_home.html">HOME</a>
+        <a href="explore.html">EXPLORE</a>
+        <a href="post.html">POST</a>
+        <a href="mypage.html">MYPAGE</a>
+        <a href="dashboard.html">DASHBOARD</a>
+      </div>
+
+      <div class="col">
+        <h5>— RESOURCES</h5>
+        <a href="design_system.html">DESIGN SYSTEM</a>
+        <a href="app_icon.html">BRAND KIT</a>
+        <a href="invite.html">INVITE</a>
+        <a href="settings.html">SETTINGS</a>
+        <a href="notifications.html">NOTIFICATIONS</a>
+        <a href="collab_send.html?id=001">COLLAB SEND</a>
+        <a href="collab_receive.html">COLLAB RECEIVE</a>
+        <a href="collab_room.html">COLLAB ROOM</a>
+        <a href="waitlist.html">WAITLIST</a>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <span>© 2026 CAMPUS × INNOVATION · MADE BY <strong>STUDENTS</strong> FOR <strong>STUDENTS</strong></span>
+      <span>v 1.2.4 · 17 SCREENS · APRIL 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ====== Filter chips ======
+document.querySelectorAll('.fchip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const cat = chip.dataset.cat;
+    document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    document.querySelectorAll('.screen-card').forEach(card => {
+      const show = cat === 'all' || card.dataset.cat === cat;
+      card.classList.toggle('hidden', !show);
+    });
+  });
+});
+
+// ====== Smooth scroll for nav links ======
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offsetTop = target.offsetTop - 70;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
 </html>

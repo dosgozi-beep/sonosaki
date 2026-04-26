@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜ダッシュボード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    padding: 28px 16px 48px; color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 100%; max-width: 412px;
+    background: var(--cream); border-radius: 44px;
+    overflow: hidden; position: relative; padding-bottom: 24px;
+    box-shadow: 0 0 0 2px #2A2333, 0 0 0 12px #14111B, 0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65), 0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B; border-radius: 16px; z-index: 5;
+  }
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative; z-index: 4;
+    padding: 6px 16px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em; color: var(--vermillion); margin-top: 3px;
+  }
+
+  /* === Hero score card === */
+  .hero-score {
+    margin: 0 18px 14px;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 20px 20px 18px;
+    box-shadow: 5px 5px 0 var(--vermillion);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hero-score::before {
+    content: "";
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 130px; height: 130px;
+    background: radial-gradient(circle, rgba(255,206,46,.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-score .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--sun);
+    letter-spacing: .25em;
+    margin-bottom: 4px;
+  }
+  .hero-score .score-row {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .hero-score .score-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 56px;
+    line-height: 1; letter-spacing: -.025em;
+    color: var(--sun);
+  }
+  .hero-score .trend {
+    background: var(--mint);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 12px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .hero-score .trend::before { content: "↑ "; font-weight: 900; }
+  .rank-strip {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .rank-pill {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: var(--cream);
+    letter-spacing: .04em;
+  }
+  .rank-pill .h { color: var(--sun); font-weight: 800; }
+  .rank-pill.best {
+    background: var(--vermillion);
+    border-color: var(--vermillion);
+  }
+
+  /* === Period selector === */
+  .period-row {
+    margin: 0 18px 12px;
+    display: flex; gap: 4px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 4px;
+    position: relative; z-index: 2;
+  }
+  .period {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink-2);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all .2s ease;
+    letter-spacing: .04em;
+  }
+  .period:hover { color: var(--ink); }
+  .period.active {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+
+  /* === Section base === */
+  .section {
+    margin: 0 18px 14px;
+    position: relative; z-index: 2;
+  }
+  .section-title {
+    display: flex; align-items: center; gap: 8px;
+    margin: 0 0 8px;
+  }
+  .section-title .kicker {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .section-title .kicker::before {
+    content: ""; display: inline-block;
+    width: 18px; height: 2px;
+    background: var(--vermillion);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .section h2 {
+    margin: 4px 0 6px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; letter-spacing: -.02em;
+    color: var(--ink);
+  }
+
+  /* === Chart card === */
+  .chart-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 12px 8px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .chart-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .chart-meta .range {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+  .chart-meta .delta {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--mint);
+  }
+  .chart-meta .delta::before { content: "▲ "; }
+  .chart-svg {
+    width: 100%; height: auto;
+    display: block;
+  }
+  .chart-x-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    margin-top: 4px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 8.5px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+
+  /* === Insight grid === */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .insight-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 2px 2px 0 var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .insight-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--vermillion);
+  }
+  .insight-card.mint::before { background: var(--mint); }
+  .insight-card.sun::before { background: var(--sun); }
+  .insight-card.indigo::before { background: var(--indigo); }
+  .insight-card .em { font-size: 18px; line-height: 1; }
+  .insight-card .num {
+    margin-top: 4px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .insight-card .num .pct {
+    font-size: 14px;
+    color: var(--mint);
+    margin-left: 2px;
+  }
+  .insight-card .lbl {
+    margin-top: 5px;
+    font-size: 10.5px;
+    color: var(--ink-2);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  /* === Breakdown (donut) === */
+  .breakdown-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .donut {
+    width: 110px; height: 110px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .donut .center {
+    position: absolute;
+    inset: 0;
+    display: grid; place-items: center;
+    text-align: center;
+  }
+  .donut .center .total {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .donut .center .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    color: var(--ink-2);
+    letter-spacing: .15em;
+    margin-top: 2px;
+  }
+  .legend {
+    flex: 1;
+    display: flex; flex-direction: column;
+    gap: 5px;
+  }
+  .legend-row {
+    display: flex; align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: var(--ink);
+  }
+  .legend-row .swatch {
+    width: 12px; height: 12px;
+    border: 1.5px solid var(--ink);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .legend-row .name { flex: 1; font-weight: 700; }
+  .legend-row .val {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10.5px;
+    color: var(--ink-2);
+  }
+
+  /* === Heatmap === */
+  .heatmap-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: 14px repeat(28, 1fr);
+    grid-template-rows: 14px repeat(7, 1fr);
+    gap: 3px;
+    margin-top: 10px;
+  }
+  .heatmap-grid .day-label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    color: var(--ink-2);
+    display: grid;
+    place-items: center;
+  }
+  .heatmap-grid .week-label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    color: var(--ink-2);
+    text-align: left;
+  }
+  .heatmap-cell {
+    aspect-ratio: 1;
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    background: var(--cream-2);
+    cursor: pointer;
+    transition: transform .12s ease;
+  }
+  .heatmap-cell:hover { transform: scale(1.4); z-index: 2; }
+  .heatmap-cell.l1 { background: rgba(255,206,46,.5); }
+  .heatmap-cell.l2 { background: rgba(255,206,46,1); }
+  .heatmap-cell.l3 { background: var(--vermillion); }
+  .heatmap-cell.l4 { background: var(--ink); }
+  .heatmap-legend {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    color: var(--ink-2);
+    justify-content: flex-end;
+  }
+  .heatmap-legend .scale {
+    display: flex; gap: 2px;
+  }
+  .heatmap-legend .sc {
+    width: 10px; height: 10px;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+  }
+  .heatmap-legend .sc.l0 { background: var(--cream-2); }
+  .heatmap-legend .sc.l1 { background: rgba(255,206,46,.5); }
+  .heatmap-legend .sc.l2 { background: rgba(255,206,46,1); }
+  .heatmap-legend .sc.l3 { background: var(--vermillion); }
+  .heatmap-legend .sc.l4 { background: var(--ink); }
+
+  /* === Top posts === */
+  .top-post {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .15s ease;
+  }
+  .top-post:hover { transform: translateY(-2px); }
+  .top-post .rank-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--vermillion);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+  .top-post .rank-num.gold {
+    color: var(--ink);
+    -webkit-text-stroke: 1px var(--ink);
+    text-shadow: 2px 2px 0 var(--sun);
+  }
+  .mc-tiny {
+    width: 60px; aspect-ratio: 16 / 10;
+    border-radius: 7px;
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+    color: #fff;
+    padding: 4px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .mc-tiny .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-size: 6px;
+    font-weight: 800;
+    padding: 1px 3px;
+    border-radius: 2px;
+    line-height: 1;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+  .mc-tiny .ml {
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 8.5px;
+    line-height: 1.05;
+    text-shadow: 1px 1px 0 rgba(20,17,27,.5);
+  }
+  .mc-tiny .me {
+    position: absolute; right: -3px; bottom: -7px;
+    font-size: 32px; opacity: .35; line-height: 1;
+  }
+  .mc-tiny.theme-vermillion { background: linear-gradient(160deg,#E8412B,#FF7F3F); }
+  .mc-tiny.theme-mint { background: linear-gradient(160deg,#1B7F5A,#6CD4B6); }
+  .mc-tiny.theme-sun { background: linear-gradient(160deg,#D4A100,#FFCE2E); color: var(--ink); }
+  .mc-tiny.theme-sun .topline { background: var(--ink); color: var(--sun); }
+  .mc-tiny.theme-sun .ml { color: var(--ink); text-shadow: 1px 1px 0 rgba(255,255,255,.5); }
+  .top-post .info { flex: 1; line-height: 1.3; min-width: 0; }
+  .top-post .title {
+    font-weight: 900;
+    font-size: 12.5px;
+    color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .top-post .meta {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 9.5px;
+    color: var(--ink-2);
+    margin-top: 2px;
+    letter-spacing: .04em;
+  }
+  .top-post .impact {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--vermillion);
+    flex-shrink: 0;
+  }
+  .top-post .impact::before { content: "+"; }
+
+  /* === Milestone card === */
+  .milestone-card {
+    background: linear-gradient(135deg, var(--sun), #FFE382);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    position: relative;
+  }
+  .milestone-card::before {
+    content: "🎯";
+    position: absolute;
+    top: -10px; right: 12px;
+    font-size: 24px;
+    transform: rotate(15deg);
+  }
+  .milestone-card .ms-lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--ink);
+    letter-spacing: .25em;
+    text-transform: uppercase;
+  }
+  .milestone-card h3 {
+    margin: 4px 0 8px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .ms-progress {
+    height: 14px;
+    background: rgba(20,17,27,.15);
+    border: 1.5px solid var(--ink);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+  }
+  .ms-progress .fill {
+    height: 100%;
+    width: 84%;
+    background: var(--ink);
+    border-right: 2px solid var(--vermillion);
+    position: relative;
+    transition: width 1.5s ease-out;
+  }
+  .ms-progress .pct {
+    position: absolute;
+    right: 8px; top: 50%; transform: translateY(-50%);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--cream);
+  }
+  .ms-meta {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .ms-meta .pace {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: var(--ink-2);
+  }
+
+  /* === Engagement mini stats === */
+  .engagement-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .eng-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .eng-card .em {
+    font-size: 16px;
+    line-height: 1;
+  }
+  .eng-card .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1;
+    margin-top: 4px;
+  }
+  .eng-card .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+    margin-top: 3px;
+  }
+
+  /* Toast */
+  .toast {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 1.5px solid var(--ink);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .35s cubic-bezier(.5,1.4,.5,1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="mypage.html" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="flex:1;">
+      <div class="ja">ダッシュボード</div>
+      <div class="en">YOUR INSIGHTS</div>
+    </div>
+    <button class="icon-btn" id="shareBtn" aria-label="シェア">
+      <svg viewBox="0 0 24 24"><path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>
+    </button>
+  </header>
+
+  <!-- ====== Hero score ====== -->
+  <div class="hero-score">
+    <div class="lbl">— INNOVATION SCORE</div>
+    <div class="score-row">
+      <span class="score-num" id="scoreNum">1,840</span>
+      <span class="trend">+123 今週</span>
+    </div>
+    <div class="rank-strip">
+      <span class="rank-pill best">🇯🇵 国内 <span class="h">#247</span></span>
+      <span class="rank-pill">🎓 学部 <span class="h">#4</span></span>
+      <span class="rank-pill">🏫 学校 <span class="h">#12</span></span>
+    </div>
+  </div>
+
+  <!-- ====== Period selector ====== -->
+  <div class="period-row" id="periodRow">
+    <button class="period" data-p="7">7日</button>
+    <button class="period active" data-p="30">30日</button>
+    <button class="period" data-p="90">90日</button>
+    <button class="period" data-p="all">全期間</button>
+  </div>
+
+  <!-- ====== Timeline chart ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— TIMELINE</span>
+    </div>
+    <h2>スコアの推移</h2>
+    <div class="chart-card">
+      <div class="chart-meta">
+        <span class="range" id="chartRange">3/27 → 4/26</span>
+        <span class="delta" id="chartDelta">+440 (+31%)</span>
+      </div>
+      <svg class="chart-svg" id="chartSvg" viewBox="0 0 360 180" preserveAspectRatio="none">
+        <!-- Grid lines -->
+        <g stroke="rgba(20,17,27,.1)" stroke-width="1" stroke-dasharray="3,3">
+          <line x1="20" y1="40" x2="340" y2="40"/>
+          <line x1="20" y1="80" x2="340" y2="80"/>
+          <line x1="20" y1="120" x2="340" y2="120"/>
+          <line x1="20" y1="160" x2="340" y2="160"/>
+        </g>
+        <!-- Y axis labels -->
+        <g font-family="Bricolage Grotesque" font-weight="700" font-size="8" fill="rgba(20,17,27,.5)">
+          <text x="2" y="42">1900</text>
+          <text x="2" y="82">1700</text>
+          <text x="2" y="122">1500</text>
+          <text x="2" y="162">1300</text>
+        </g>
+        <!-- Area fill (will be dynamically generated) -->
+        <path id="chartArea" fill="rgba(232,65,43,.18)" stroke="none"/>
+        <!-- Line -->
+        <path id="chartLine" fill="none" stroke="#E8412B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Peak annotation -->
+        <g id="peakAnnotation">
+          <circle cx="232" cy="40" r="5" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+          <line x1="232" y1="35" x2="232" y2="22" stroke="#14111B" stroke-width="1"/>
+          <rect x="208" y="6" width="48" height="14" fill="#14111B" rx="3"/>
+          <text x="232" y="16" font-family="Bricolage Grotesque" font-weight="800" font-size="9" fill="#FFCE2E" text-anchor="middle">PEAK +95</text>
+        </g>
+        <!-- Data points (small circles on each measurement) -->
+        <g id="chartDots"></g>
+      </svg>
+      <div class="chart-x-labels" id="chartXLabels">
+        <span>3/27</span>
+        <span>4/03</span>
+        <span>4/10</span>
+        <span>4/17</span>
+        <span>4/26</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Insights ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— THIS PERIOD</span>
+    </div>
+    <h2>今期の動き</h2>
+    <div class="insight-grid">
+      <div class="insight-card">
+        <span class="em">📈</span>
+        <div class="num">+123<span class="pct">+7%</span></div>
+        <div class="lbl">今週のスコア増加</div>
+      </div>
+      <div class="insight-card mint">
+        <span class="em">❤️</span>
+        <div class="num">+145</div>
+        <div class="lbl">30日で獲得した♥</div>
+      </div>
+      <div class="insight-card sun">
+        <span class="em">👥</span>
+        <div class="num">+42<span class="pct">+12%</span></div>
+        <div class="lbl">新しいフォロワー</div>
+      </div>
+      <div class="insight-card indigo">
+        <span class="em">🌟</span>
+        <div class="num">4/15</div>
+        <div class="lbl">ベストデイ (+95pt)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Score breakdown ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— BREAKDOWN</span>
+    </div>
+    <h2>スコアの内訳</h2>
+    <div class="breakdown-card">
+      <div class="donut">
+        <svg viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--cream-2)" stroke-width="6"/>
+          <!-- Each segment: stroke-dasharray = "length, gap" -->
+          <!-- Posts 40% : 35.2 -->
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#E8412B" stroke-width="6"
+                  stroke-dasharray="35.2 87.96" stroke-dashoffset="0"/>
+          <!-- Likes 30% : 26.4 -->
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#FFCE2E" stroke-width="6"
+                  stroke-dasharray="26.4 87.96" stroke-dashoffset="-35.2"/>
+          <!-- Comments 15% : 13.2 -->
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#4A45D6" stroke-width="6"
+                  stroke-dasharray="13.2 87.96" stroke-dashoffset="-61.6"/>
+          <!-- Followers 10% : 8.8 -->
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#6CD4B6" stroke-width="6"
+                  stroke-dasharray="8.8 87.96" stroke-dashoffset="-74.8"/>
+          <!-- Achievements 5% : 4.4 -->
+          <circle cx="18" cy="18" r="14" fill="none" stroke="#9333A8" stroke-width="6"
+                  stroke-dasharray="4.4 87.96" stroke-dashoffset="-83.6"/>
+        </svg>
+        <div class="center">
+          <div>
+            <div class="total">1,840</div>
+            <div class="lbl">TOTAL</div>
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-row">
+          <span class="swatch" style="background:#E8412B;"></span>
+          <span class="name">投稿</span>
+          <span class="val">736 · 40%</span>
+        </div>
+        <div class="legend-row">
+          <span class="swatch" style="background:#FFCE2E;"></span>
+          <span class="name">獲得 ♥</span>
+          <span class="val">552 · 30%</span>
+        </div>
+        <div class="legend-row">
+          <span class="swatch" style="background:#4A45D6;"></span>
+          <span class="name">コメント</span>
+          <span class="val">276 · 15%</span>
+        </div>
+        <div class="legend-row">
+          <span class="swatch" style="background:#6CD4B6;"></span>
+          <span class="name">フォロワー</span>
+          <span class="val">184 · 10%</span>
+        </div>
+        <div class="legend-row">
+          <span class="swatch" style="background:#9333A8;"></span>
+          <span class="name">バッジ</span>
+          <span class="val">92 · 5%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Engagement mini stats ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— TOTALS</span>
+    </div>
+    <h2>累積の数字</h2>
+    <div class="engagement-grid">
+      <div class="eng-card">
+        <div class="em">📝</div>
+        <div class="num">11</div>
+        <div class="lbl">投稿</div>
+      </div>
+      <div class="eng-card">
+        <div class="em">❤️</div>
+        <div class="num">530</div>
+        <div class="lbl">獲得♥</div>
+      </div>
+      <div class="eng-card">
+        <div class="em">💬</div>
+        <div class="num">89</div>
+        <div class="lbl">コメント</div>
+      </div>
+      <div class="eng-card">
+        <div class="em">👥</div>
+        <div class="num">248</div>
+        <div class="lbl">フォロワー</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Activity heatmap ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— ACTIVITY</span>
+    </div>
+    <h2>4週間の活動</h2>
+    <div class="heatmap-card">
+      <div class="heatmap-grid" id="heatmapGrid">
+        <!-- generated by JS -->
+      </div>
+      <div class="heatmap-legend">
+        <span>少</span>
+        <div class="scale">
+          <span class="sc l0"></span>
+          <span class="sc l1"></span>
+          <span class="sc l2"></span>
+          <span class="sc l3"></span>
+          <span class="sc l4"></span>
+        </div>
+        <span>多</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Top posts ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— TOP HITS</span>
+    </div>
+    <h2>スコアに貢献した投稿</h2>
+    <a class="top-post" href="detail.html?id=001">
+      <div class="rank-num gold">1</div>
+      <div class="mc-tiny theme-vermillion">
+        <span class="topline">FOOD</span>
+        <span class="me">🍱</span>
+        <span class="ml">学食AI</span>
+      </div>
+      <div class="info">
+        <div class="title">学食AI予測</div>
+        <div class="meta">♥ 312 · 💬 28 · 4/22</div>
+      </div>
+      <div class="impact">1,140</div>
+    </a>
+    <a class="top-post" href="detail.html?id=003">
+      <div class="rank-num">2</div>
+      <div class="mc-tiny theme-mint">
+        <span class="topline">STUDY</span>
+        <span class="me">🚃</span>
+        <span class="ml">通学電車</span>
+      </div>
+      <div class="info">
+        <div class="title">通学電車スタディマップ</div>
+        <div class="meta">♥ 87 · 💬 12 · 4/14</div>
+      </div>
+      <div class="impact">320</div>
+    </a>
+    <a class="top-post" href="detail.html?id=010">
+      <div class="rank-num">3</div>
+      <div class="mc-tiny theme-sun">
+        <span class="topline">FOOD</span>
+        <span class="me">🍙</span>
+        <span class="ml">お弁当</span>
+      </div>
+      <div class="info">
+        <div class="title">お弁当MAP</div>
+        <div class="meta">♥ 64 · 💬 8 · 4/02</div>
+      </div>
+      <div class="impact">218</div>
+    </a>
+  </div>
+
+  <!-- ====== Next milestone ====== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="kicker">— NEXT GOAL</span>
+    </div>
+    <h2>次のマイルストーン</h2>
+    <div class="milestone-card">
+      <div class="ms-lbl">— 国内ランキング</div>
+      <h3>🇯🇵 TOP 100 まで あと <span style="color:var(--vermillion);">147pt</span></h3>
+      <div class="ms-progress">
+        <div class="fill" id="msFill"><span class="pct">84%</span></div>
+      </div>
+      <div class="ms-meta">
+        <span>1,840 / 2,000pt</span>
+        <span class="pace">今のペースで <strong>約2週間</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">✓ シェア用画像を作成しました</div>
+
+</div>
+
+<script>
+// ====== Score count-up animation ======
+function animateScore() {
+  const el = document.getElementById('scoreNum');
+  const target = 1840;
+  const duration = 1200;
+  const start = performance.now();
+  const initial = 0;
+  function tick(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const current = Math.round(initial + (target - initial) * eased);
+    el.textContent = current.toLocaleString();
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+animateScore();
+
+// ====== Timeline data for each period ======
+const datasets = {
+  '7':  [1717, 1735, 1748, 1765, 1798, 1820, 1840],
+  '30': [1400, 1410, 1430, 1425, 1450, 1465, 1480, 1495, 1500, 1520, 1530, 1540, 1525, 1555, 1580, 1620, 1690, 1700, 1715, 1700, 1725, 1745, 1765, 1770, 1785, 1800, 1810, 1825, 1830, 1840],
+  '90': [820, 850, 870, 880, 920, 945, 980, 1010, 1050, 1080, 1100, 1115, 1140, 1180, 1220, 1240, 1260, 1280, 1295, 1310, 1330, 1350, 1370, 1380, 1395, 1400, 1410, 1430, 1425, 1450, 1465, 1480, 1495, 1500, 1520, 1530, 1540, 1525, 1555, 1580, 1620, 1690, 1700, 1715, 1700, 1725, 1745, 1765, 1770, 1785, 1800, 1810, 1825, 1830, 1840],
+  'all': [50, 80, 120, 180, 240, 320, 410, 510, 620, 720, 820, 920, 1010, 1100, 1200, 1280, 1360, 1430, 1480, 1530, 1580, 1640, 1700, 1750, 1800, 1840]
+};
+const ranges = {
+  '7':  '4/20 → 4/26',
+  '30': '3/27 → 4/26',
+  '90': '1/27 → 4/26',
+  'all': '初投稿 → 4/26'
+};
+const xLabelSets = {
+  '7':  ['4/20','4/22','4/24','4/26'],
+  '30': ['3/27','4/03','4/10','4/17','4/26'],
+  '90': ['1/27','2/15','3/01','3/15','4/01','4/26'],
+  'all': ['START','30%','60%','NOW']
+};
+
+function renderChart(period) {
+  const data = datasets[period];
+  const w = 360, h = 180, padX = 20, padTop = 30, padBot = 25;
+  const minY = Math.min(...data) - 50;
+  const maxY = Math.max(...data) + 30;
+  const points = data.map((v, i) => {
+    const x = padX + (i / (data.length - 1)) * (w - 2 * padX);
+    const y = padTop + (1 - (v - minY) / (maxY - minY)) * (h - padTop - padBot);
+    return [x, y];
+  });
+
+  // Line path
+  const linePath = "M" + points.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" L");
+  document.getElementById('chartLine').setAttribute('d', linePath);
+
+  // Area path
+  const areaPath = linePath + ` L${points[points.length-1][0].toFixed(1)},${(h - padBot).toFixed(1)} L${points[0][0].toFixed(1)},${(h - padBot).toFixed(1)} Z`;
+  document.getElementById('chartArea').setAttribute('d', areaPath);
+
+  // Dots (only show ~6 for clarity)
+  const dotsEl = document.getElementById('chartDots');
+  dotsEl.innerHTML = '';
+  const step = Math.max(1, Math.floor(points.length / 6));
+  for (let i = 0; i < points.length; i += step) {
+    const [x, y] = points[i];
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', x.toFixed(1));
+    c.setAttribute('cy', y.toFixed(1));
+    c.setAttribute('r', '2.5');
+    c.setAttribute('fill', '#E8412B');
+    c.setAttribute('stroke', '#FBF5E5');
+    c.setAttribute('stroke-width', '1.5');
+    dotsEl.appendChild(c);
+  }
+  // Always show last point
+  const last = points[points.length-1];
+  const lastDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  lastDot.setAttribute('cx', last[0].toFixed(1));
+  lastDot.setAttribute('cy', last[1].toFixed(1));
+  lastDot.setAttribute('r', '4');
+  lastDot.setAttribute('fill', '#FFCE2E');
+  lastDot.setAttribute('stroke', '#14111B');
+  lastDot.setAttribute('stroke-width', '1.5');
+  dotsEl.appendChild(lastDot);
+
+  // Peak annotation: find the highest point
+  let peakIdx = 0;
+  for (let i = 1; i < data.length; i++) if (data[i] > data[peakIdx]) peakIdx = i;
+  const peak = points[peakIdx];
+  // Move annotation
+  const ann = document.getElementById('peakAnnotation');
+  const cx = peak[0];
+  const annTop = Math.max(20, peak[1] - 18);
+  ann.querySelector('circle').setAttribute('cx', cx);
+  ann.querySelector('circle').setAttribute('cy', peak[1]);
+  ann.querySelector('line').setAttribute('x1', cx);
+  ann.querySelector('line').setAttribute('x2', cx);
+  ann.querySelector('line').setAttribute('y1', peak[1] - 5);
+  ann.querySelector('line').setAttribute('y2', annTop);
+  const rect = ann.querySelector('rect');
+  rect.setAttribute('x', cx - 24);
+  rect.setAttribute('y', annTop - 14);
+  ann.querySelector('text').setAttribute('x', cx);
+  ann.querySelector('text').setAttribute('y', annTop - 4);
+  // Update peak label with delta
+  let delta = data[peakIdx] - (peakIdx > 0 ? data[peakIdx - 1] : data[peakIdx]);
+  // Show consecutive peak gain (compare to previous data point)
+  if (delta < 0) delta = Math.max(...data.map((v, i) => i > 0 ? v - data[i-1] : 0));
+  ann.querySelector('text').textContent = `PEAK +${delta}`;
+
+  // Range labels
+  document.getElementById('chartRange').textContent = ranges[period];
+  const totalDelta = data[data.length-1] - data[0];
+  const pctDelta = ((totalDelta / data[0]) * 100).toFixed(0);
+  document.getElementById('chartDelta').textContent = `+${totalDelta} (+${pctDelta}%)`;
+
+  // X labels
+  const xLabelsEl = document.getElementById('chartXLabels');
+  xLabelsEl.innerHTML = xLabelSets[period].map(l => `<span>${l}</span>`).join('');
+}
+renderChart('30');
+
+// ====== Period selector ======
+document.querySelectorAll('.period').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('.period').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    renderChart(p.dataset.p);
+  });
+});
+
+// ====== Heatmap generation ======
+function renderHeatmap() {
+  const grid = document.getElementById('heatmapGrid');
+  grid.innerHTML = '';
+  // Top-left corner empty
+  const corner = document.createElement('div');
+  grid.appendChild(corner);
+  // Week labels (top row): W1, W2, W3, W4
+  for (let w = 0; w < 28; w++) {
+    const cell = document.createElement('div');
+    if (w % 7 === 0) {
+      cell.className = 'week-label';
+      cell.textContent = 'W' + (Math.floor(w/7) + 1);
+    }
+    grid.appendChild(cell);
+  }
+  // Days: M T W T F S S
+  const days = ['M','T','W','T','F','S','S'];
+  // Activity levels (28 days × 7 = 28*1, but we need 7 days × 4 weeks)
+  // Pseudo-random activity levels
+  const activity = [
+    [1,0,2,1,2,3,2],   // W1
+    [2,1,3,2,3,4,3],   // W2
+    [2,3,2,4,3,2,4],   // W3
+    [3,4,3,4,2,3,3]    // W4 (current)
+  ];
+  for (let d = 0; d < 7; d++) {
+    // Day label first column
+    const dl = document.createElement('div');
+    dl.className = 'day-label';
+    dl.textContent = days[d];
+    grid.appendChild(dl);
+    // 4 weeks × 7 cells per day = 28 columns total. Each row is one day across 4 weeks
+    // But our grid is 28 columns of cells per row. So we want 4 weeks * 7 cells width = 28.
+    // Each row visualizes one day across many weeks.
+    // We'll make each day have 28 / 4 = 7 cells per week, so for 4 weeks, 28 cells.
+    // But this is too dense; let's simplify: show each day as 4 cells (one per week), so 4 cols
+    // Wait actually I designed it as 28 columns, that's too many. Let me redo
+    // I'll just put 28 cells per row for simplicity — each cell = 1 activity log
+    for (let c = 0; c < 28; c++) {
+      const cell = document.createElement('div');
+      const week = Math.floor(c / 7);
+      const dayOfWeek = c % 7;
+      let level = 0;
+      // For demo: cells correspond to specific (week, day) combinations
+      // We want 4 weeks × 7 days = 28 actual data points but spread across 28 cells per row
+      // Actually let me change the design — each row is a different view
+      // Simplification: just use random-ish levels
+      const seed = (d * 28 + c) * 7;
+      level = Math.abs((seed * 9301 + 49297) % 233280) / 233280;
+      level = level < 0.3 ? 0 : level < 0.5 ? 1 : level < 0.7 ? 2 : level < 0.85 ? 3 : 4;
+      cell.className = 'heatmap-cell' + (level > 0 ? ` l${level}` : '');
+      cell.title = `Day ${c+1}: level ${level}`;
+      grid.appendChild(cell);
+    }
+  }
+}
+// Simpler heatmap: 7 days × 4 weeks = 28 cells in a 4-week × 7-day grid
+function renderHeatmapSimple() {
+  const grid = document.getElementById('heatmapGrid');
+  grid.style.gridTemplateColumns = '14px repeat(28, 1fr)';
+  grid.style.gridTemplateRows = '14px repeat(7, 1fr)';
+  grid.innerHTML = '';
+  // Empty corner
+  const corner = document.createElement('div');
+  grid.appendChild(corner);
+  // Week labels at top: 28 cells, label every 7th
+  for (let i = 0; i < 28; i++) {
+    const c = document.createElement('div');
+    if (i === 0) { c.className = 'week-label'; c.textContent = '4w前'; }
+    else if (i === 7) { c.className = 'week-label'; c.textContent = '3w前'; }
+    else if (i === 14) { c.className = 'week-label'; c.textContent = '2w前'; }
+    else if (i === 21) { c.className = 'week-label'; c.textContent = '今週'; }
+    grid.appendChild(c);
+  }
+  const days = ['M','T','W','T','F','S','S'];
+  // Predefined activity matrix [day][col] to make it look believable
+  // Higher activity in recent weeks
+  const cellData = [
+    // M (sat fewer Mondays active, busier later)
+    [0,1,0,2, 1,1,2,2, 2,2,3,1, 3,3,4,3, 2,3,4,4, 3,4,3,4, 3,4,4,3],
+    // T
+    [1,0,1,2, 0,2,1,3, 2,1,3,2, 3,2,3,4, 3,4,3,4, 4,3,4,3, 4,4,3,4],
+    // W
+    [0,1,2,1, 2,1,2,2, 3,2,2,3, 2,3,3,4, 3,4,4,3, 3,4,3,4, 3,4,4,3],
+    // T
+    [1,2,0,2, 1,2,2,3, 3,2,3,2, 4,3,4,3, 3,4,4,4, 4,3,4,4, 4,3,4,4],
+    // F
+    [0,0,1,2, 1,1,2,2, 2,3,2,3, 3,3,2,4, 4,3,3,4, 3,4,4,3, 3,4,3,4],
+    // S
+    [2,1,2,3, 1,2,3,3, 3,2,3,4, 3,4,3,4, 4,4,3,4, 4,3,4,3, 4,4,4,4],
+    // S (Sun)
+    [1,2,1,2, 2,3,2,3, 3,3,4,3, 4,3,4,3, 3,4,4,4, 4,4,3,4, 3,4,3,3]
+  ];
+  for (let d = 0; d < 7; d++) {
+    const dl = document.createElement('div');
+    dl.className = 'day-label';
+    dl.textContent = days[d];
+    grid.appendChild(dl);
+    for (let c = 0; c < 28; c++) {
+      const cell = document.createElement('div');
+      const level = cellData[d][c];
+      cell.className = 'heatmap-cell' + (level > 0 ? ` l${level}` : '');
+      grid.appendChild(cell);
+    }
+  }
+}
+renderHeatmapSimple();
+
+// ====== Milestone progress animation ======
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const f = document.getElementById('msFill');
+    f.style.width = '0%';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        f.style.width = '84%';
+      });
+    });
+  }, 400);
+});
+
+// ====== Share button ======
+document.getElementById('shareBtn').addEventListener('click', () => {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+});
+</script>
+
+</body>
+</html>

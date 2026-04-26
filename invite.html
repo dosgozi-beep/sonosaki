@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜招待コード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    padding: 28px 16px 48px; color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 100%; max-width: 412px;
+    background: var(--cream); border-radius: 44px;
+    overflow: hidden; position: relative; padding-bottom: 24px;
+    box-shadow: 0 0 0 2px #2A2333, 0 0 0 12px #14111B, 0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65), 0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B; border-radius: 16px; z-index: 5;
+  }
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative; z-index: 4;
+    padding: 6px 16px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em; color: var(--vermillion); margin-top: 3px;
+  }
+  .help-btn {
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 7px 11px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--ink); cursor: pointer;
+    letter-spacing: .12em; flex-shrink: 0;
+  }
+
+  /* === Hero summary === */
+  .hero {
+    margin: 0 18px 16px;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 18px 20px 16px;
+    box-shadow: 5px 5px 0 var(--vermillion);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 130px; height: 130px;
+    background: radial-gradient(circle, rgba(255,206,46,.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "💌";
+    position: absolute;
+    bottom: -10px; right: 8px;
+    font-size: 60px;
+    opacity: .15;
+    transform: rotate(-12deg);
+  }
+  .hero .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--sun);
+    letter-spacing: .25em;
+    position: relative; z-index: 1;
+  }
+  .hero .row {
+    margin-top: 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    position: relative; z-index: 1;
+  }
+  .hero .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--sun);
+    letter-spacing: -.025em;
+  }
+  .hero .num .total {
+    font-size: 24px;
+    color: rgba(251,245,229,.55);
+  }
+  .hero .ttl {
+    font-size: 13px;
+    color: var(--cream);
+    font-weight: 700;
+  }
+  .hero .progress-track {
+    margin-top: 12px;
+    height: 8px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative; z-index: 1;
+  }
+  .hero .progress-fill {
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(90deg, var(--mint), var(--sun));
+    border-right: 1.5px solid var(--ink);
+    transition: width 1s ease-out;
+  }
+  .hero .progress-meta {
+    margin-top: 7px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 9.5px;
+    color: rgba(251,245,229,.7);
+    letter-spacing: .04em;
+    position: relative; z-index: 1;
+  }
+  .hero .progress-meta .done { color: var(--mint); font-weight: 800; }
+
+  /* === Section === */
+  .section {
+    padding: 14px 22px 0;
+    position: relative; z-index: 2;
+  }
+  .section .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .section .kicker::before { content: ""; width: 18px; height: 2px; background: var(--vermillion); }
+  .section h2 {
+    margin: 6px 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px; letter-spacing: -.02em; color: var(--ink);
+  }
+  .section h2 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 4px;
+  }
+  .section .hint {
+    margin: 0 0 12px;
+    font-size: 11px; color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* === Invite card stack === */
+  .card-stack {
+    margin: 0 18px;
+    position: relative;
+    height: 220px;
+  }
+  .invite-card {
+    position: absolute;
+    width: 100%;
+    height: 200px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 18px 20px;
+    overflow: hidden;
+    transition: all .35s cubic-bezier(.5, 1.4, .5, 1);
+  }
+  .invite-card:nth-child(1) {
+    bottom: 0; z-index: 5;
+    background: linear-gradient(135deg, var(--vermillion), #FF7F3F);
+    color: #fff;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .invite-card:nth-child(2) {
+    bottom: 8px; z-index: 4;
+    transform: translateX(-6px) rotate(-2deg);
+    background: linear-gradient(135deg, var(--sun), #FFE382);
+    color: var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+    height: 16px;
+    overflow: hidden;
+  }
+  .invite-card:nth-child(3) {
+    bottom: 14px; z-index: 3;
+    transform: translateX(-12px) rotate(-4deg);
+    background: var(--paper);
+    box-shadow: 4px 4px 0 var(--ink);
+    height: 16px;
+    overflow: hidden;
+  }
+  .invite-card.used {
+    background: var(--cream-2) !important;
+    color: var(--ink-2) !important;
+    box-shadow: 3px 3px 0 var(--ink) !important;
+  }
+  .invite-card.used::before {
+    content: "USED";
+    position: absolute;
+    top: 14px; right: 14px;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 3px;
+    letter-spacing: .15em;
+    transform: rotate(8deg);
+    z-index: 2;
+  }
+  .invite-card .stamp {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 3px;
+    letter-spacing: .15em;
+    transform: rotate(8deg);
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .invite-card .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    letter-spacing: .25em;
+    opacity: .85;
+  }
+  .invite-card .label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .invite-card .from {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px;
+    opacity: .7;
+    letter-spacing: .04em;
+    margin-top: 4px;
+  }
+  .invite-card .code {
+    margin-top: 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 30px;
+    letter-spacing: .15em;
+    text-align: center;
+    background: rgba(255,255,255,.18);
+    border: 2px dashed rgba(255,255,255,.55);
+    border-radius: 10px;
+    padding: 14px 8px;
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: transform .15s ease;
+    position: relative;
+  }
+  .invite-card .code:hover { transform: translateY(-1px); }
+  .invite-card.used .code {
+    background: rgba(20,17,27,.05);
+    border-color: rgba(20,17,27,.2);
+    color: var(--ink-2);
+  }
+  .invite-card .copy-hint {
+    margin-top: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 9px;
+    text-align: center;
+    opacity: .7;
+    letter-spacing: .04em;
+  }
+
+  /* === Share methods === */
+  .share-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 0 22px;
+  }
+  .share-btn {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .15s ease;
+    box-shadow: 2px 2px 0 var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .share-btn:hover { transform: translateY(-2px); }
+  .share-btn .em {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .share-btn .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+  .share-btn.line { background: #06C755; }
+  .share-btn.line .lbl { color: #fff; }
+  .share-btn.x-tw { background: #000; }
+  .share-btn.x-tw .em { color: #fff; }
+  .share-btn.x-tw .lbl { color: #fff; }
+  .share-btn.ig { background: linear-gradient(135deg,#fcb045,#fd1d1d 50%,#833AB4); }
+  .share-btn.ig .lbl { color: #fff; }
+  .share-btn.qr {
+    background: var(--ink);
+  }
+  .share-btn.qr .em { color: var(--sun); font-size: 18px; }
+  .share-btn.qr .lbl { color: var(--sun); }
+
+  /* === Sent invitations === */
+  .sent-list {
+    margin: 0 18px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+    overflow: hidden;
+  }
+  .sent-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px dashed rgba(20,17,27,.15);
+  }
+  .sent-row:last-child { border-bottom: none; }
+  .sent-row .av {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+    background: var(--cream-2);
+    flex-shrink: 0;
+  }
+  .sent-row .av svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .sent-row .info { flex: 1; line-height: 1.3; min-width: 0; }
+  .sent-row .name {
+    font-weight: 900;
+    font-size: 12.5px;
+    color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .sent-row .name.pending {
+    color: var(--ink-2);
+    font-weight: 700;
+  }
+  .sent-row .meta {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+    margin-top: 2px;
+  }
+  .sent-row .status {
+    flex-shrink: 0;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9.5px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    letter-spacing: .12em;
+  }
+  .sent-row .status.joined {
+    background: var(--mint);
+    color: var(--ink);
+  }
+  .sent-row .status.joined::before { content: "✓ "; }
+  .sent-row .status.pending {
+    background: var(--cream);
+    color: var(--ink-2);
+  }
+  .sent-row .status.expired {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* === Reward tier === */
+  .tier-card {
+    margin: 0 22px;
+    background: linear-gradient(135deg, var(--sun), #FFE382);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    position: relative;
+    overflow: hidden;
+  }
+  .tier-card::before {
+    content: "🎁";
+    position: absolute;
+    top: -10px; right: 10px;
+    font-size: 28px;
+    transform: rotate(15deg);
+    animation: float-soft 2.5s ease-in-out infinite;
+  }
+  @keyframes float-soft {
+    0%, 100% { transform: translateY(0) rotate(15deg); }
+    50% { transform: translateY(-4px) rotate(20deg); }
+  }
+  .tier-card .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .tier-card h3 {
+    margin: 4px 0 8px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 15px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .tier-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tier-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    background: rgba(255,255,255,.5);
+    border: 1.5px solid var(--ink);
+    border-radius: 8px;
+    position: relative;
+  }
+  .tier-row.achieved {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .tier-row.achieved .rew { color: var(--sun); }
+  .tier-row.achieved::after {
+    content: "✓";
+    position: absolute;
+    right: 10px;
+    background: var(--mint);
+    color: var(--ink);
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 900; font-size: 12px;
+    border: 1.5px solid var(--ink);
+  }
+  .tier-row .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--vermillion);
+    width: 32px;
+    flex-shrink: 0;
+  }
+  .tier-row.achieved .num { color: var(--sun); }
+  .tier-row .desc {
+    flex: 1;
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .tier-row .rew {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10.5px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  /* === QR Modal === */
+  .modal-overlay {
+    position: absolute; inset: 0; z-index: 99;
+    background: rgba(20,17,27,.88);
+    display: none; place-items: center; padding: 24px;
+    border-radius: 44px; overflow: hidden;
+  }
+  .modal-overlay.active { display: grid; }
+  .modal-card {
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: 6px 6px 0 var(--vermillion);
+    padding: 24px 22px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+    animation: bounceIn .55s cubic-bezier(.5,1.5,.5,1);
+    position: relative;
+  }
+  @keyframes bounceIn {
+    from { transform: scale(.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-card h2 {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px;
+    margin: 4px 0 6px; color: var(--ink);
+  }
+  .modal-card p {
+    margin: 0 0 14px;
+    font-size: 12px; color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .qr-frame {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    margin: 0 auto 14px;
+    width: 200px; height: 200px;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+  }
+  .qr-svg {
+    width: 100%; height: 100%;
+  }
+  .qr-frame::after {
+    content: "閃";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px; height: 36px;
+    background: var(--ink);
+    color: var(--sun);
+    border: 2px solid var(--cream);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 18px;
+  }
+  .qr-code-display {
+    margin-bottom: 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: .15em;
+    color: var(--ink);
+  }
+  .modal-card .actions {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .modal-card .btn {
+    border: 2px solid var(--ink); border-radius: 12px;
+    padding: 10px;
+    font-family: inherit; font-weight: 800; font-size: 12px;
+    cursor: pointer; box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+    text-align: center; display: block;
+    width: 100%;
+  }
+  .modal-card .btn:hover { transform: translateY(-2px); }
+  .modal-card .primary { background: var(--ink); color: var(--sun); }
+  .modal-card .secondary { background: var(--paper); color: var(--ink); }
+
+  /* === Toast === */
+  .toast {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 1.5px solid var(--ink);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .35s cubic-bezier(.5,1.4,.5,1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-rio" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 50 Q26 26 50 22 Q74 26 72 50 Q72 65 68 70 L68 50 Q60 35 50 32 Q40 35 32 50 L32 70 Q28 65 28 50 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-yui" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M26 45 Q24 25 45 20 Q65 18 74 30 Q76 45 70 60 L70 50 Q60 38 48 35 Q35 38 30 50 Q26 60 26 45 Z" fill="#14111B"/>
+      <path d="M28 28 Q40 20 56 22 L52 36 Q40 38 28 36 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 66 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-daichi" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#9333A8"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 Q28 22 50 22 Q72 22 72 40 Q72 28 50 26 Q35 28 28 40 Z" fill="#14111B"/>
+      <rect x="26" y="36" width="48" height="6" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="42" cy="54" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="54" r="1.5" fill="#14111B"/>
+      <path d="M44 65 Q50 68 56 65" stroke="#14111B" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-mai" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#9333A8" stroke="#14111B" stroke-width="2"/>
+      <path d="M22 50 Q20 25 36 18 Q50 14 64 18 Q80 25 78 50 L78 75 Q76 90 70 95 L70 50 Q66 38 50 33 Q34 38 30 50 L30 95 Q24 90 22 75 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-souta" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q28 22 50 22 Q72 22 72 42 L72 32 Q60 30 50 32 Q40 30 28 32 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-sasaki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q26 22 50 22 Q74 22 72 42 Q72 32 65 32 Q55 30 50 30 Q42 30 35 32 Q28 32 28 42 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-pending" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#F2EAD0"/>
+      <circle cx="50" cy="50" r="35" fill="#FFFDF6" stroke="#14111B" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="50" y="65" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="36" fill="#14111B">?</text>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="mypage.html" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="flex:1;">
+      <div class="ja">招待コード</div>
+      <div class="en">INVITE FRIENDS</div>
+    </div>
+    <button class="help-btn" id="helpBtn">？ ヘルプ</button>
+  </header>
+
+  <!-- ====== Hero summary ====== -->
+  <div class="hero">
+    <div class="lbl">— REMAINING INVITES</div>
+    <div class="row">
+      <span class="num">3<span class="total">/5</span></span>
+      <span class="ttl">枚 残っています</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-meta">
+      <span><span class="done">✓ 2人参加</span> · 期限なし</span>
+      <span>毎月 +2枚 追加</span>
+    </div>
+  </div>
+
+  <!-- ====== Active invite cards ====== -->
+  <div class="section">
+    <span class="kicker">— 01 / SHARE</span>
+    <h2><span class="accent">招待カード</span>を渡す</h2>
+    <p class="hint">下のコードをタップしてコピー、または右下のボタンで直接シェアできます。</p>
+  </div>
+
+  <div class="card-stack">
+    <div class="invite-card">
+      <div class="label-row">
+        <span class="lbl">— ACTIVE INVITE</span>
+      </div>
+      <div class="stamp">FRESH</div>
+      <div class="from">FROM 田中ユウキ ✦ EXPIRES NEVER</div>
+      <div class="code" id="codeDisplay">CAMPUS-1H42</div>
+      <div class="copy-hint">タップでコピー</div>
+    </div>
+    <div class="invite-card"></div>
+    <div class="invite-card"></div>
+  </div>
+
+  <!-- ====== Share methods ====== -->
+  <div class="section">
+    <span class="kicker">— 02 / WHERE</span>
+    <h2>どこで送る？</h2>
+    <p class="hint">SNSでシェアすると、招待リンクが自動で展開されます。</p>
+  </div>
+  <div class="share-grid">
+    <button class="share-btn line" data-platform="LINE">
+      <span class="em" style="color:#fff;">L</span>
+      <span class="lbl">LINE</span>
+    </button>
+    <button class="share-btn x-tw" data-platform="X">
+      <span class="em">𝕏</span>
+      <span class="lbl">X</span>
+    </button>
+    <button class="share-btn ig" data-platform="Instagram">
+      <span class="em" style="color:#fff;">📷</span>
+      <span class="lbl">IG</span>
+    </button>
+    <button class="share-btn qr" id="qrBtn" data-platform="QR">
+      <span class="em">⬛</span>
+      <span class="lbl">QR</span>
+    </button>
+  </div>
+
+  <!-- ====== Reward tier ====== -->
+  <div class="section">
+    <span class="kicker">— REWARDS</span>
+    <h2>招待でもらえるもの</h2>
+    <p class="hint">招待した友達がアプリに参加するごとに、特典がもらえます。</p>
+  </div>
+  <div class="tier-card">
+    <div class="lbl">— YOUR PROGRESS</div>
+    <h3>現在 <span style="color:var(--vermillion);">2人</span> 招待しました</h3>
+    <div class="tier-rows">
+      <div class="tier-row achieved">
+        <span class="num">1人</span>
+        <span class="desc">「種まき」バッジ</span>
+        <span class="rew">+50pt</span>
+      </div>
+      <div class="tier-row achieved">
+        <span class="num">3人</span>
+        <span class="desc">「コネクター」バッジ</span>
+        <span class="rew">+200pt</span>
+      </div>
+      <div class="tier-row">
+        <span class="num">5人</span>
+        <span class="desc">「アンバサダー」バッジ＋限定背景</span>
+        <span class="rew">+500pt</span>
+      </div>
+      <div class="tier-row">
+        <span class="num">10人</span>
+        <span class="desc">「ファウンダー」称号＋永久バッジ</span>
+        <span class="rew">+2,000pt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Sent invitations history ====== -->
+  <div class="section">
+    <span class="kicker">— HISTORY</span>
+    <h2>送った招待 <span style="color:var(--vermillion);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:800;">5</span></h2>
+    <p class="hint">招待した相手の状況を確認できます。</p>
+  </div>
+  <div class="sent-list">
+    <!-- Joined -->
+    <div class="sent-row">
+      <div class="av bg-3"><svg viewBox="0 0 100 100"><use href="#portrait-minami"/></svg></div>
+      <div class="info">
+        <div class="name">渡辺 ミナミ</div>
+        <div class="meta">@minami_w · 04.18 参加 · LINE経由</div>
+      </div>
+      <span class="status joined">参加</span>
+    </div>
+    <div class="sent-row">
+      <div class="av bg-2"><svg viewBox="0 0 100 100"><use href="#portrait-ryou"/></svg></div>
+      <div class="info">
+        <div class="name">中村 リョウ</div>
+        <div class="meta">@nakamura_r · 04.10 参加 · QR経由</div>
+      </div>
+      <span class="status joined">参加</span>
+    </div>
+    <!-- Pending -->
+    <div class="sent-row">
+      <div class="av bg-pending"><svg viewBox="0 0 100 100"><use href="#portrait-pending"/></svg></div>
+      <div class="info">
+        <div class="name pending">井上 ハナ</div>
+        <div class="meta">CAMPUS-9P21 · 04.24 送信 · X経由</div>
+      </div>
+      <span class="status pending">待機中</span>
+    </div>
+    <div class="sent-row">
+      <div class="av bg-pending"><svg viewBox="0 0 100 100"><use href="#portrait-pending"/></svg></div>
+      <div class="info">
+        <div class="name pending">佐藤 たける</div>
+        <div class="meta">CAMPUS-3M88 · 04.22 送信 · LINE経由</div>
+      </div>
+      <span class="status pending">待機中</span>
+    </div>
+    <!-- Expired -->
+    <div class="sent-row">
+      <div class="av bg-pending"><svg viewBox="0 0 100 100"><use href="#portrait-pending"/></svg></div>
+      <div class="info">
+        <div class="name pending">高橋 アヤノ</div>
+        <div class="meta">CAMPUS-7J45 · 03.28 送信 · 期限切れ</div>
+      </div>
+      <span class="status expired">期限切れ</span>
+    </div>
+  </div>
+
+  <!-- ====== QR Modal ====== -->
+  <div class="modal-overlay" id="qrModal">
+    <div class="modal-card">
+      <h2>QRコードでシェア</h2>
+      <p>友達のスマホで読み込んでもらうだけで参加できます。</p>
+      <div class="qr-frame">
+        <svg class="qr-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background -->
+          <rect width="100" height="100" fill="#FBF5E5"/>
+
+          <!-- 3 corner finder patterns (top-left, top-right, bottom-left) -->
+          <!-- Top-left -->
+          <rect x="6" y="6" width="22" height="22" fill="#14111B"/>
+          <rect x="10" y="10" width="14" height="14" fill="#FBF5E5"/>
+          <rect x="13" y="13" width="8" height="8" fill="#14111B"/>
+
+          <!-- Top-right -->
+          <rect x="72" y="6" width="22" height="22" fill="#14111B"/>
+          <rect x="76" y="10" width="14" height="14" fill="#FBF5E5"/>
+          <rect x="79" y="13" width="8" height="8" fill="#14111B"/>
+
+          <!-- Bottom-left -->
+          <rect x="6" y="72" width="22" height="22" fill="#14111B"/>
+          <rect x="10" y="76" width="14" height="14" fill="#FBF5E5"/>
+          <rect x="13" y="79" width="8" height="8" fill="#14111B"/>
+
+          <!-- Random data dots (decorative QR-like pattern) -->
+          <g fill="#14111B">
+            <!-- Top middle area -->
+            <rect x="32" y="8" width="3" height="3"/>
+            <rect x="38" y="8" width="3" height="3"/>
+            <rect x="46" y="8" width="3" height="3"/>
+            <rect x="56" y="8" width="3" height="3"/>
+            <rect x="62" y="8" width="3" height="3"/>
+            <rect x="32" y="14" width="3" height="3"/>
+            <rect x="42" y="14" width="3" height="3"/>
+            <rect x="52" y="14" width="3" height="3"/>
+            <rect x="58" y="14" width="3" height="3"/>
+            <rect x="64" y="14" width="3" height="3"/>
+            <rect x="36" y="20" width="3" height="3"/>
+            <rect x="42" y="20" width="3" height="3"/>
+            <rect x="48" y="20" width="3" height="3"/>
+            <rect x="54" y="20" width="3" height="3"/>
+            <rect x="60" y="20" width="3" height="3"/>
+
+            <!-- Middle-left area -->
+            <rect x="8" y="32" width="3" height="3"/>
+            <rect x="14" y="32" width="3" height="3"/>
+            <rect x="20" y="32" width="3" height="3"/>
+            <rect x="8" y="38" width="3" height="3"/>
+            <rect x="18" y="38" width="3" height="3"/>
+            <rect x="24" y="38" width="3" height="3"/>
+            <rect x="12" y="44" width="3" height="3"/>
+            <rect x="20" y="44" width="3" height="3"/>
+            <rect x="26" y="44" width="3" height="3"/>
+            <rect x="8" y="50" width="3" height="3"/>
+            <rect x="14" y="50" width="3" height="3"/>
+            <rect x="22" y="50" width="3" height="3"/>
+            <rect x="10" y="56" width="3" height="3"/>
+            <rect x="18" y="56" width="3" height="3"/>
+            <rect x="24" y="56" width="3" height="3"/>
+            <rect x="14" y="62" width="3" height="3"/>
+            <rect x="22" y="62" width="3" height="3"/>
+
+            <!-- Middle-right area -->
+            <rect x="74" y="32" width="3" height="3"/>
+            <rect x="82" y="32" width="3" height="3"/>
+            <rect x="88" y="32" width="3" height="3"/>
+            <rect x="78" y="38" width="3" height="3"/>
+            <rect x="84" y="38" width="3" height="3"/>
+            <rect x="90" y="38" width="3" height="3"/>
+            <rect x="74" y="44" width="3" height="3"/>
+            <rect x="80" y="44" width="3" height="3"/>
+            <rect x="88" y="44" width="3" height="3"/>
+            <rect x="76" y="50" width="3" height="3"/>
+            <rect x="82" y="50" width="3" height="3"/>
+            <rect x="90" y="50" width="3" height="3"/>
+            <rect x="78" y="56" width="3" height="3"/>
+            <rect x="86" y="56" width="3" height="3"/>
+            <rect x="74" y="62" width="3" height="3"/>
+            <rect x="84" y="62" width="3" height="3"/>
+            <rect x="90" y="62" width="3" height="3"/>
+
+            <!-- Center area (around the brand mark) -->
+            <rect x="32" y="32" width="3" height="3"/>
+            <rect x="62" y="32" width="3" height="3"/>
+            <rect x="36" y="36" width="3" height="3"/>
+            <rect x="58" y="36" width="3" height="3"/>
+            <rect x="32" y="62" width="3" height="3"/>
+            <rect x="62" y="62" width="3" height="3"/>
+            <rect x="36" y="58" width="3" height="3"/>
+            <rect x="58" y="58" width="3" height="3"/>
+
+            <!-- Bottom area -->
+            <rect x="32" y="74" width="3" height="3"/>
+            <rect x="38" y="74" width="3" height="3"/>
+            <rect x="46" y="74" width="3" height="3"/>
+            <rect x="54" y="74" width="3" height="3"/>
+            <rect x="62" y="74" width="3" height="3"/>
+            <rect x="34" y="80" width="3" height="3"/>
+            <rect x="42" y="80" width="3" height="3"/>
+            <rect x="50" y="80" width="3" height="3"/>
+            <rect x="58" y="80" width="3" height="3"/>
+            <rect x="64" y="80" width="3" height="3"/>
+            <rect x="38" y="86" width="3" height="3"/>
+            <rect x="46" y="86" width="3" height="3"/>
+            <rect x="54" y="86" width="3" height="3"/>
+            <rect x="62" y="86" width="3" height="3"/>
+            <rect x="32" y="90" width="3" height="3"/>
+            <rect x="44" y="90" width="3" height="3"/>
+            <rect x="56" y="90" width="3" height="3"/>
+          </g>
+        </svg>
+      </div>
+      <div class="qr-code-display">CAMPUS-1H42</div>
+      <div class="actions">
+        <button class="btn primary" onclick="closeModal('qrModal'); showToast('✓ QR画像をダウンロードしました');">画像として保存</button>
+        <button class="btn secondary" onclick="closeModal('qrModal');">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Help modal ====== -->
+  <div class="modal-overlay" id="helpModal">
+    <div class="modal-card">
+      <div style="font-size:48px;line-height:1;margin-bottom:6px;">💡</div>
+      <h2>招待コードについて</h2>
+      <p style="text-align:left;font-size:11.5px;line-height:1.7;">
+        <strong>📨 何枚もらえる？</strong><br>
+        最初は <strong>5枚</strong>。毎月1日に <strong>+2枚</strong> 追加されます。<br><br>
+        <strong>⏱️ 有効期限は？</strong><br>
+        各コードは <strong>30日間</strong> 有効。期限切れになると枠が戻ります。<br><br>
+        <strong>🎁 特典は？</strong><br>
+        招待した友達が参加するとバッジ＋スコアが手に入ります。10人達成で「ファウンダー」称号。
+      </p>
+      <div class="actions">
+        <button class="btn primary" onclick="closeModal('helpModal');">わかった</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">送信しました</div>
+
+</div>
+
+<script>
+// ====== Code copy ======
+document.getElementById('codeDisplay').addEventListener('click', () => {
+  const code = 'CAMPUS-1H42';
+  navigator.clipboard.writeText(code).then(() => {
+    showToast(`✓ ${code} をコピーしました`);
+  }).catch(() => showToast(`コピーに失敗しました`));
+});
+
+// ====== Share buttons ======
+document.querySelectorAll('.share-btn').forEach(btn => {
+  if (btn.id === 'qrBtn') {
+    btn.addEventListener('click', () => openModal('qrModal'));
+  } else {
+    btn.addEventListener('click', () => {
+      const platform = btn.dataset.platform;
+      showToast(`${platform} でシェア中...`);
+    });
+  }
+});
+
+// ====== Help button ======
+document.getElementById('helpBtn').addEventListener('click', () => openModal('helpModal'));
+
+// ====== Modal ======
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', (e) => {
+    if (e.target === o) o.classList.remove('active');
+  });
+});
+
+// ====== Toast ======
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ====== Animate progress on load ======
+window.addEventListener('load', () => {
+  const fill = document.getElementById('progressFill');
+  fill.style.width = '0%';
+  setTimeout(() => { fill.style.width = '60%'; }, 200);
+});
+</script>
+
+</body>
+</html>

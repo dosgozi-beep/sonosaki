@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜通知</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FBF5E5;
+    --cream-2: #F2EAD0;
+    --paper: #FFFDF6;
+    --ink: #14111B;
+    --ink-2: #3A3340;
+    --vermillion: #E8412B;
+    --sun: #FFCE2E;
+    --mint: #6CD4B6;
+    --indigo: #4A45D6;
+    --purple: #9333A8;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 28px 16px 48px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .phone {
+    width: 100%;
+    max-width: 412px;
+    background: var(--cream);
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 80px;
+    box-shadow:
+      0 0 0 2px #2A2333,
+      0 0 0 12px #14111B,
+      0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65),
+      0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B;
+    border-radius: 16px; z-index: 5;
+  }
+
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative; z-index: 4;
+    padding: 6px 16px 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; letter-spacing: -.01em;
+    line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em;
+    color: var(--vermillion); margin-top: 3px;
+  }
+  .read-all-btn {
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 7px 11px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9.5px;
+    color: var(--ink);
+    cursor: pointer;
+    letter-spacing: .12em;
+    transition: all .15s ease;
+    flex-shrink: 0;
+  }
+  .read-all-btn:hover { background: var(--ink); color: var(--sun); transform: translateY(-2px); }
+
+  /* === Summary bar === */
+  .summary-bar {
+    margin: 0 18px 4px;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--vermillion);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
+  }
+  .summary-bar .icon {
+    width: 32px; height: 32px;
+    background: var(--vermillion);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: #fff; font-size: 16px;
+    flex-shrink: 0;
+    animation: bellRing 2.5s ease-in-out infinite;
+  }
+  @keyframes bellRing {
+    0%, 88%, 100% { transform: rotate(0deg); }
+    91%, 97% { transform: rotate(-12deg); }
+    94% { transform: rotate(12deg); }
+  }
+  .summary-bar .info { flex: 1; line-height: 1.3; }
+  .summary-bar .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--sun);
+    letter-spacing: .2em;
+  }
+  .summary-bar .msg { font-size: 12.5px; font-weight: 600; margin-top: 1px; }
+  .summary-bar .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--sun);
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+
+  /* === Filter chips === */
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--cream);
+    margin-top: 14px;
+    padding: 8px 14px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-bottom: 2px solid rgba(20,17,27,.12);
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .fchip {
+    flex-shrink: 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 7px 12px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .fchip:hover { transform: translateY(-1px); }
+  .fchip.active {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .fchip .em { font-size: 13px; }
+  .fchip .cnt {
+    background: var(--cream-2);
+    color: var(--ink);
+    padding: 1px 6px;
+    border-radius: 999px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    margin-left: 2px;
+  }
+  .fchip.active .cnt { background: var(--vermillion); color: #fff; }
+
+  /* === Day section === */
+  .day-section { padding: 14px 18px 0; position: relative; z-index: 2; }
+  .day-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--sun);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: .15em;
+    margin: 0 0 10px;
+  }
+  .day-label.today { background: var(--vermillion); color: #fff; }
+  .day-label .new-badge {
+    background: var(--sun);
+    color: var(--ink);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 9px;
+    margin-left: 4px;
+  }
+  .day-label .dot {
+    width: 6px; height: 6px;
+    background: var(--sun);
+    border-radius: 50%;
+    animation: pulseDot 1.4s ease-in-out infinite;
+  }
+  .day-label.today .dot { background: var(--cream); }
+  @keyframes pulseDot { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+
+  /* === Notification item === */
+  .notif {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: all .25s ease;
+  }
+  .notif.unread {
+    background: var(--cream-2);
+    border-left-width: 5px;
+    border-left-color: var(--vermillion);
+    padding-left: 9px;
+  }
+  .notif.unread::after {
+    content: "";
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 8px; height: 8px;
+    background: var(--vermillion);
+    border-radius: 50%;
+    animation: pulseDot 1.4s ease-in-out infinite;
+  }
+
+  /* Avatar with type badge */
+  .nav-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    display: grid;
+    place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 15px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .nav-icon.ico-large {
+    font-family: inherit;
+    font-size: 22px;
+  }
+  .nav-icon.bg-1 { background: linear-gradient(135deg, #FF7F3F, #E8412B); color: #fff; }
+  .nav-icon.bg-2 { background: linear-gradient(135deg, #7B6CFF, #4A45D6); color: #fff; }
+  .nav-icon.bg-3 { background: linear-gradient(135deg, #6CD4B6, #1B7F5A); color: #fff; }
+  .nav-icon.bg-4 { background: linear-gradient(135deg, #FFCE2E, #D4A100); color: var(--ink); }
+  .nav-icon.bg-5 { background: linear-gradient(135deg, #FF93C5, #C13F77); color: #fff; }
+  .nav-icon.bg-6 { background: linear-gradient(135deg, #48C7C7, #1D7A7A); color: #fff; }
+  .nav-icon.bg-7 { background: var(--ink); color: var(--sun); }
+  .nav-icon.has-portrait {
+    background: var(--cream-2);
+    overflow: hidden;
+  }
+  .nav-icon.has-portrait > svg {
+    width: 100%; height: 100%; display: block;
+    border-radius: 50%;
+  }
+  .nav-icon.has-portrait .type-badge {
+    z-index: 2;
+  }
+
+  .type-badge {
+    position: absolute;
+    bottom: -3px; right: -3px;
+    width: 19px; height: 19px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 9px;
+    color: #fff;
+    font-weight: 900;
+  }
+  .tb-like { background: var(--vermillion); }
+  .tb-comment { background: var(--indigo); }
+  .tb-follow { background: var(--mint); color: var(--ink); }
+  .tb-mention { background: var(--sun); color: var(--ink); }
+  .tb-achievement { background: linear-gradient(135deg, var(--sun), #FFE382); color: var(--ink); }
+  .tb-collab { background: var(--purple); }
+  .tb-system { background: var(--ink); color: var(--sun); }
+
+  .notif-content { flex: 1; min-width: 0; }
+  .notif-text {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink);
+    padding-right: 18px;
+  }
+  .notif-text strong { font-weight: 900; }
+  .notif-text .accent { color: var(--vermillion); font-weight: 800; }
+
+  .notif-excerpt {
+    margin-top: 6px;
+    background: var(--paper);
+    border-left: 3px solid var(--ink);
+    padding: 6px 9px;
+    font-size: 11px;
+    color: var(--ink-2);
+    border-radius: 0 6px 6px 0;
+    line-height: 1.55;
+    font-style: italic;
+  }
+  .notif.unread .notif-excerpt { background: var(--cream); }
+  .notif-excerpt::before {
+    content: '"';
+    margin-right: 2px;
+    color: var(--vermillion);
+    font-weight: 900;
+    font-style: normal;
+    font-size: 14px;
+  }
+  .notif-excerpt::after {
+    content: '"';
+    margin-left: 2px;
+    color: var(--vermillion);
+    font-weight: 900;
+    font-style: normal;
+    font-size: 14px;
+  }
+
+  .notif-footer {
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .notif-time {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+  .notif-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+  .notif-action {
+    background: var(--ink);
+    color: var(--sun);
+    border: 1px solid var(--ink);
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 9.5px;
+    cursor: pointer;
+    letter-spacing: .04em;
+    transition: transform .12s ease;
+  }
+  .notif-action:hover { transform: translateY(-1px); }
+  .notif-action.secondary {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .notif-action.danger {
+    background: var(--vermillion);
+    color: #fff;
+  }
+
+  /* Right-side thumbnail for like notifications */
+  .notif-thumb {
+    width: 50px; height: 50px;
+    border-radius: 8px;
+    border: 1.5px solid var(--ink);
+    flex-shrink: 0;
+    align-self: center;
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .notif-thumb.theme-vermillion { background: linear-gradient(160deg,#E8412B,#FF7F3F); }
+  .notif-thumb.theme-indigo     { background: linear-gradient(160deg,#4A45D6,#7B6CFF); }
+  .notif-thumb.theme-mint       { background: linear-gradient(160deg,#1B7F5A,#6CD4B6); }
+  .notif-thumb.theme-sun        { background: linear-gradient(160deg,#D4A100,#FFCE2E); }
+  .notif-thumb.theme-navy       { background: linear-gradient(160deg,#0E2C5C,#3F6FB0); }
+  .notif-thumb.theme-rose       { background: linear-gradient(160deg,#C13F77,#FF93C5); }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--ink-2);
+    position: relative;
+    z-index: 2;
+  }
+  .empty-state .emoji { font-size: 50px; margin-bottom: 8px; }
+  .empty-state h3 {
+    margin: 0 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .empty-state p { margin: 0; font-size: 11px; }
+
+  /* === Toast === */
+  .toast {
+    position: absolute;
+    bottom: 96px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 1.5px solid var(--ink);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .35s cubic-bezier(.5,1.4,.5,1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* === Bottom nav === */
+  .bottom-nav {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 6;
+    background: var(--paper);
+    border-top: 2px solid var(--ink);
+    padding: 12px 24px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    color: var(--ink-2); cursor: pointer; text-decoration: none;
+  }
+  .nav-item.active { color: var(--vermillion); }
+  .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-item .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 9px; letter-spacing: .1em;
+  }
+  .nav-post {
+    width: 54px; height: 54px;
+    background: var(--ink); color: var(--sun);
+    border-radius: 18px; display: grid; place-items: center;
+    margin-top: -22px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 2px solid var(--ink); text-decoration: none;
+    transition: transform .15s ease;
+  }
+  .nav-post:hover { transform: translateY(-3px) rotate(-3deg); }
+  .nav-post svg { width: 24px; height: 24px; stroke-width: 2.5; }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-rio" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 50 Q26 26 50 22 Q74 26 72 50 Q72 65 68 70 L68 50 Q60 35 50 32 Q40 35 32 50 L32 70 Q28 65 28 50 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-yui" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M26 45 Q24 25 45 20 Q65 18 74 30 Q76 45 70 60 L70 50 Q60 38 48 35 Q35 38 30 50 Q26 60 26 45 Z" fill="#14111B"/>
+      <path d="M28 28 Q40 20 56 22 L52 36 Q40 38 28 36 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 66 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-daichi" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#9333A8"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 Q28 22 50 22 Q72 22 72 40 Q72 28 50 26 Q35 28 28 40 Z" fill="#14111B"/>
+      <rect x="26" y="36" width="48" height="6" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="42" cy="54" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="54" r="1.5" fill="#14111B"/>
+      <path d="M44 65 Q50 68 56 65" stroke="#14111B" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-mai" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#9333A8" stroke="#14111B" stroke-width="2"/>
+      <path d="M22 50 Q20 25 36 18 Q50 14 64 18 Q80 25 78 50 L78 75 Q76 90 70 95 L70 50 Q66 38 50 33 Q34 38 30 50 L30 95 Q24 90 22 75 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-souta" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q28 22 50 22 Q72 22 72 42 L72 32 Q60 30 50 32 Q40 30 28 32 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-sasaki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q26 22 50 22 Q74 22 72 42 Q72 32 65 32 Q55 30 50 30 Q42 30 35 32 Q28 32 28 42 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-pending" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#F2EAD0"/>
+      <circle cx="50" cy="50" r="35" fill="#FFFDF6" stroke="#14111B" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="50" y="65" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="36" fill="#14111B">?</text>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="mypage.html" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="flex:1;">
+      <div class="ja">通知</div>
+      <div class="en">INBOX</div>
+    </div>
+    <button class="read-all-btn" id="readAllBtn">全て既読 ✓</button>
+  </header>
+
+  <!-- Summary bar -->
+  <div class="summary-bar">
+    <div class="icon">🔔</div>
+    <div class="info">
+      <div class="lbl">— TODAY'S BUZZ</div>
+      <div class="msg">未読 <span class="num" id="unreadCount">3</span> 件 · 今日 <span class="num" style="font-size:14px;">6</span> 件</div>
+    </div>
+  </div>
+
+  <!-- Filter chips -->
+  <nav class="filter-bar" id="filterBar">
+    <button class="fchip active" data-f="all">すべて <span class="cnt" id="cnt-all">15</span></button>
+    <button class="fchip" data-f="like"><span class="em">❤️</span> いいね <span class="cnt" id="cnt-like">4</span></button>
+    <button class="fchip" data-f="comment"><span class="em">💬</span> コメント <span class="cnt" id="cnt-comment">2</span></button>
+    <button class="fchip" data-f="follow"><span class="em">👥</span> フォロー <span class="cnt" id="cnt-follow">3</span></button>
+    <button class="fchip" data-f="mention"><span class="em">@</span> メンション <span class="cnt" id="cnt-mention">1</span></button>
+    <button class="fchip" data-f="achievement"><span class="em">🏆</span> 達成 <span class="cnt" id="cnt-achievement">3</span></button>
+    <button class="fchip" data-f="collab"><span class="em">🤝</span> コラボ <span class="cnt" id="cnt-collab">1</span></button>
+    <button class="fchip" data-f="system"><span class="em">📢</span> お知らせ <span class="cnt" id="cnt-system">1</span></button>
+  </nav>
+
+  <!-- Notifications by day -->
+  <div id="notifContainer"></div>
+
+  <!-- Empty state -->
+  <div id="emptyState" class="empty-state" style="display:none;">
+    <div class="emoji">📭</div>
+    <h3>該当する通知はありません</h3>
+    <p>別のカテゴリを選んでみてください。</p>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">✓ すべて既読にしました</div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a class="nav-item" href="campus_innovation_home.html">
+      <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
+      <span class="label">HOME</span>
+    </a>
+    <a class="nav-item" href="explore.html">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span class="label">EXPLORE</span>
+    </a>
+    <a class="nav-post" href="post.html">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </a>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M9 18V6a3 3 0 016 0v12"/><circle cx="12" cy="20" r="2"/></svg>
+      <span class="label">IDEAS</span>
+    </div>
+    <a class="nav-item" href="mypage.html">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+      <span class="label">ME</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+// ====== Data ======
+const notifs = [
+  // ====== TODAY ======
+  {
+    id: 1, type: 'follow', day: 'today', unread: true,
+    avatar: { initial: '山', bg: 'bg-3' },
+    text: '<strong>山田 リサ</strong> さん（商学部 3年）があなたをフォローしました',
+    time: '5分前',
+    actions: [{label:'フォロバ', primary:true}, {label:'プロフ', secondary:true}]
+  },
+  {
+    id: 2, type: 'like', day: 'today', unread: true,
+    avatar: { icon: '♥', bg: 'bg-1' },
+    text: 'あなたの「<strong>学食AI予測</strong>」に <span class="accent">+5 ♥</span> がつきました',
+    time: '12分前',
+    thumb: { theme: 'vermillion', emoji: '🍱', id: '001' }
+  },
+  {
+    id: 3, type: 'comment', day: 'today', unread: true,
+    avatar: { portrait: 'ryou', bg: 'bg-2' },
+    text: '<strong>中村 リョウ</strong> さんが「<strong>学食AI予測</strong>」にコメントしました',
+    excerpt: '販売データって学食側がAPI提供してくれるんでしょうか？そこの調達のところを聞いてみたいです。',
+    time: '1時間前',
+    actions: [{label:'返信', primary:true}, {label:'見る', secondary:true}]
+  },
+  {
+    id: 4, type: 'achievement', day: 'today',
+    avatar: { icon: '🏆', bg: 'bg-4' },
+    text: 'あなたの「<strong>ゼミ予習スプリント</strong>」が <span class="accent">新着ランキング 2位</span> に入りました！',
+    time: '3時間前',
+    actions: [{label:'シェア', primary:true}]
+  },
+  {
+    id: 5, type: 'like', day: 'today',
+    avatar: { icon: '♥', bg: 'bg-1' },
+    text: 'あなたの「<strong>通学電車スタディマップ</strong>」に <span class="accent">+12 ♥</span>',
+    time: '5時間前',
+    thumb: { theme: 'mint', emoji: '🚃', id: '003' }
+  },
+  {
+    id: 6, type: 'follow', day: 'today',
+    avatar: { icon: '👥', bg: 'bg-3' },
+    text: '<span class="accent">+3 フォロワー</span> が増えました（井上 ハナ さん 他2名）',
+    time: '6時間前'
+  },
+
+  // ====== YESTERDAY ======
+  {
+    id: 7, type: 'mention', day: 'yesterday',
+    avatar: { portrait: 'yui', bg: 'bg-4' },
+    text: '<strong>田中 ユイ</strong> さん（文学部 4年）があなたを <span class="accent">@yuki_tanaka</span> でメンション',
+    excerpt: '@yuki_tanaka さんが似たアイディア出してましたね、参考にさせてください！',
+    time: '昨日 21:45',
+    actions: [{label:'見る', primary:true}]
+  },
+  {
+    id: 8, type: 'comment', day: 'yesterday',
+    avatar: { portrait: 'minami', bg: 'bg-2' },
+    text: '<strong>渡辺 ミナミ</strong> さんが「<strong>学食AI予測</strong>」にコメント',
+    excerpt: '私もこれ毎日困ってる！実装すぐ試したいです、応援してます🔥',
+    time: '昨日 18:12',
+    actions: [{label:'返信', primary:true}]
+  },
+  {
+    id: 9, type: 'collab', day: 'yesterday',
+    avatar: { portrait: 'daichi', bg: 'bg-5' },
+    link: 'collab_receive.html',
+    text: '<strong>山下 ダイチ</strong> さん（体育学部 2年）から <span class="accent">コラボ申請</span>',
+    excerpt: '「学食AI予測」、一緒に開発させてもらえませんか？データ収集なら全力で参加します。',
+    time: '昨日 14:23',
+    actions: [{label:'詳細を見る', primary:true}, {label:'後で', secondary:true}]
+  },
+
+  // ====== THIS WEEK ======
+  {
+    id: 10, type: 'achievement', day: 'week',
+    avatar: { icon: '🌍', bg: 'bg-4' },
+    text: '7つ目のバッジ「<strong>🌍 全国TOP100</strong>」を獲得しました！',
+    time: '月曜日',
+    actions: [{label:'バッジを見る', primary:true}]
+  },
+  {
+    id: 11, type: 'like', day: 'week',
+    avatar: { icon: '♥', bg: 'bg-1' },
+    text: 'あなたの「<strong>お弁当MAP</strong>」に <span class="accent">+18 ♥</span>',
+    time: '日曜日',
+    thumb: { theme: 'sun', emoji: '🍙', id: '010' }
+  },
+  {
+    id: 12, type: 'follow', day: 'week',
+    avatar: { portrait: 'haruto', bg: 'bg-3' },
+    text: '<strong>佐藤 ハルト</strong> さん（理工学部 院M2）があなたをフォロー',
+    time: '土曜日',
+    actions: [{label:'フォロバ', primary:true}]
+  },
+  {
+    id: 13, type: 'system', day: 'week',
+    avatar: { icon: '📢', bg: 'bg-7' },
+    text: '<strong>週間レポートが届きました</strong> — 今週の獲得 ♥ 124件、全国ランキング #247',
+    time: '水曜日',
+    actions: [{label:'詳細を見る', primary:true}]
+  },
+
+  // ====== OLDER ======
+  {
+    id: 14, type: 'like', day: 'older',
+    avatar: { icon: '♥', bg: 'bg-1' },
+    text: 'あなたの「<strong>学食AI予測</strong>」に <span class="accent">+28 ♥</span>（先週のまとめ）',
+    time: '4月18日',
+    thumb: { theme: 'vermillion', emoji: '🍱', id: '001' }
+  },
+  {
+    id: 15, type: 'achievement', day: 'older',
+    avatar: { icon: '🎉', bg: 'bg-4' },
+    text: '<strong>100フォロワー達成</strong>！「🤝 100フォロワー」バッジを獲得',
+    time: '4月15日',
+    actions: [{label:'シェア', primary:true}]
+  },
+];
+
+const dayConfig = [
+  { key: 'today', label: '今日', isToday: true },
+  { key: 'yesterday', label: '昨日', isToday: false },
+  { key: 'week', label: '今週', isToday: false },
+  { key: 'older', label: 'もっと前', isToday: false },
+];
+
+let activeFilter = 'all';
+
+// ====== Render ======
+function renderNotifs() {
+  const c = document.getElementById('notifContainer');
+  c.innerHTML = '';
+
+  let totalShown = 0;
+
+  dayConfig.forEach(d => {
+    const items = notifs.filter(n => n.day === d.key && (activeFilter === 'all' || n.type === activeFilter));
+    if (items.length === 0) return;
+
+    const newInDay = items.filter(n => n.unread).length;
+
+    const section = document.createElement('div');
+    section.className = 'day-section';
+    section.innerHTML = `
+      <div class="day-label ${d.isToday ? 'today' : ''}">
+        <span class="dot"></span>
+        ${d.label}
+        ${newInDay > 0 ? `<span class="new-badge">${newInDay} NEW</span>` : ''}
+      </div>
+    `;
+
+    items.forEach(n => {
+      section.appendChild(buildNotifNode(n));
+      totalShown++;
+    });
+    c.appendChild(section);
+  });
+
+  document.getElementById('emptyState').style.display = totalShown === 0 ? 'block' : 'none';
+}
+
+function buildNotifNode(n) {
+  const wrap = document.createElement('div');
+  wrap.className = 'notif' + (n.unread ? ' unread' : '');
+  wrap.dataset.id = n.id;
+
+  const avHTML = n.avatar.portrait
+    ? `<div class="nav-icon has-portrait"><svg viewBox="0 0 100 100"><use href="#portrait-${n.avatar.portrait}"/></svg><span class="type-badge tb-${n.type}">${typeIcon(n.type)}</span></div>`
+    : `<div class="nav-icon ${n.avatar.bg} ico-large">${n.avatar.icon}</div>`;
+
+  const excerptHTML = n.excerpt ? `<div class="notif-excerpt">${n.excerpt}</div>` : '';
+  const actionsHTML = (n.actions || []).map(a => {
+    const cls = a.primary ? '' : a.danger ? 'danger' : 'secondary';
+    return `<button class="notif-action ${cls}">${a.label}</button>`;
+  }).join('');
+  const footerHTML = `
+    <div class="notif-footer">
+      <span class="notif-time">${n.time}</span>
+      <div class="notif-actions">${actionsHTML}</div>
+    </div>
+  `;
+
+  const thumbHTML = n.thumb
+    ? `<a class="notif-thumb theme-${n.thumb.theme}" href="detail.html?id=${n.thumb.id}" onclick="event.stopPropagation();">${n.thumb.emoji}</a>`
+    : '';
+
+  wrap.innerHTML = `
+    ${avHTML}
+    <div class="notif-content">
+      <div class="notif-text">${n.text}</div>
+      ${excerptHTML}
+      ${footerHTML}
+    </div>
+    ${thumbHTML}
+  `;
+
+  // Click to mark as read (and navigate if link is set)
+  wrap.addEventListener('click', (e) => {
+    if (e.target.closest('.notif-action') || e.target.closest('.notif-thumb')) return;
+    if (n.unread) {
+      n.unread = false;
+      wrap.classList.remove('unread');
+      updateUnreadCount();
+    }
+    if (n.link) {
+      window.location.href = n.link;
+    }
+  });
+
+  // Action button effects
+  wrap.querySelectorAll('.notif-action').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // For "詳細を見る" type buttons → navigate
+      if (n.link && btn.textContent.includes('詳細')) {
+        window.location.href = n.link;
+        return;
+      }
+      showToast(`✓ ${btn.textContent}`);
+      // Auto-dismiss for old-style collab quick actions
+      if (n.type === 'collab' && (btn.textContent.includes('承認') || btn.textContent.includes('断る'))) {
+        setTimeout(() => {
+          wrap.style.opacity = '0';
+          wrap.style.transform = 'translateX(60px)';
+          setTimeout(() => {
+            const idx = notifs.findIndex(x => x.id === n.id);
+            if (idx >= 0) notifs.splice(idx, 1);
+            renderNotifs();
+            updateCounts();
+          }, 350);
+        }, 600);
+      }
+      if (n.unread) {
+        n.unread = false;
+        wrap.classList.remove('unread');
+        updateUnreadCount();
+      }
+    });
+  });
+
+  return wrap;
+}
+
+function typeIcon(t) {
+  return ({
+    like: '♥',
+    comment: '💬',
+    follow: '+',
+    mention: '@',
+    achievement: '★',
+    collab: '🤝',
+    system: '!'
+  })[t] || '·';
+}
+
+// ====== Counts ======
+function updateCounts() {
+  const types = ['all', 'like', 'comment', 'follow', 'mention', 'achievement', 'collab', 'system'];
+  types.forEach(t => {
+    const cnt = t === 'all' ? notifs.length : notifs.filter(n => n.type === t).length;
+    const el = document.getElementById('cnt-' + t);
+    if (el) el.textContent = cnt;
+  });
+}
+function updateUnreadCount() {
+  document.getElementById('unreadCount').textContent = notifs.filter(n => n.unread).length;
+}
+
+// ====== Filter ======
+document.querySelectorAll('.fchip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.fchip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    activeFilter = c.dataset.f;
+    renderNotifs();
+  });
+});
+
+// ====== Mark all read ======
+document.getElementById('readAllBtn').addEventListener('click', () => {
+  const unreadCount = notifs.filter(n => n.unread).length;
+  if (unreadCount === 0) {
+    showToast('既に全て既読です');
+    return;
+  }
+  notifs.forEach(n => n.unread = false);
+  document.querySelectorAll('.notif.unread').forEach(el => el.classList.remove('unread'));
+  document.querySelectorAll('.day-label .new-badge').forEach(b => b.remove());
+  updateUnreadCount();
+  showToast(`✓ ${unreadCount}件を既読にしました`);
+});
+
+// ====== Toast ======
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ====== Init ======
+renderNotifs();
+updateCounts();
+updateUnreadCount();
+</script>
+
+</body>
+</html>

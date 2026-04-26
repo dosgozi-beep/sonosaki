@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜ウェイトリスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    padding: 28px 16px 48px; color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 100%; max-width: 412px;
+    background: var(--cream); border-radius: 44px;
+    overflow: hidden; position: relative; padding-bottom: 24px;
+    box-shadow: 0 0 0 2px #2A2333, 0 0 0 12px #14111B, 0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65), 0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B; border-radius: 16px; z-index: 5;
+  }
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative; z-index: 4;
+    padding: 6px 16px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em; color: var(--vermillion); margin-top: 3px;
+  }
+
+  /* === Hero number === */
+  .hero {
+    margin: 8px 18px 0;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 22px 22px 18px;
+    box-shadow: 5px 5px 0 var(--vermillion);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hero::before, .hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero::before {
+    top: -40px; right: -40px;
+    width: 130px; height: 130px;
+    background: radial-gradient(circle, rgba(255,206,46,.3) 0%, transparent 70%);
+  }
+  .hero::after {
+    bottom: -40px; left: -40px;
+    width: 110px; height: 110px;
+    background: radial-gradient(circle, rgba(232,65,43,.25) 0%, transparent 70%);
+  }
+  .hero .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--sun);
+    letter-spacing: .3em;
+    position: relative; z-index: 1;
+  }
+  .hero .num {
+    margin: 6px 0 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -.025em;
+    color: var(--sun);
+    position: relative; z-index: 1;
+  }
+  .hero .ttl {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--cream);
+    margin-bottom: 4px;
+    position: relative; z-index: 1;
+  }
+  .hero .sub {
+    font-size: 11px;
+    color: rgba(251,245,229,.7);
+    line-height: 1.55;
+    position: relative; z-index: 1;
+  }
+
+  /* === Section === */
+  .section {
+    padding: 18px 22px 0;
+    position: relative; z-index: 2;
+  }
+  .section .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .section .kicker::before { content: ""; width: 18px; height: 2px; background: var(--vermillion); }
+  .section h2 {
+    margin: 6px 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px; letter-spacing: -.02em; color: var(--ink);
+  }
+  .section h2 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 4px;
+  }
+  .section .hint {
+    margin: 0 0 10px;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* === Form === */
+  .form-block { padding: 0 22px; position: relative; z-index: 2; }
+  .field { margin-top: 10px; }
+  .field-label {
+    margin-bottom: 6px;
+    font-weight: 900; font-size: 12px; color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  .field-label .req { color: var(--vermillion); margin-left: 3px; }
+
+  .input {
+    width: 100%;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 11px 12px;
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--ink);
+    outline: none;
+    transition: box-shadow .15s ease;
+  }
+  .input:focus { box-shadow: 3px 3px 0 var(--vermillion); }
+  .input::placeholder { color: rgba(20,17,27,.32); }
+
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 4px;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+    user-select: none;
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.selected {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+
+  /* === University breakdown === */
+  .uni-list {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .uni-row {
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px dashed rgba(20,17,27,.15);
+    position: relative;
+  }
+  .uni-row:last-child { border-bottom: none; }
+  .uni-row .rank {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--vermillion);
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .uni-row .name {
+    flex: 1;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .uni-row .bar-wrap {
+    width: 80px;
+    height: 8px;
+    background: var(--cream-2);
+    border: 1px solid var(--ink);
+    border-radius: 99px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .uni-row .bar {
+    height: 100%;
+    background: var(--vermillion);
+    border-right: 1px solid var(--ink);
+  }
+  .uni-row .cnt {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink);
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* === Submit button === */
+  .submit-row {
+    margin: 18px 22px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative; z-index: 2;
+  }
+  .btn {
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--vermillion);
+    color: #fff;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn-primary svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .btn-back {
+    background: transparent;
+    border: none;
+    color: var(--ink-2);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-decoration: underline;
+    padding: 0;
+    box-shadow: none;
+    margin-top: 4px;
+    letter-spacing: .04em;
+    text-align: center;
+    display: block;
+  }
+
+  /* === Success state (after registration) === */
+  .success-state {
+    display: none;
+    padding: 16px 0;
+    position: relative;
+    z-index: 2;
+  }
+  .success-state.active { display: block; }
+  .success-hero {
+    margin: 8px 18px 0;
+    background: linear-gradient(135deg, var(--sun), #FFE382);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 24px 22px;
+    box-shadow: 5px 5px 0 var(--vermillion);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .success-hero::before {
+    content: "🎉";
+    position: absolute;
+    top: -10px; left: -10px;
+    font-size: 44px;
+    transform: rotate(-12deg);
+    animation: float-soft 2.5s ease-in-out infinite;
+  }
+  .success-hero::after {
+    content: "✨";
+    position: absolute;
+    top: 0; right: 8px;
+    font-size: 32px;
+    animation: float-soft 2.8s ease-in-out infinite reverse;
+  }
+  @keyframes float-soft {
+    0%, 100% { transform: translateY(0) rotate(-12deg); }
+    50% { transform: translateY(-6px) rotate(-7deg); }
+  }
+  .success-hero .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .success-hero .num {
+    margin: 6px 0;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -.025em;
+    color: var(--ink);
+  }
+  .success-hero .num::before { content: "#"; opacity: .4; }
+  .success-hero .ttl {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .success-hero .sub {
+    font-size: 11.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* === Skip queue card === */
+  .skip-queue {
+    margin: 14px 22px 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+    position: relative;
+  }
+  .skip-queue .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9.5px;
+    color: var(--vermillion);
+    letter-spacing: .25em;
+  }
+  .skip-queue h3 {
+    margin: 4px 0 8px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .skip-queue p {
+    margin: 0 0 12px;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .skip-queue .perks {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .skip-queue .perks .row {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .skip-queue .perks .row .b {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10.5px;
+    color: var(--vermillion);
+    min-width: 50px;
+  }
+
+  .share-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .share-btn {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 10px 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .15s ease;
+    box-shadow: 2px 2px 0 var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .share-btn:hover { transform: translateY(-2px); }
+  .share-btn .em { font-size: 18px; line-height: 1; }
+  .share-btn .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+  .share-btn.line { background: #06C755; }
+  .share-btn.line .em, .share-btn.line .lbl { color: #fff; }
+  .share-btn.x-tw { background: #000; }
+  .share-btn.x-tw .em, .share-btn.x-tw .lbl { color: #fff; }
+  .share-btn.copy { background: var(--ink); }
+  .share-btn.copy .em, .share-btn.copy .lbl { color: var(--sun); }
+
+  /* === Toast === */
+  .toast {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 1.5px solid var(--ink);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .35s cubic-bezier(.5,1.4,.5,1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="login.html" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="flex:1;">
+      <div class="ja">ウェイトリスト</div>
+      <div class="en">WAITLIST</div>
+    </div>
+    <button class="icon-btn" aria-label="シェア">
+      <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+  </header>
+
+  <!-- ====== FORM STATE ====== -->
+  <div id="formState">
+    <!-- Hero with stats -->
+    <div class="hero">
+      <div class="lbl">— ALREADY WAITING</div>
+      <div class="num" id="totalCount">1,247</div>
+      <div class="ttl">人がリストに登録済み</div>
+      <div class="sub">毎週 <strong style="color:var(--mint);">+200人</strong> ずつ招待コードを発行中</div>
+    </div>
+
+    <!-- Form -->
+    <div class="section">
+      <span class="kicker">— STEP 01 / 03</span>
+      <h2><span class="accent">あなた</span>のこと</h2>
+      <p class="hint">招待コードが発行されたらメールでお知らせします。</p>
+    </div>
+
+    <div class="form-block">
+      <div class="field">
+        <div class="field-label">お名前<span class="req">*</span></div>
+        <input id="nameInput" class="input" type="text" placeholder="山田 ハナ" />
+      </div>
+
+      <div class="field">
+        <div class="field-label">大学のメールアドレス<span class="req">*</span></div>
+        <input id="emailInput" class="input" type="email" placeholder="hana@xxx-u.ac.jp" />
+        <div style="font-size:10px;color:var(--ink-2);margin-top:4px;line-height:1.5;">
+          ⚡ 大学ドメインのメールは <strong style="color:var(--vermillion);">優先的に招待</strong> します。
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">大学</div>
+        <div class="chips" id="uniChips">
+          <span class="chip" data-uni="高崎経済大学">高崎経済大学</span>
+          <span class="chip" data-uni="東京大学">東京大学</span>
+          <span class="chip" data-uni="京都大学">京都大学</span>
+          <span class="chip" data-uni="早稲田大学">早稲田大学</span>
+          <span class="chip" data-uni="慶應義塾大学">慶應義塾大学</span>
+          <span class="chip" data-uni="その他">その他</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">どこで知った？</div>
+        <div class="chips" id="sourceChips">
+          <span class="chip" data-src="X (Twitter)">X (Twitter)</span>
+          <span class="chip" data-src="Instagram">Instagram</span>
+          <span class="chip" data-src="TikTok">TikTok</span>
+          <span class="chip" data-src="友達の紹介">友達の紹介</span>
+          <span class="chip" data-src="サークル">サークル</span>
+          <span class="chip" data-src="その他">その他</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- University breakdown -->
+    <div class="section">
+      <span class="kicker">— LIVE QUEUE</span>
+      <h2>大学別の登録数</h2>
+      <p class="hint">同じ大学から人気が出ると、その大学から優先的に招待されます。</p>
+    </div>
+    <div style="padding: 0 22px; position: relative; z-index: 2;">
+      <div class="uni-list">
+        <div class="uni-row">
+          <span class="rank">1</span>
+          <span class="name">高崎経済大学</span>
+          <div class="bar-wrap"><div class="bar" style="width:92%;"></div></div>
+          <span class="cnt">187</span>
+        </div>
+        <div class="uni-row">
+          <span class="rank">2</span>
+          <span class="name">東京大学</span>
+          <div class="bar-wrap"><div class="bar" style="width:78%;"></div></div>
+          <span class="cnt">154</span>
+        </div>
+        <div class="uni-row">
+          <span class="rank">3</span>
+          <span class="name">早稲田大学</span>
+          <div class="bar-wrap"><div class="bar" style="width:65%;"></div></div>
+          <span class="cnt">132</span>
+        </div>
+        <div class="uni-row">
+          <span class="rank">4</span>
+          <span class="name">慶應義塾大学</span>
+          <div class="bar-wrap"><div class="bar" style="width:54%;"></div></div>
+          <span class="cnt">109</span>
+        </div>
+        <div class="uni-row">
+          <span class="rank">5</span>
+          <span class="name">京都大学</span>
+          <div class="bar-wrap"><div class="bar" style="width:42%;"></div></div>
+          <span class="cnt">85</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-row">
+      <button class="btn btn-primary" id="submitBtn">
+        ウェイトリストに登録
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-back" onclick="window.history.back();">招待コードがある方はこちら</button>
+    </div>
+  </div>
+
+  <!-- ====== SUCCESS STATE ====== -->
+  <div class="success-state" id="successState">
+    <div class="success-hero">
+      <div class="lbl">— あなたの順位</div>
+      <div class="num" id="rankNum">1,248</div>
+      <div class="ttl">登録できました！</div>
+      <div class="sub">招待コードが発行されたらメールでお知らせします。<br>あと <strong>約3週間</strong> です。</div>
+    </div>
+
+    <!-- Skip queue card -->
+    <div class="skip-queue">
+      <div class="lbl">— SKIP THE QUEUE</div>
+      <h3>友達と一緒に並ぶと、もっと早く</h3>
+      <p>1人シェアするごとに <strong style="color:var(--vermillion);">10人飛び越え</strong>。<br>5人で <strong>50人飛び越え</strong>、10人で <strong>即招待</strong>。</p>
+
+      <div class="perks">
+        <div class="row"><span class="b">+10人</span><span>1人にシェア</span></div>
+        <div class="row"><span class="b">+50人</span><span>5人にシェア</span></div>
+        <div class="row"><span class="b">即招待</span><span>10人にシェア</span></div>
+      </div>
+
+      <div class="share-grid">
+        <button class="share-btn line" data-platform="LINE">
+          <span class="em">L</span><span class="lbl">LINE</span>
+        </button>
+        <button class="share-btn x-tw" data-platform="X">
+          <span class="em">𝕏</span><span class="lbl">X</span>
+        </button>
+        <button class="share-btn" data-platform="Instagram" style="background:linear-gradient(135deg,#fcb045,#fd1d1d 50%,#833AB4);">
+          <span class="em" style="color:#fff;">📷</span><span class="lbl" style="color:#fff;">IG</span>
+        </button>
+        <button class="share-btn copy" id="copyLinkBtn" data-platform="Link">
+          <span class="em">🔗</span><span class="lbl">コピー</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <a class="btn-back" href="login.html" style="color:var(--ink-2);">ログイン画面に戻る</a>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">送信しました</div>
+
+</div>
+
+<script>
+// ====== Animate hero count ======
+function animateCount(el, target, duration = 1000) {
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(target * eased).toLocaleString();
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+animateCount(document.getElementById('totalCount'), 1247);
+
+// ====== Chip selectors (single select) ======
+['uniChips', 'sourceChips'].forEach(id => {
+  document.querySelectorAll(`#${id} .chip`).forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll(`#${id} .chip`).forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+    });
+  });
+});
+
+// ====== Submit ======
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const name = document.getElementById('nameInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim();
+  if (!name) { showToast('お名前を入力してください'); return; }
+  if (!email || !email.includes('@')) { showToast('有効なメールアドレスを入力してください'); return; }
+
+  // Switch to success state
+  document.getElementById('formState').style.display = 'none';
+  document.getElementById('successState').classList.add('active');
+
+  // Animate rank number
+  setTimeout(() => {
+    animateCount(document.getElementById('rankNum'), 1248, 1200);
+  }, 200);
+
+  // Scroll to top
+  document.querySelector('.phone').scrollTop = 0;
+  window.scrollTo(0, 0);
+});
+
+// ====== Share buttons ======
+document.querySelectorAll('.share-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const platform = btn.dataset.platform;
+    if (platform === 'Link') {
+      // Demo: copy
+      navigator.clipboard?.writeText('https://campus-innovation.app/r/yuki').catch(() => {});
+      showToast('✓ シェアURLをコピーしました (順位 -10)');
+    } else {
+      showToast(`${platform} でシェア (順位 -10)`);
+    }
+    // Bump rank up
+    setTimeout(() => {
+      const r = document.getElementById('rankNum');
+      const current = parseInt(r.textContent.replace(/,/g, ''));
+      animateCount(r, Math.max(1, current - 10), 600);
+    }, 600);
+  });
+});
+
+// ====== Toast ======
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+
+</body>
+</html>

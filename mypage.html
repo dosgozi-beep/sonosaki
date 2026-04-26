@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜マイページ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FBF5E5;
+    --cream-2: #F2EAD0;
+    --paper: #FFFDF6;
+    --ink: #14111B;
+    --ink-2: #3A3340;
+    --vermillion: #E8412B;
+    --vermillion-deep: #B82B1A;
+    --sun: #FFCE2E;
+    --mint: #6CD4B6;
+    --indigo: #4A45D6;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 28px 16px 48px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === Phone === */
+  .phone {
+    width: 100%;
+    max-width: 412px;
+    background: var(--cream);
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 80px;
+    box-shadow:
+      0 0 0 2px #2A2333,
+      0 0 0 12px #14111B,
+      0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65),
+      0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B;
+    border-radius: 16px; z-index: 5;
+  }
+
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative; z-index: 4;
+    padding: 6px 16px 8px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0; position: relative;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-btn .ndot {
+    position: absolute; top: -4px; right: -4px;
+    width: 14px; height: 14px; background: var(--vermillion);
+    border-radius: 50%; border: 2px solid var(--cream);
+    color: #fff; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 8px; display: grid; place-items: center;
+  }
+  .topbar .actions { display: flex; gap: 8px; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 14px; letter-spacing: -.01em;
+    line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em;
+    color: var(--vermillion); margin-top: 3px;
+  }
+
+  /* === Cover banner with diagonal stripes === */
+  .cover {
+    position: relative;
+    z-index: 2;
+    height: 110px;
+    margin: 0 18px;
+    border-radius: 16px 16px 0 0;
+    border: 2px solid var(--ink);
+    border-bottom: none;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(
+        135deg,
+        #FFCE2E 0px,
+        #FFCE2E 28px,
+        #E8412B 28px,
+        #E8412B 56px,
+        #FBF5E5 56px,
+        #FBF5E5 84px
+      );
+  }
+  .cover::after {
+    /* paper grain over the stripes */
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(rgba(20,17,27,.07) 1px, transparent 1px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+  }
+  .cover .cover-edit {
+    position: absolute;
+    top: 10px; right: 10px;
+    width: 30px; height: 30px;
+    background: var(--ink);
+    color: var(--cream);
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 2px 2px 0 var(--cream);
+  }
+  .cover .cover-edit svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+
+  /* === Profile body === */
+  .profile-body {
+    margin: 0 18px;
+    padding: 0 18px 18px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 0 0 16px 16px;
+    border-top: none;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Avatar overlapping cover */
+  .avatar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: -42px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 3;
+  }
+  .avatar-large {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--cream-2);
+    border: 3px solid var(--ink);
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+  }
+  .avatar-large > svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .avatar-large .verified {
+    position: absolute;
+    bottom: -2px; right: -2px;
+    width: 24px; height: 24px;
+    background: var(--vermillion);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--cream);
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 1;
+  }
+  .edit-btn {
+    background: var(--ink);
+    color: var(--sun);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--vermillion);
+    transition: transform .15s ease;
+    align-self: center;
+    margin-top: 24px;
+    letter-spacing: .04em;
+  }
+  .edit-btn:hover { transform: translateY(-2px); }
+
+  /* Name and meta */
+  .name-block .name {
+    margin: 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .name-block .handle {
+    margin-top: 2px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--ink-2);
+    letter-spacing: .02em;
+  }
+  .name-block .dept-line {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .dept-line .pill {
+    background: var(--cream);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--ink);
+    letter-spacing: .05em;
+  }
+  .dept-line .pill.year { background: var(--ink); color: var(--sun); }
+  .dept-line .pill.uni { background: var(--vermillion); color: #fff; border-color: var(--ink); }
+  .name-block .bio {
+    margin: 10px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* === Stats row === */
+  .stats-row {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--cream);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .stat-cell {
+    padding: 10px 4px;
+    text-align: center;
+    border-right: 1.5px dashed rgba(20,17,27,.18);
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .stat-cell:hover { background: var(--paper); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-cell.likes .num { color: var(--vermillion); }
+  .stat-cell .lbl {
+    margin-top: 4px;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  /* === Innovation Score === */
+  .iscore {
+    margin: 18px 18px 0;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 4px 4px 0 var(--sun);
+    position: relative;
+    overflow: hidden;
+    color: var(--cream);
+  }
+  .iscore::before {
+    content: "";
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, var(--vermillion), transparent 70%);
+    opacity: .5;
+  }
+  .iscore .label {
+    position: relative;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    letter-spacing: .25em;
+    color: var(--sun);
+    text-transform: uppercase;
+  }
+  .iscore .score-row {
+    position: relative;
+    margin-top: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .iscore .big-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 44px;
+    color: var(--cream);
+    letter-spacing: -.03em;
+    line-height: 1;
+  }
+  .iscore .trend {
+    background: var(--mint);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1.5px solid var(--ink);
+    letter-spacing: .04em;
+  }
+  .iscore .ranks {
+    position: relative;
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .iscore .rank-pill {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.25);
+    color: var(--cream);
+    font-size: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .iscore .rank-pill .v {
+    color: var(--sun);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    margin-left: 3px;
+  }
+
+  /* === Section header === */
+  .section {
+    position: relative; z-index: 2;
+    padding: 22px 22px 6px;
+  }
+  .section .h-row {
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .section .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em; text-transform: uppercase;
+  }
+  .section .kicker::before { content: ""; width: 22px; height: 2px; background: var(--vermillion); }
+  .section h2 {
+    margin: 6px 0 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px; letter-spacing: -.02em; color: var(--ink);
+  }
+  .section .more {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px; letter-spacing: .12em;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 1px;
+  }
+
+  /* === Achievements === */
+  .achievements {
+    padding: 8px 22px 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .badge {
+    aspect-ratio: 1;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+    text-align: center;
+    position: relative;
+  }
+  .badge:hover { transform: translateY(-2px); }
+  .badge .b-emoji {
+    font-size: 28px;
+    line-height: 1;
+    filter: drop-shadow(2px 2px 0 rgba(20,17,27,.2));
+  }
+  .badge .b-name {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 9.5px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .badge.locked {
+    background: var(--cream-2);
+    box-shadow: 3px 3px 0 rgba(20,17,27,.3);
+  }
+  .badge.locked .b-emoji { filter: grayscale(1) opacity(.4); }
+  .badge.locked .b-name { color: var(--ink-2); opacity: .6; }
+  .badge.locked::after {
+    content: "🔒";
+    position: absolute;
+    top: 4px; right: 4px;
+    font-size: 11px;
+  }
+  .badge.featured {
+    background: linear-gradient(135deg, var(--sun), #FFE382);
+    box-shadow: 3px 3px 0 var(--vermillion);
+  }
+  .badge.featured::before {
+    content: "NEW";
+    position: absolute;
+    top: -8px; right: -6px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 8px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    border: 1px solid var(--ink);
+    transform: rotate(8deg);
+    letter-spacing: .1em;
+  }
+
+  /* === Tab bar === */
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--cream);
+    margin-top: 22px;
+    padding: 8px 14px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-bottom: 2px solid rgba(20,17,27,.12);
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 7px 12px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tab:hover { transform: translateY(-1px); }
+  .tab.active {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .tab .emoji { font-size: 13px; }
+  .tab .count {
+    background: var(--cream-2);
+    color: var(--ink);
+    padding: 1px 6px;
+    border-radius: 999px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    margin-left: 2px;
+  }
+  .tab.active .count { background: var(--vermillion); color: #fff; }
+
+  /* === Tab content === */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === Grid for posts/liked/saved === */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 10px;
+    padding: 14px 18px 4px;
+  }
+  .idea-card {
+    cursor: pointer;
+    transition: transform .15s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+  }
+  .idea-card:hover { transform: translateY(-3px); }
+  .idea-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--ink);
+    position: relative;
+    box-shadow: 3px 3px 0 var(--ink);
+    color: #fff;
+    padding: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .idea-thumb .thumb-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .idea-thumb > *:not(.thumb-art) {
+    position: relative;
+    z-index: 1;
+  }
+  .idea-thumb .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-size: 8px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+    line-height: 1;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+  .idea-thumb .logo {
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 16px;
+    line-height: 1.05;
+    text-shadow: 2px 2px 0 rgba(20,17,27,.6);
+  }
+  .idea-thumb .emoji-bg {
+    display: none;
+  }
+  .idea-thumb .menu-btn {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 22px; height: 22px;
+    background: rgba(255,255,255,.9);
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .idea-tagline {
+    margin: 7px 0 3px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+  .idea-title {
+    margin: 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .idea-meta {
+    margin: 3px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .idea-meta .dot { width: 2.5px; height: 2.5px; background: currentColor; border-radius: 50%; }
+  .idea-meta .l { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; color: var(--vermillion); }
+
+  /* Theme variants on idea-thumb */
+  .theme-vermillion { background: linear-gradient(160deg,#E8412B,#FF7F3F); }
+  .theme-indigo     { background: linear-gradient(160deg,#4A45D6,#7B6CFF); }
+  .theme-mint       { background: linear-gradient(160deg,#1B7F5A,#6CD4B6); }
+  .theme-sun        { background: linear-gradient(160deg,#D4A100,#FFCE2E); color: var(--ink); }
+  .theme-sun .topline { background: var(--ink); color: var(--sun); }
+  .theme-sun .logo { color: var(--ink); text-shadow: 2px 2px 0 rgba(255,255,255,.5); }
+  .theme-navy       { background: linear-gradient(160deg,#0E2C5C,#3F6FB0); }
+  .theme-rose       { background: linear-gradient(160deg,#C13F77,#FF93C5); }
+  .theme-teal       { background: linear-gradient(160deg,#1D7A7A,#48C7C7); }
+
+  /* === Draft card === */
+  .draft-card {
+    margin: 14px 18px 8px;
+    padding: 12px 14px;
+    background: var(--cream-2);
+    border: 1.5px dashed var(--ink);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform .15s ease;
+  }
+  .draft-card:hover { transform: translateY(-2px); }
+  .draft-card .icon {
+    width: 42px; height: 42px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .draft-card .info { flex: 1; line-height: 1.3; }
+  .draft-card .info .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--ink-2);
+    letter-spacing: .15em;
+    margin-bottom: 2px;
+  }
+  .draft-card .info .t {
+    font-weight: 900;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .draft-card .info .s {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+  .draft-card .arrow {
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  /* === Following list === */
+  .follow-list {
+    padding: 14px 18px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .follow-item {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .follow-item .av {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--cream-2);
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .follow-item .av svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .follow-item .who { flex: 1; line-height: 1.3; }
+  .follow-item .who .n { font-weight: 900; font-size: 12.5px; }
+  .follow-item .who .d {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    margin-top: 2px;
+    letter-spacing: .04em;
+  }
+  .follow-btn {
+    background: var(--ink);
+    color: var(--sun);
+    border: 1.5px solid var(--ink);
+    border-radius: 9px;
+    padding: 5px 12px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all .15s ease;
+    letter-spacing: .04em;
+  }
+  .follow-btn.following {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .follow-btn.following::before { content: "✓ "; color: var(--mint); }
+  .follow-btn:hover { transform: translateY(-1px); }
+
+  .more-link {
+    text-align: center;
+    padding: 12px 0;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--vermillion);
+    letter-spacing: .15em;
+    cursor: pointer;
+  }
+
+  /* === Activity feed === */
+  .activity {
+    padding: 14px 22px 4px;
+  }
+  .act-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(20,17,27,.18);
+  }
+  .act-item:last-child { border-bottom: none; }
+  .act-icon {
+    width: 32px; height: 32px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .act-icon.likes { background: var(--vermillion); color: #fff; }
+  .act-icon.followers { background: var(--mint); color: var(--ink); }
+  .act-icon.comments { background: var(--indigo); color: #fff; }
+  .act-icon.rank { background: var(--sun); color: var(--ink); }
+  .act-text {
+    flex: 1;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .act-text strong { color: var(--ink); font-weight: 900; }
+  .act-text .accent { color: var(--vermillion); font-weight: 800; }
+  .act-time {
+    margin-top: 3px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+  }
+
+  /* === Bottom nav === */
+  .bottom-nav {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 6;
+    background: var(--paper);
+    border-top: 2px solid var(--ink);
+    padding: 12px 24px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--ink-2);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-item.active { color: var(--vermillion); }
+  .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-item .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: .1em;
+  }
+  .nav-post {
+    width: 54px; height: 54px;
+    background: var(--ink);
+    color: var(--sun);
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    margin-top: -22px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 2px solid var(--ink);
+    text-decoration: none;
+    transition: transform .15s ease;
+  }
+  .nav-post:hover { transform: translateY(-3px) rotate(-3deg); }
+  .nav-post svg { width: 24px; height: 24px; stroke-width: 2.5; }
+
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Idea Card Art Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <!-- 001 学食AI予測 - お弁当 + チャート -->
+    <symbol id="art-001" viewBox="0 0 200 120">
+      <rect x="40" y="55" width="100" height="48" rx="3" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" opacity="0.95"/>
+      <line x1="73" y1="55" x2="73" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <line x1="106" y1="55" x2="106" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <circle cx="56" cy="79" r="9" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="78" y="65" width="22" height="30" fill="#6CD4B6" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="123" cy="79" r="9" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="153" y="40" width="9" height="30" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="166" y="20" width="9" height="50" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="179" y="50" width="9" height="20" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="20" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="32" cy="14" r="1.8" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 002 AIノート要約 - 脳 + 線 -->
+    <symbol id="art-002" viewBox="0 0 200 120">
+      <path d="M70 40 Q55 38 50 50 Q40 58 45 72 Q40 85 55 90 Q60 100 75 95 Q90 100 100 92 Q115 95 120 82 Q130 75 125 60 Q130 50 115 45 Q110 35 95 38 Q85 32 70 40 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M65 55 Q70 60 75 55 M85 50 Q90 58 88 65 M75 70 Q85 75 100 70 M90 80 Q100 85 110 80" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="180" y2="40" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="55" x2="175" y2="55" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="70" x2="180" y2="70" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="85" x2="170" y2="85" stroke="#FFCE2E" stroke-width="3"/>
+      <circle cx="20" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="32" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 003 サークル仲間検索 - 2人 + ハート -->
+    <symbol id="art-003" viewBox="0 0 200 120">
+      <circle cx="65" cy="50" r="18" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="55" cy="48" r="2" fill="#14111B"/>
+      <circle cx="73" cy="48" r="2" fill="#14111B"/>
+      <path d="M58 56 Q65 60 72 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="65" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="50" r="18" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="125" cy="48" r="2" fill="#14111B"/>
+      <circle cx="143" cy="48" r="2" fill="#14111B"/>
+      <path d="M128 56 Q135 60 142 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="135" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M100 30 Q92 22 90 32 Q90 38 100 45 Q110 38 110 32 Q108 22 100 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+    </symbol>
+    
+    <!-- 004 古着リレー - シャツ + 矢印 -->
+    <symbol id="art-004" viewBox="0 0 200 120">
+      <path d="M65 40 L80 30 L90 38 Q100 45 110 38 L120 30 L135 40 L145 60 L130 65 L130 100 L70 100 L70 65 L55 60 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="50" r="5" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M155 65 L185 65 M180 60 L185 65 L180 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M30 65 L20 65 M25 60 L20 65 L25 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="170" cy="30" r="2.5" fill="#FFCE2E"/>
+      <circle cx="180" cy="20" r="1.8" fill="#FFCE2E"/>
+      <circle cx="20" cy="100" r="2" fill="#FFCE2E"/>
+    </symbol>
+    
+    <!-- 005 研究室24時間化 - 試験管 + 月 -->
+    <symbol id="art-005" viewBox="0 0 200 120">
+      <rect x="55" y="35" width="20" height="60" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="50" y="30" width="30" height="8" fill="#14111B"/>
+      <rect x="55" y="65" width="20" height="30" fill="#6CD4B6"/>
+      <circle cx="62" cy="80" r="2" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="68" cy="85" r="1.5" fill="#FBF5E5" opacity="0.7"/>
+      <rect x="95" y="45" width="20" height="50" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="90" y="40" width="30" height="8" fill="#14111B"/>
+      <rect x="95" y="70" width="20" height="25" fill="#FFCE2E"/>
+      <path d="M155 35 Q175 40 175 60 Q175 80 155 85 Q170 75 170 60 Q170 45 155 35 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="155" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 006 忘れ物GPS - ピン + 円波紋 -->
+    <symbol id="art-006" viewBox="0 0 200 120">
+      <circle cx="100" cy="60" r="38" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5"/>
+      <circle cx="100" cy="60" r="26" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7"/>
+      <path d="M100 25 Q85 25 85 45 Q85 55 100 75 Q115 55 115 45 Q115 25 100 25 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="45" r="6" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="100" cy="85" rx="15" ry="4" fill="#14111B" opacity="0.3"/>
+      <circle cx="40" cy="35" r="4" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="160" cy="90" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="170" cy="35" r="2" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 007 学割シェア - 札 + パーセンテージ -->
+    <symbol id="art-007" viewBox="0 0 200 120">
+      <rect x="40" y="40" width="80" height="50" rx="6" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" transform="rotate(-8 80 65)"/>
+      <circle cx="55" cy="55" r="3" fill="#14111B" transform="rotate(-8 80 65)"/>
+      <text x="65" y="73" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="24" fill="#14111B" transform="rotate(-8 80 65)">¥</text>
+      <rect x="100" y="55" width="60" height="40" rx="6" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5" transform="rotate(5 130 75)"/>
+      <text x="115" y="83" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="20" fill="#14111B" transform="rotate(5 130 75)">% OFF</text>
+      <circle cx="30" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="180" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="170" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 008 深夜カフェ - コップ + 三日月 -->
+    <symbol id="art-008" viewBox="0 0 200 120">
+      <path d="M155 30 Q175 35 175 55 Q175 75 155 80 Q170 70 170 55 Q170 40 155 30 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="25" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="90" r="1.5" fill="#FBF5E5"/>
+      <path d="M50 50 L50 95 Q50 105 60 105 L100 105 Q110 105 110 95 L110 50 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M110 60 Q125 60 125 75 Q125 90 110 90" fill="none" stroke="#14111B" stroke-width="2.5"/>
+      <ellipse cx="80" cy="55" rx="25" ry="5" fill="#6F4E37" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M65 35 Q67 30 70 35 Q70 40 67 42 Q65 40 65 35 Z M75 30 Q77 25 80 30 Q80 35 77 37 Q75 35 75 30 Z M85 35 Q87 30 90 35 Q90 40 87 42 Q85 40 85 35 Z" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="20" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 009 教科書リレー - 本 + 矢印 -->
+    <symbol id="art-009" viewBox="0 0 200 120">
+      <path d="M40 35 L40 95 L98 95 L98 35 L70 30 L40 35 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="69" y1="32" x2="69" y2="95" stroke="#14111B" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="65" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="60" x2="65" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="70" x2="60" y2="70" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="50" x2="92" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="60" x2="92" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="70" x2="88" y2="70" stroke="#14111B" stroke-width="1"/>
+      <path d="M110 65 L150 65 M145 60 L150 65 L145 70" stroke="#14111B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="155" y="40" width="35" height="50" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="160" y1="50" x2="185" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="58" x2="185" y2="58" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="66" x2="180" y2="66" stroke="#14111B" stroke-width="1"/>
+    </symbol>
+    
+    <!-- 010 グルメMAP - ラーメン + ピン -->
+    <symbol id="art-010" viewBox="0 0 200 120">
+      <ellipse cx="80" cy="80" rx="40" ry="12" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M40 80 Q40 60 80 60 Q120 60 120 80" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M55 70 Q60 50 70 60 Q80 50 90 60 Q100 50 105 65" stroke="#FBF5E5" stroke-width="2" fill="none"/>
+      <circle cx="62" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="78" cy="62" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="95" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <path d="M150 30 Q138 30 138 45 Q138 55 150 70 Q162 55 162 45 Q162 30 150 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="150" cy="45" r="5" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M30 30 L40 35 M180 90 L188 88" stroke="#FBF5E5" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="25" cy="100" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 011 匿名質問BOT - 吹き出し + ? -->
+    <symbol id="art-011" viewBox="0 0 200 120">
+      <path d="M40 30 Q30 30 30 42 L30 70 Q30 82 42 82 L60 82 L60 95 L75 82 L100 82 Q112 82 112 70 L112 42 Q112 30 100 30 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <text x="58" y="68" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="32" fill="#14111B">?</text>
+      <path d="M105 50 Q95 50 95 60 L95 80 Q95 90 105 90 L155 90 Q165 90 165 80 L165 60 Q165 50 155 50 L150 50 L145 40 L140 50 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="120" cy="70" r="2" fill="#14111B"/>
+      <circle cx="130" cy="70" r="2" fill="#14111B"/>
+      <circle cx="140" cy="70" r="2" fill="#14111B"/>
+      <circle cx="180" cy="30" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="40" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- art-default - generic decorative motif -->
+    <symbol id="art-default" viewBox="0 0 200 120">
+      <circle cx="50" cy="60" r="30" fill="none" stroke="#FBF5E5" stroke-width="2" opacity="0.5"/>
+      <circle cx="150" cy="60" r="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M70 30 L130 30 M70 90 L130 90" stroke="#FBF5E5" stroke-width="2" stroke-dasharray="4 3"/>
+      <circle cx="100" cy="60" r="8" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-rio" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 50 Q26 26 50 22 Q74 26 72 50 Q72 65 68 70 L68 50 Q60 35 50 32 Q40 35 32 50 L32 70 Q28 65 28 50 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-yui" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M26 45 Q24 25 45 20 Q65 18 74 30 Q76 45 70 60 L70 50 Q60 38 48 35 Q35 38 30 50 Q26 60 26 45 Z" fill="#14111B"/>
+      <path d="M28 28 Q40 20 56 22 L52 36 Q40 38 28 36 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 66 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-mai" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#9333A8" stroke="#14111B" stroke-width="2"/>
+      <path d="M22 50 Q20 25 36 18 Q50 14 64 18 Q80 25 78 50 L78 75 Q76 90 70 95 L70 50 Q66 38 50 33 Q34 38 30 50 L30 95 Q24 90 22 75 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-souta" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q28 22 50 22 Q72 22 72 42 L72 32 Q60 30 50 32 Q40 30 28 32 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="settings.html" aria-label="設定">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </a>
+    <div style="text-align:center;">
+      <div class="ja">マイページ</div>
+      <div class="en">MY PAGE</div>
+    </div>
+    <div class="actions">
+      <a class="icon-btn" href="notifications.html" aria-label="お知らせ">
+        <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1112 0c0 7 3 9 3 9H3s3-2 3-9z"/><path d="M10 21a2 2 0 004 0"/></svg>
+        <span class="ndot">3</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ====== COVER + PROFILE BLOCK ====== -->
+  <div class="cover">
+    <button class="cover-edit" aria-label="カバー編集">
+      <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>
+    </button>
+  </div>
+  <div class="profile-body">
+    <div class="avatar-row">
+      <div class="avatar-large">
+        <svg viewBox="0 0 100 100"><use href="#portrait-yuki"/></svg>
+        <div class="verified" title="認証済み">✓</div>
+      </div>
+      <button class="edit-btn">プロフィール編集</button>
+    </div>
+
+    <div class="name-block">
+      <h1 class="name">田中 ユウキ</h1>
+      <div class="handle">@yuki_tanaka</div>
+      <div class="dept-line">
+        <span class="pill">経済学部</span>
+        <span class="pill year">3年</span>
+        <span class="pill uni">高崎経済大学</span>
+      </div>
+      <p class="bio">学食ヘビーユーザー。データで日常をちょっと変えるのが好き。AI×食×コミュニティで何か作りたい。</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="num">5</div>
+        <div class="lbl">投稿</div>
+      </div>
+      <div class="stat-cell">
+        <div class="num">248</div>
+        <div class="lbl">フォロワー</div>
+      </div>
+      <div class="stat-cell">
+        <div class="num">156</div>
+        <div class="lbl">フォロー中</div>
+      </div>
+      <div class="stat-cell likes">
+        <div class="num">1.8k</div>
+        <div class="lbl">獲得♥</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== INNOVATION SCORE ====== -->
+  <a class="iscore" href="dashboard.html" style="text-decoration:none;display:block;">
+    <span class="label">— YOUR IMPACT</span>
+    <div class="score-row">
+      <span class="big-num">1,840</span>
+      <span class="trend">↑ +124 / 今週</span>
+    </div>
+    <div class="ranks">
+      <span class="rank-pill">全国 <span class="v">#247</span></span>
+      <span class="rank-pill">経済学部 <span class="v">#4</span></span>
+      <span class="rank-pill">高崎経済大学 <span class="v">#12</span></span>
+    </div>
+    <span style="position:absolute;right:14px;bottom:12px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:9px;color:var(--sun);letter-spacing:.18em;opacity:.85;">詳細を見る →</span>
+  </a>
+
+  <!-- ====== INVITE FRIENDS CTA ====== -->
+  <a href="invite.html" style="
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 18px 0;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--vermillion), #FF7F3F);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 var(--ink);
+    text-decoration: none;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: transform .15s ease;
+  " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+    <div style="
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,.95);
+      border: 1.5px solid var(--ink);
+      border-radius: 12px;
+      display: grid; place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    ">💌</div>
+    <div style="flex:1;line-height:1.3;">
+      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:9px;letter-spacing:.25em;color:var(--sun);">— INVITE FRIENDS</div>
+      <div style="font-weight:900;font-size:13.5px;margin-top:2px;">招待コード <span style="font-family:'Bricolage Grotesque',sans-serif;font-size:14px;color:var(--sun);">3枚</span> 残っています</div>
+      <div style="font-size:10.5px;opacity:.85;margin-top:2px;">友達を招待してバッジを獲得しよう</div>
+    </div>
+    <span style="font-size:18px;flex-shrink:0;">→</span>
+  </a>
+
+  <!-- ====== ACHIEVEMENTS ====== -->
+  <div class="section">
+    <div class="h-row">
+      <div>
+        <span class="kicker">— ACHIEVEMENTS</span>
+        <h2>獲得バッジ <span style="color:var(--vermillion);font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:13px;">7/9</span></h2>
+      </div>
+      <a class="more" href="#">全部見る →</a>
+    </div>
+  </div>
+  <div class="achievements">
+    <div class="badge"><span class="b-emoji">🎯</span><span class="b-name">初投稿</span></div>
+    <div class="badge"><span class="b-emoji">🌱</span><span class="b-name">100♥達成</span></div>
+    <div class="badge"><span class="b-emoji">🔥</span><span class="b-name">1000♥達成</span></div>
+    <div class="badge"><span class="b-emoji">💬</span><span class="b-name">10コメント</span></div>
+    <div class="badge featured"><span class="b-emoji">⭐</span><span class="b-name">新着1位</span></div>
+    <div class="badge"><span class="b-emoji">🤝</span><span class="b-name">100フォロワー</span></div>
+    <div class="badge"><span class="b-emoji">🌍</span><span class="b-name">全国TOP100</span></div>
+    <div class="badge locked"><span class="b-emoji">👑</span><span class="b-name">月間TOP3</span></div>
+    <div class="badge locked"><span class="b-emoji">🚀</span><span class="b-name">1000フォロワー</span></div>
+  </div>
+
+  <!-- ====== TABS ====== -->
+  <nav class="tab-bar">
+    <button class="tab active" data-tab="posts"><span class="emoji">📝</span> 投稿 <span class="count">5</span></button>
+    <button class="tab" data-tab="liked"><span class="emoji">❤️</span> ♥した <span class="count">47</span></button>
+    <button class="tab" data-tab="saved"><span class="emoji">🔖</span> 保存 <span class="count">12</span></button>
+    <button class="tab" data-tab="follow"><span class="emoji">👥</span> フォロー <span class="count">156</span></button>
+  </nav>
+
+  <!-- POSTS TAB -->
+  <div class="tab-content active" data-content="posts">
+    <a class="draft-card" href="post.html">
+      <div class="icon">📝</div>
+      <div class="info">
+        <div class="lbl">DRAFT — 下書き</div>
+        <div class="t">ふるさと納税ガイド for 大学生</div>
+        <div class="s">7分前に編集 · 完成度 60%</div>
+      </div>
+      <div class="arrow">→</div>
+    </a>
+    <div class="grid-2" id="postsGrid"></div>
+  </div>
+
+  <!-- LIKED TAB -->
+  <div class="tab-content" data-content="liked">
+    <div class="grid-2" id="likedGrid"></div>
+    <div class="more-link">あと 41 件 →</div>
+  </div>
+
+  <!-- SAVED TAB -->
+  <div class="tab-content" data-content="saved">
+    <div class="grid-2" id="savedGrid"></div>
+    <div class="more-link">あと 8 件 →</div>
+  </div>
+
+  <!-- FOLLOWING TAB -->
+  <div class="tab-content" data-content="follow">
+    <div class="follow-list" id="followList"></div>
+    <div class="more-link">あと 148 人 →</div>
+  </div>
+
+  <!-- ====== ACTIVITY FEED ====== -->
+  <div class="section">
+    <span class="kicker">— RECENT ACTIVITY</span>
+    <h2>最近のアクティビティ</h2>
+  </div>
+  <div class="activity">
+    <div class="act-item">
+      <div class="act-icon followers">👥</div>
+      <div>
+        <div class="act-text"><strong>山田 リサ</strong> さんがあなたをフォローしました</div>
+        <div class="act-time">5分前</div>
+      </div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon likes">♥</div>
+      <div>
+        <div class="act-text">「<strong>学食AI予測</strong>」に <span class="accent">+5 ♥</span> がつきました</div>
+        <div class="act-time">12分前</div>
+      </div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon comments">💬</div>
+      <div>
+        <div class="act-text"><strong>中村 リョウ</strong> さんが「学食AI予測」にコメントしました</div>
+        <div class="act-time">1時間前</div>
+      </div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon rank">🏆</div>
+      <div>
+        <div class="act-text">「<strong>ゼミ予習スプリント</strong>」が <span class="accent">新着ランキング 2位</span> に！</div>
+        <div class="act-time">3時間前</div>
+      </div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon likes">♥</div>
+      <div>
+        <div class="act-text">「<strong>通学電車スタディマップ</strong>」に <span class="accent">+12 ♥</span></div>
+        <div class="act-time">5時間前</div>
+      </div>
+    </div>
+    <div class="act-item">
+      <div class="act-icon followers">👥</div>
+      <div>
+        <div class="act-text"><span class="accent">+3 フォロワー</span> 増えました</div>
+        <div class="act-time">6時間前</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a class="nav-item" href="campus_innovation_home.html">
+      <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
+      <span class="label">HOME</span>
+    </a>
+    <a class="nav-item" href="explore.html">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span class="label">EXPLORE</span>
+    </a>
+    <a class="nav-post" href="post.html">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    </a>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M9 18V6a3 3 0 016 0v12"/><circle cx="12" cy="20" r="2"/></svg>
+      <span class="label">IDEAS</span>
+    </div>
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+      <span class="label">ME</span>
+    </div>
+  </nav>
+
+</div>
+
+<script>
+// ====== Data ======
+
+// Yuki's own posts (5)
+const myPosts = [
+  { id: '001', emoji: '🍱', title: '学食AI予測', tag: '今日の混雑も、品切れも、AIがおしえる。', cat: 'FOOD TECH', theme: 'vermillion', likes: 312, comments: 28 },
+  { id: '010', emoji: '🍙', title: 'お弁当MAP', tag: 'キャンパス周辺、安いお弁当を全部見える化。', cat: 'LOCAL', theme: 'sun', likes: 234, comments: 22 },
+  { id: '002', emoji: '⚡', title: 'ゼミ予習スプリント', tag: '15分で予習が終わる、AIアシスト。', cat: 'EDU TECH', theme: 'indigo', likes: 156, comments: 19 },
+  { id: '003', emoji: '🚃', title: '通学電車スタディマップ', tag: '通学時間、誰と何を勉強する？', cat: 'COMMUNITY', theme: 'mint', likes: 89, comments: 11 },
+  { id: '007', emoji: '💸', title: 'M365学割解説', tag: '経済学部生のための、学割活用フル攻略。', cat: 'FINANCE', theme: 'rose', likes: 67, comments: 8 },
+];
+
+// Liked ideas (showing 6)
+const likedPosts = [
+  { id: '004', emoji: '👕', title: '古着リレー', tag: '着なくなった服が、後輩のスタイルに。', cat: 'SUSTAIN', theme: 'sun', likeDate: '04.24' },
+  { id: '005', emoji: '🔬', title: '研究室24時間化', tag: '夜こそ、研究は加速する。', cat: 'RESEARCH', theme: 'navy', likeDate: '04.23' },
+  { id: '002', emoji: '🧠', title: 'AIノート要約', tag: '講義の音声を、AIが3分で要約。', cat: 'EDU TECH', theme: 'indigo', likeDate: '04.22' },
+  { id: '003', emoji: '🤝', title: 'サークル仲間検索', tag: '「同じ熱量の人」と出会う。', cat: 'COMMUNITY', theme: 'mint', likeDate: '04.20' },
+  { id: '008', emoji: '🌙', title: '深夜カフェ勉強会', tag: '午前3時、誰かと一緒なら頑張れる。', cat: 'STUDY', theme: 'teal', likeDate: '04.19' },
+  { id: '011', emoji: '💬', title: '匿名質問BOT', tag: '教授に聞きにくい、を解決する。', cat: 'EDU TECH', theme: 'rose', likeDate: '04.18' },
+];
+
+// Saved (4)
+const savedPosts = [
+  { id: '009', emoji: '📚', title: '教科書リレーフリマ', tag: '教科書、後輩に渡せばゼロ円。', cat: 'SUSTAIN', theme: 'mint' },
+  { id: '010', emoji: '🍜', title: 'グルメMAP', tag: '学割クーポン付き、最強の地図。', cat: 'LOCAL', theme: 'sun' },
+  { id: '007', emoji: '💸', title: '学割シェア', tag: '使わない学割、誰かに譲ろう。', cat: 'FINANCE', theme: 'rose' },
+  { id: '006', emoji: '📍', title: '忘れ物GPS', tag: 'もう泣かせない、置き忘れた水筒。', cat: 'LIFE HACK', theme: 'navy' },
+];
+
+// Following (8)
+const following = [
+  { name: '中村 リョウ', dept: '情報学部 2年', portrait: 'ryou' },
+  { name: '渡辺 ミナミ', dept: '社会学部 1年', portrait: 'minami' },
+  { name: '佐藤 ハルト', dept: '理工学部 院M2', portrait: 'haruto' },
+  { name: '山田 リサ', dept: '商学部 3年', portrait: 'risa' },
+  { name: '高橋 マイ', dept: '観光学部 3年', portrait: 'mai' },
+  { name: '森田 リオ', dept: '環境学部 4年', portrait: 'rio' },
+  { name: '岡本 ソウタ', dept: '工学部 3年', portrait: 'souta' },
+  { name: '田中 ユイ', dept: '文学部 4年', portrait: 'yui' },
+];
+
+// ====== Renderers ======
+function cardHTML(p, metaText) {
+  return `
+    <a class="idea-card" href="detail.html?id=${p.id}">
+      <div class="idea-thumb theme-${p.theme}">
+        <svg class="thumb-art" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><use href="#art-${p.id}"/></svg>
+        <span class="topline">${p.cat}</span>
+        <div class="emoji-bg">${p.emoji}</div>
+        <div class="logo">${p.title}</div>
+        <div class="menu-btn" onclick="event.preventDefault();event.stopPropagation();">⋯</div>
+      </div>
+      <p class="idea-tagline">${p.tag}</p>
+      <h3 class="idea-title">${p.title}</h3>
+      <p class="idea-meta">${metaText}</p>
+    </a>
+  `;
+}
+
+document.getElementById('postsGrid').innerHTML = myPosts.map(p =>
+  cardHTML(p, `<span class="l">♥ ${p.likes}</span> <span class="dot"></span> 💬 ${p.comments}`)
+).join('');
+
+document.getElementById('likedGrid').innerHTML = likedPosts.map(p =>
+  cardHTML(p, `♥ <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;">${p.likeDate}</span> にハート`)
+).join('');
+
+document.getElementById('savedGrid').innerHTML = savedPosts.map(p =>
+  cardHTML(p, `🔖 保存中`)
+).join('');
+
+const followListEl = document.getElementById('followList');
+followListEl.innerHTML = following.map((u, i) => `
+  <div class="follow-item">
+    <div class="av"><svg viewBox="0 0 100 100"><use href="#portrait-${u.portrait}"/></svg></div>
+    <div class="who">
+      <div class="n">${u.name}</div>
+      <div class="d">${u.dept}</div>
+    </div>
+    <button class="follow-btn following" data-idx="${i}">フォロー中</button>
+  </div>
+`).join('');
+
+// Follow toggle
+followListEl.querySelectorAll('.follow-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const isFollowing = btn.classList.contains('following');
+    btn.classList.toggle('following');
+    btn.textContent = isFollowing ? 'フォロー' : 'フォロー中';
+  });
+});
+
+// ====== Tab switching ======
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelector(`[data-content="${t.dataset.tab}"]`).classList.add('active');
+  });
+});
+
+// Innovation score number animation on load
+const big = document.querySelector('.iscore .big-num');
+const target = 1840;
+let current = 0;
+const step = Math.ceil(target / 30);
+const interval = setInterval(() => {
+  current += step;
+  if (current >= target) { current = target; clearInterval(interval); }
+  big.textContent = current.toLocaleString();
+}, 25);
+</script>
+
+</body>
+</html>

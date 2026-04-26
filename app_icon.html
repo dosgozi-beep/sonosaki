@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜ブランディング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    padding: 28px 16px 48px; color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 100%; max-width: 412px;
+    background: var(--cream); border-radius: 44px;
+    overflow: hidden; position: relative; padding-bottom: 24px;
+    box-shadow: 0 0 0 2px #2A2333, 0 0 0 12px #14111B, 0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65), 0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B; border-radius: 16px; z-index: 5;
+  }
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative; z-index: 4;
+    padding: 6px 16px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em; color: var(--vermillion); margin-top: 3px;
+  }
+
+  /* === Section === */
+  .section { padding: 14px 22px 0; position: relative; z-index: 2; }
+  .section .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .section .kicker::before { content: ""; width: 18px; height: 2px; background: var(--vermillion); }
+  .section h2 {
+    margin: 6px 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px; letter-spacing: -.02em; color: var(--ink);
+  }
+  .section h2 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 4px;
+  }
+  .section .hint {
+    margin: 0 0 12px;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* === Hero icon (the primary/official one) === */
+  .hero-icon-card {
+    margin: 18px 22px 0;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 5px 5px 0 var(--vermillion);
+    padding: 28px 20px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .hero-icon-card::before {
+    content: "OFFICIAL";
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: .15em;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    transform: rotate(8deg);
+  }
+  .hero-icon {
+    width: 144px; height: 144px;
+    margin: 0 auto;
+    background: var(--ink);
+    color: var(--sun);
+    border: 3px solid var(--ink);
+    border-radius: 32px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 84px;
+    line-height: 1;
+    transform: rotate(-6deg);
+    box-shadow: 8px 8px 0 var(--vermillion), 16px 16px 0 var(--sun);
+    position: relative;
+  }
+  .hero-icon::after {
+    content: "";
+    position: absolute;
+    top: -10px; right: -10px;
+    width: 26px; height: 26px;
+    background: var(--vermillion);
+    border-radius: 50%;
+    border: 3px solid var(--cream);
+  }
+  .hero-meta {
+    margin-top: 24px;
+  }
+  .hero-meta .name {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .hero-meta .desc {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  /* === Variants grid === */
+  .variants {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0 22px;
+    margin-top: 12px;
+    position: relative; z-index: 2;
+  }
+  .variant {
+    text-align: center;
+  }
+  .variant .icon-frame {
+    aspect-ratio: 1;
+    border-radius: 22px;
+    border: 2px solid var(--ink);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 3px 3px 0 var(--ink);
+    cursor: pointer;
+    transition: transform .2s ease;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 50px;
+    line-height: 1;
+  }
+  .variant .icon-frame:hover { transform: translateY(-3px) rotate(-2deg); }
+
+  /* Variant styles */
+  .v-classic { background: var(--ink); color: var(--sun); }
+  .v-classic::before { content: "閃"; }
+  .v-vermillion { background: var(--vermillion); color: var(--cream); }
+  .v-vermillion::before { content: "閃"; }
+  .v-sun { background: var(--sun); color: var(--ink); }
+  .v-sun::before { content: "閃"; }
+  .v-paper { background: var(--cream); color: var(--ink); border-color: var(--ink); }
+  .v-paper::before { content: "閃"; }
+  .v-gradient {
+    background: linear-gradient(135deg, var(--vermillion), var(--sun));
+    color: var(--ink);
+  }
+  .v-gradient::before { content: "閃"; }
+  .v-stripe {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--vermillion) 0 16px,
+      var(--sun) 16px 32px
+    );
+    color: var(--ink);
+    position: relative;
+  }
+  .v-stripe::before {
+    content: "閃";
+    background: var(--cream);
+    width: 70%; height: 70%;
+    border-radius: 50%;
+    border: 2.5px solid var(--ink);
+    display: grid;
+    place-items: center;
+  }
+
+  .variant .vname {
+    margin-top: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--ink);
+    letter-spacing: .12em;
+  }
+
+  /* === Sizes panel === */
+  .sizes-card {
+    margin: 14px 22px 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+    position: relative; z-index: 2;
+  }
+  .sizes-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .size-item {
+    text-align: center;
+  }
+  .size-icon {
+    background: var(--ink);
+    color: var(--sun);
+    border: 1.5px solid var(--ink);
+    display: grid;
+    place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    margin: 0 auto;
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .s-1024 { width: 88px; height: 88px; border-radius: 22px; font-size: 50px; }
+  .s-512 { width: 64px; height: 64px; border-radius: 16px; font-size: 36px; }
+  .s-180 { width: 44px; height: 44px; border-radius: 11px; font-size: 24px; }
+  .s-120 { width: 36px; height: 36px; border-radius: 9px; font-size: 20px; }
+  .s-60 { width: 24px; height: 24px; border-radius: 6px; font-size: 14px; }
+  .size-name {
+    margin-top: 5px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+  .size-desc {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    color: var(--ink-2);
+    margin-top: 1px;
+  }
+
+  /* === Home screen mockups === */
+  .homescreen {
+    margin: 14px 22px 0;
+    background: linear-gradient(135deg, #1a1a2e, #2d3047);
+    border: 2px solid var(--ink);
+    border-radius: 22px;
+    padding: 18px 16px 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--ink);
+    z-index: 2;
+  }
+  .homescreen::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at top, rgba(232,65,43,.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .homescreen.android {
+    background: linear-gradient(135deg, #2d4a3e, #1a2d2a);
+  }
+  .homescreen.android::before {
+    background: radial-gradient(ellipse at top, rgba(108,212,182,.15) 0%, transparent 60%);
+  }
+  .home-platform {
+    position: absolute;
+    top: 10px; right: 12px;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 8.5px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    letter-spacing: .12em;
+    backdrop-filter: blur(6px);
+  }
+  .home-time {
+    color: #fff;
+    text-align: center;
+    margin: 6px 0 14px;
+  }
+  .home-time .h {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .home-time .d {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    margin-top: 4px;
+    opacity: .85;
+    letter-spacing: .04em;
+  }
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px 8px;
+    padding: 0 4px;
+  }
+  .home-app {
+    text-align: center;
+  }
+  .home-app .ic {
+    aspect-ratio: 1;
+    border-radius: 14px;
+    margin: 0 auto;
+    display: grid; place-items: center;
+    font-size: 22px;
+    color: #fff;
+    font-weight: 800;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  }
+  .home-app .ic.app-1 { background: linear-gradient(135deg, #1DB954, #169c46); }
+  .home-app .ic.app-2 { background: linear-gradient(135deg, #ff7c61, #ff3b30); }
+  .home-app .ic.app-3 { background: linear-gradient(135deg, #4A90E2, #2a5db8); }
+  .home-app .ic.app-4 { background: linear-gradient(135deg, #FFB400, #FF8800); }
+  .home-app .ic.app-5 { background: linear-gradient(135deg, #6CD4B6, #1B7F5A); }
+  .home-app .ic.app-6 { background: #1d1d1f; color: #fff; }
+  .home-app .ic.app-7 { background: linear-gradient(135deg, #C13584, #833AB4); }
+  .home-app .ic.app-8 { background: linear-gradient(135deg, #00A8E8, #0066b3); }
+  .home-app .ic.app-9 { background: #25D366; }
+  .home-app .ic.app-10 { background: linear-gradient(135deg, #fcb045, #fd1d1d); }
+  .home-app .ic.app-11 { background: linear-gradient(135deg, #4267B2, #1e3a8a); }
+  /* Our brand icon — featured with badge & glow */
+  .home-app.featured .ic {
+    background: var(--ink);
+    color: var(--sun);
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 28px;
+    position: relative;
+    box-shadow: 0 0 0 2px var(--sun), 0 4px 20px rgba(255,206,46,.5);
+    animation: home-bounce 2.4s ease-in-out infinite;
+  }
+  @keyframes home-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  .home-app.featured .ic::after {
+    content: "5";
+    position: absolute;
+    top: -4px; right: -4px;
+    width: 18px; height: 18px;
+    background: var(--vermillion);
+    color: #fff;
+    border: 2px solid #1a1a2e;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+  }
+  .home-app .lbl {
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    margin-top: 4px;
+    text-shadow: 0 1px 2px rgba(0,0,0,.5);
+    letter-spacing: 0;
+  }
+  .home-app.featured .lbl {
+    color: var(--sun);
+    font-weight: 800;
+  }
+  .home-dock {
+    margin-top: 14px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 14px;
+    padding: 6px 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    backdrop-filter: blur(8px);
+  }
+  .home-dock .home-app .ic {
+    aspect-ratio: 1;
+    width: 36px;
+  }
+
+  /* === Action buttons === */
+  .actions {
+    margin: 18px 22px 0;
+    display: flex;
+    gap: 8px;
+    position: relative; z-index: 2;
+  }
+  .action-btn {
+    flex: 1;
+    background: var(--ink);
+    color: var(--sun);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 10px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 11.5px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--vermillion);
+    transition: transform .15s ease;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .action-btn:hover { transform: translateY(-2px); }
+  .action-btn.secondary {
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  /* === Brand specs card === */
+  .specs {
+    margin: 14px 22px 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative; z-index: 2;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .spec-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px dashed rgba(20,17,27,.15);
+    font-size: 11.5px;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-row .l {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .spec-row .v {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .spec-row .swatch {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--ink);
+    border-radius: 4px;
+  }
+
+  /* Toast */
+  .toast {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 1.5px solid var(--ink);
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .35s cubic-bezier(.5,1.4,.5,1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="campus_innovation_home.html" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="flex:1;">
+      <div class="ja">ブランディング</div>
+      <div class="en">APP IDENTITY</div>
+    </div>
+    <button class="icon-btn" id="downloadBtn" aria-label="ダウンロード">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+    </button>
+  </header>
+
+  <!-- ====== HERO ICON ====== -->
+  <div class="hero-icon-card">
+    <div class="hero-icon">閃</div>
+    <div class="hero-meta">
+      <div class="name">キャンパスイノベーション</div>
+      <div class="desc">"閃"（ひらめき）の漢字をブランドマークに、<br>サン色×ヴァーミリオンのオフセット影で立体感。</div>
+    </div>
+  </div>
+
+  <!-- ====== Splash demo link ====== -->
+  <div class="actions">
+    <a class="action-btn" href="splash.html">
+      ▶︎ スプラッシュを再生
+    </a>
+    <button class="action-btn secondary" id="copyBtn">
+      📋 SVGをコピー
+    </button>
+  </div>
+
+  <!-- ====== VARIANTS ====== -->
+  <div class="section">
+    <span class="kicker">— VARIATIONS</span>
+    <h2><span class="accent">6種類</span>のテーマ</h2>
+    <p class="hint">用途・配置場所に応じて使い分け。デフォルトは黒地サン色。</p>
+  </div>
+  <div class="variants">
+    <div class="variant">
+      <div class="icon-frame v-classic"></div>
+      <div class="vname">CLASSIC</div>
+    </div>
+    <div class="variant">
+      <div class="icon-frame v-vermillion"></div>
+      <div class="vname">VERMILLION</div>
+    </div>
+    <div class="variant">
+      <div class="icon-frame v-sun"></div>
+      <div class="vname">SUN</div>
+    </div>
+    <div class="variant">
+      <div class="icon-frame v-paper"></div>
+      <div class="vname">PAPER</div>
+    </div>
+    <div class="variant">
+      <div class="icon-frame v-gradient"></div>
+      <div class="vname">GRADIENT</div>
+    </div>
+    <div class="variant">
+      <div class="icon-frame v-stripe"></div>
+      <div class="vname">STRIPE</div>
+    </div>
+  </div>
+
+  <!-- ====== SIZES ====== -->
+  <div class="section">
+    <span class="kicker">— SIZES</span>
+    <h2>各書き出しサイズ</h2>
+    <p class="hint">App Store・Google Play・Web favicon すべて対応。</p>
+  </div>
+  <div class="sizes-card">
+    <div class="sizes-row">
+      <div class="size-item">
+        <div class="size-icon s-1024">閃</div>
+        <div class="size-name">1024×1024</div>
+        <div class="size-desc">App Store</div>
+      </div>
+      <div class="size-item">
+        <div class="size-icon s-512">閃</div>
+        <div class="size-name">512×512</div>
+        <div class="size-desc">Play Store</div>
+      </div>
+      <div class="size-item">
+        <div class="size-icon s-180">閃</div>
+        <div class="size-name">180</div>
+        <div class="size-desc">iOS</div>
+      </div>
+      <div class="size-item">
+        <div class="size-icon s-120">閃</div>
+        <div class="size-name">120</div>
+        <div class="size-desc">iOS @2x</div>
+      </div>
+      <div class="size-item">
+        <div class="size-icon s-60">閃</div>
+        <div class="size-name">60</div>
+        <div class="size-desc">favicon</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== HOMESCREEN: iOS ====== -->
+  <div class="section">
+    <span class="kicker">— ON HOME SCREEN</span>
+    <h2>ホーム画面で見ると</h2>
+    <p class="hint">他のアプリと並んだとき、ちゃんと見つけられるか。</p>
+  </div>
+  <div class="homescreen">
+    <span class="home-platform">iOS</span>
+    <div class="home-time">
+      <div class="h">9:41</div>
+      <div class="d">月曜日, 4月27日</div>
+    </div>
+    <div class="home-grid">
+      <div class="home-app"><div class="ic app-1">♫</div><div class="lbl">Music</div></div>
+      <div class="home-app"><div class="ic app-2">📷</div><div class="lbl">Photo</div></div>
+      <div class="home-app"><div class="ic app-3">📱</div><div class="lbl">Phone</div></div>
+      <div class="home-app"><div class="ic app-4">📅</div><div class="lbl">Cal</div></div>
+      <div class="home-app"><div class="ic app-7">📷</div><div class="lbl">Insta</div></div>
+      <div class="home-app"><div class="ic app-8">💬</div><div class="lbl">Twitter</div></div>
+      <div class="home-app featured"><div class="ic">閃</div><div class="lbl">Campus</div></div>
+      <div class="home-app"><div class="ic app-9">📞</div><div class="lbl">Wapp</div></div>
+      <div class="home-app"><div class="ic app-6">🍎</div><div class="lbl">Notes</div></div>
+      <div class="home-app"><div class="ic app-10">📺</div><div class="lbl">YT</div></div>
+      <div class="home-app"><div class="ic app-5">🌿</div><div class="lbl">Health</div></div>
+      <div class="home-app"><div class="ic app-11">🎵</div><div class="lbl">Spotify</div></div>
+    </div>
+    <div class="home-dock">
+      <div class="home-app"><div class="ic app-3">📱</div></div>
+      <div class="home-app"><div class="ic app-2">✉️</div></div>
+      <div class="home-app"><div class="ic app-1">🎵</div></div>
+      <div class="home-app"><div class="ic app-8">🌐</div></div>
+    </div>
+  </div>
+
+  <!-- ====== HOMESCREEN: Android ====== -->
+  <div class="homescreen android" style="margin-top: 12px;">
+    <span class="home-platform">Android</span>
+    <div class="home-time">
+      <div class="h">9:41</div>
+      <div class="d">Mon, Apr 27</div>
+    </div>
+    <div class="home-grid">
+      <div class="home-app"><div class="ic app-3">📱</div><div class="lbl">Phone</div></div>
+      <div class="home-app"><div class="ic app-2">✉️</div><div class="lbl">Mail</div></div>
+      <div class="home-app"><div class="ic app-7">📷</div><div class="lbl">Insta</div></div>
+      <div class="home-app"><div class="ic app-9">💬</div><div class="lbl">Wapp</div></div>
+      <div class="home-app featured"><div class="ic">閃</div><div class="lbl">Campus</div></div>
+      <div class="home-app"><div class="ic app-1">🎵</div><div class="lbl">Music</div></div>
+      <div class="home-app"><div class="ic app-10">📺</div><div class="lbl">YT</div></div>
+      <div class="home-app"><div class="ic app-4">📅</div><div class="lbl">Cal</div></div>
+    </div>
+  </div>
+
+  <!-- ====== BRAND SPECS ====== -->
+  <div class="section">
+    <span class="kicker">— BRAND SPECS</span>
+    <h2>仕様メモ</h2>
+  </div>
+  <div class="specs">
+    <div class="spec-row">
+      <span class="l">背景色</span>
+      <span class="v"><span class="swatch" style="background:var(--ink);"></span>#14111B / INK</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">マーク色</span>
+      <span class="v"><span class="swatch" style="background:var(--sun);"></span>#FFCE2E / SUN</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">影 (1段目)</span>
+      <span class="v"><span class="swatch" style="background:var(--vermillion);"></span>#E8412B / VERMILLION</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">影 (2段目)</span>
+      <span class="v"><span class="swatch" style="background:var(--sun);"></span>#FFCE2E / SUN</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">マーク</span>
+      <span class="v">"閃" / RocknRoll One 400</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">傾き</span>
+      <span class="v">−6° rotate</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">角丸 (1024px時)</span>
+      <span class="v">228px (22.27%)</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">セーフエリア</span>
+      <span class="v">中央 80% / マージン 10%</span>
+    </div>
+    <div class="spec-row">
+      <span class="l">推奨用途</span>
+      <span class="v">CLASSIC が標準</span>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">✓ コピーしました</div>
+
+</div>
+
+<script>
+// Copy SVG button
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" rx="228" fill="#14111B"/>
+  <text x="512" y="612" font-family="RocknRoll One, sans-serif" font-size="600"
+    fill="#FFCE2E" text-anchor="middle" transform="rotate(-6 512 512)">閃</text>
+  <circle cx="850" cy="174" r="80" fill="#E8412B" stroke="#FBF5E5" stroke-width="20"/>
+</svg>`;
+  navigator.clipboard.writeText(svg).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
+  });
+});
+
+// Download button (just demo)
+document.getElementById('downloadBtn').addEventListener('click', () => {
+  const t = document.getElementById('toast');
+  t.textContent = '✓ アイコンセット (.zip) を準備中...';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+});
+
+// Variant click — flash to show selection
+document.querySelectorAll('.variant .icon-frame').forEach(v => {
+  v.addEventListener('click', () => {
+    v.style.transform = 'scale(.95) rotate(-8deg)';
+    setTimeout(() => { v.style.transform = ''; }, 200);
+    const t = document.getElementById('toast');
+    t.textContent = `✓ ${v.parentElement.querySelector('.vname').textContent} を選択`;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1500);
+  });
+});
+</script>
+
+</body>
+</html>

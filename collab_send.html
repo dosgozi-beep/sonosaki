@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜コラボ申請</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8; --purple-light: #D27BFF;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(147,51,168,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    padding: 28px 16px 48px; color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 100%; max-width: 412px;
+    background: var(--cream); border-radius: 44px;
+    overflow: hidden; position: relative; padding-bottom: 90px;
+    box-shadow: 0 0 0 2px #2A2333, 0 0 0 12px #14111B, 0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65), 0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B; border-radius: 16px; z-index: 5;
+  }
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  .topbar {
+    position: relative; z-index: 4; padding: 6px 16px 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 11px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    text-decoration: none; color: var(--ink); flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px; letter-spacing: -.01em; line-height: 1; color: var(--ink);
+  }
+  .topbar .en {
+    display: block; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; letter-spacing: .25em; color: var(--purple); margin-top: 3px;
+  }
+  .draft-btn {
+    background: transparent; border: 1.5px solid var(--ink);
+    border-radius: 10px; padding: 7px 11px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px; color: var(--ink);
+    cursor: pointer; letter-spacing: .12em; flex-shrink: 0;
+  }
+
+  /* Envelope (recipient + idea) */
+  .envelope {
+    margin: 0 18px;
+    background: var(--paper); border: 2px solid var(--ink);
+    border-radius: 14px; box-shadow: 4px 4px 0 var(--purple);
+    overflow: hidden; position: relative; z-index: 2;
+  }
+  .envelope-stamp {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--purple); color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 4px 8px; border-radius: 4px;
+    transform: rotate(8deg); border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink); letter-spacing: .15em; z-index: 2;
+  }
+  .envelope-to {
+    padding: 12px 14px 10px; display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px dashed rgba(20,17,27,.2);
+  }
+  .envelope-to .label {
+    background: var(--ink); color: var(--sun);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 3px 7px; border-radius: 3px; letter-spacing: .15em; flex-shrink: 0;
+  }
+  .envelope-to .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--cream-2);
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .envelope-to .avatar svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .envelope-to .who { flex: 1; line-height: 1.25; min-width: 0; }
+  .envelope-to .who .n { font-weight: 900; font-size: 13px; }
+  .envelope-to .who .d {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px; color: var(--ink-2);
+    margin-top: 2px; letter-spacing: .04em;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .envelope-idea {
+    padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .mini-card {
+    width: 90px; aspect-ratio: 16 / 10;
+    border-radius: 8px; border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    overflow: hidden; color: #fff; padding: 6px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; flex-shrink: 0;
+  }
+  .mini-card .thumb-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .mini-card > *:not(.thumb-art) {
+    position: relative;
+    z-index: 1;
+  }
+  .mini-card .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95); color: var(--ink);
+    font-size: 7px; font-weight: 800;
+    padding: 1px 4px; border-radius: 2px; line-height: 1;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+  .mini-card .ml {
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 11px; line-height: 1.05;
+    text-shadow: 1.5px 1.5px 0 rgba(20,17,27,.5);
+  }
+  .mini-card .me {
+    display: none;
+  }
+  .mini-card.theme-vermillion { background: linear-gradient(160deg,#E8412B,#FF7F3F); }
+  .mini-card.theme-indigo { background: linear-gradient(160deg,#4A45D6,#7B6CFF); }
+  .mini-card.theme-mint { background: linear-gradient(160deg,#1B7F5A,#6CD4B6); }
+  .mini-card.theme-sun { background: linear-gradient(160deg,#D4A100,#FFCE2E); color: var(--ink); }
+  .mini-card.theme-sun .topline { background: var(--ink); color: var(--sun); }
+  .mini-card.theme-sun .ml { color: var(--ink); text-shadow: 1.5px 1.5px 0 rgba(255,255,255,.5); }
+  .mini-card.theme-navy { background: linear-gradient(160deg,#0E2C5C,#3F6FB0); }
+  .mini-card.theme-rose { background: linear-gradient(160deg,#C13F77,#FF93C5); }
+  .mini-card.theme-teal { background: linear-gradient(160deg,#1D7A7A,#48C7C7); }
+
+  .envelope-idea .info { flex: 1; line-height: 1.3; min-width: 0; }
+  .envelope-idea .info .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px; color: var(--ink-2);
+    letter-spacing: .15em; margin-bottom: 4px;
+  }
+  .envelope-idea .info .t {
+    font-weight: 900; font-size: 13px; color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .envelope-idea .info .s {
+    font-size: 10px; color: var(--ink-2);
+    margin-top: 3px; line-height: 1.4;
+  }
+
+  /* Tip card */
+  .tip-card {
+    margin: 18px 22px 0;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-left: 4px solid var(--sun);
+    border-radius: 10px; padding: 10px 12px;
+    display: flex; gap: 8px;
+    position: relative; z-index: 2;
+  }
+  .tip-card .icon { font-size: 18px; flex-shrink: 0; }
+  .tip-card .text { font-size: 11px; line-height: 1.55; color: var(--ink-2); }
+  .tip-card .text strong {
+    color: var(--ink); font-weight: 900;
+    display: block; font-size: 11.5px; margin-bottom: 2px;
+  }
+
+  /* Section */
+  .section {
+    position: relative; z-index: 2; padding: 18px 22px 4px;
+  }
+  .section .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--purple); letter-spacing: .25em; text-transform: uppercase;
+  }
+  .section .kicker::before { content: ""; width: 22px; height: 2px; background: var(--purple); }
+  .section h2 {
+    margin: 6px 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px; letter-spacing: -.02em; color: var(--ink);
+  }
+  .section h2 .accent { background: linear-gradient(transparent 60%, var(--purple-light) 60%); padding: 0 4px; color: var(--ink); }
+  .section .hint {
+    margin: 0 0 10px; font-size: 11px; color: var(--ink-2);
+    font-weight: 500; line-height: 1.55;
+  }
+
+  /* Form */
+  .form-section { padding: 0 22px; position: relative; z-index: 2; }
+  .field-label {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .field-label .name {
+    font-weight: 900; font-size: 12px; color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  .field-label .name .req { color: var(--purple); margin-left: 3px; }
+  .field-label .count {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px; color: var(--ink-2);
+  }
+  .input, .textarea {
+    width: 100%; background: var(--paper);
+    border: 1.5px solid var(--ink); border-radius: 10px;
+    padding: 10px 12px;
+    font-family: inherit; font-size: 13.5px; color: var(--ink);
+    outline: none; transition: box-shadow .15s ease;
+  }
+  .input:focus, .textarea:focus { box-shadow: 3px 3px 0 var(--purple); }
+  .textarea { min-height: 90px; resize: none; line-height: 1.7; }
+
+  /* Chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 999px; padding: 6px 11px;
+    font-family: inherit; font-weight: 800; font-size: 11px;
+    color: var(--ink); cursor: pointer;
+    transition: all .15s ease; user-select: none;
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.selected {
+    background: var(--purple); color: #fff;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .chip .em { font-size: 13px; }
+
+  /* Link rows */
+  .links-group { display: flex; flex-direction: column; gap: 8px; }
+  .link-row {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 10px; padding: 4px 8px 4px 12px;
+  }
+  .link-row .icon { font-size: 14px; flex-shrink: 0; }
+  .link-row input {
+    border: none; background: transparent; flex: 1;
+    font-family: inherit; font-size: 12.5px; color: var(--ink);
+    outline: none; padding: 8px 0;
+  }
+
+  /* Bottom CTA */
+  .bottom-bar {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 6;
+    background: var(--paper); border-top: 2px solid var(--ink);
+    padding: 12px 18px 24px; display: flex; gap: 10px;
+  }
+  .btn-back {
+    background: var(--paper); color: var(--ink);
+    border: 2px solid var(--ink); border-radius: 14px;
+    padding: 12px 16px;
+    font-family: inherit; font-weight: 800; font-size: 13px;
+    cursor: pointer; box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease; flex-shrink: 0;
+  }
+  .btn-send {
+    flex: 1; background: var(--purple); color: #fff;
+    border: 2px solid var(--ink); border-radius: 14px;
+    padding: 12px 14px;
+    font-family: inherit; font-weight: 800; font-size: 13px;
+    cursor: pointer; box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-back:hover, .btn-send:hover { transform: translateY(-2px); }
+  .btn-send svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* Success modal */
+  .success-overlay {
+    position: absolute; inset: 0; z-index: 99;
+    background: rgba(20,17,27,.88);
+    display: none; place-items: center; padding: 24px;
+    border-radius: 44px; overflow: hidden;
+  }
+  .success-overlay.active { display: grid; }
+  .success-card {
+    background: var(--cream); border: 2px solid var(--ink);
+    border-radius: 24px; box-shadow: 6px 6px 0 var(--purple);
+    padding: 32px 22px; text-align: center; max-width: 320px;
+    animation: bounceIn .55s cubic-bezier(.5,1.5,.5,1);
+    position: relative;
+  }
+  .success-card::before {
+    content: "🤝"; position: absolute;
+    top: -28px; left: -10px; font-size: 40px;
+    transform: rotate(-15deg); animation: float 2s ease-in-out infinite;
+  }
+  .success-card::after {
+    content: "✨"; position: absolute;
+    top: -14px; right: -8px; font-size: 28px;
+    transform: rotate(20deg); animation: float 2.4s ease-in-out infinite;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-15deg); } 50% { transform: translateY(-6px) rotate(-10deg); } }
+  @keyframes bounceIn {
+    from { transform: scale(.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .success-card .emoji { font-size: 56px; line-height: 1; margin-bottom: 6px; }
+  .success-card h2 {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 22px;
+    margin: 6px 0 10px; color: var(--ink);
+  }
+  .success-card p { margin: 0 0 18px; font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+  .success-actions { display: flex; flex-direction: column; gap: 8px; }
+  .success-actions a {
+    border: 2px solid var(--ink); border-radius: 14px; padding: 12px;
+    font-family: inherit; font-weight: 800; font-size: 12px;
+    cursor: pointer; box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+    text-decoration: none; text-align: center;
+  }
+  .success-actions a:hover { transform: translateY(-2px); }
+  .success-actions .primary { background: var(--purple); color: #fff; }
+  .success-actions .secondary { background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Idea Card Art Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <!-- 001 学食AI予測 - お弁当 + チャート -->
+    <symbol id="art-001" viewBox="0 0 200 120">
+      <rect x="40" y="55" width="100" height="48" rx="3" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" opacity="0.95"/>
+      <line x1="73" y1="55" x2="73" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <line x1="106" y1="55" x2="106" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <circle cx="56" cy="79" r="9" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="78" y="65" width="22" height="30" fill="#6CD4B6" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="123" cy="79" r="9" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="153" y="40" width="9" height="30" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="166" y="20" width="9" height="50" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="179" y="50" width="9" height="20" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="20" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="32" cy="14" r="1.8" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 002 AIノート要約 - 脳 + 線 -->
+    <symbol id="art-002" viewBox="0 0 200 120">
+      <path d="M70 40 Q55 38 50 50 Q40 58 45 72 Q40 85 55 90 Q60 100 75 95 Q90 100 100 92 Q115 95 120 82 Q130 75 125 60 Q130 50 115 45 Q110 35 95 38 Q85 32 70 40 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M65 55 Q70 60 75 55 M85 50 Q90 58 88 65 M75 70 Q85 75 100 70 M90 80 Q100 85 110 80" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="180" y2="40" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="55" x2="175" y2="55" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="70" x2="180" y2="70" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="85" x2="170" y2="85" stroke="#FFCE2E" stroke-width="3"/>
+      <circle cx="20" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="32" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 003 サークル仲間検索 - 2人 + ハート -->
+    <symbol id="art-003" viewBox="0 0 200 120">
+      <circle cx="65" cy="50" r="18" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="55" cy="48" r="2" fill="#14111B"/>
+      <circle cx="73" cy="48" r="2" fill="#14111B"/>
+      <path d="M58 56 Q65 60 72 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="65" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="50" r="18" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="125" cy="48" r="2" fill="#14111B"/>
+      <circle cx="143" cy="48" r="2" fill="#14111B"/>
+      <path d="M128 56 Q135 60 142 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="135" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M100 30 Q92 22 90 32 Q90 38 100 45 Q110 38 110 32 Q108 22 100 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+    </symbol>
+    
+    <!-- 004 古着リレー - シャツ + 矢印 -->
+    <symbol id="art-004" viewBox="0 0 200 120">
+      <path d="M65 40 L80 30 L90 38 Q100 45 110 38 L120 30 L135 40 L145 60 L130 65 L130 100 L70 100 L70 65 L55 60 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="50" r="5" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M155 65 L185 65 M180 60 L185 65 L180 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M30 65 L20 65 M25 60 L20 65 L25 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="170" cy="30" r="2.5" fill="#FFCE2E"/>
+      <circle cx="180" cy="20" r="1.8" fill="#FFCE2E"/>
+      <circle cx="20" cy="100" r="2" fill="#FFCE2E"/>
+    </symbol>
+    
+    <!-- 005 研究室24時間化 - 試験管 + 月 -->
+    <symbol id="art-005" viewBox="0 0 200 120">
+      <rect x="55" y="35" width="20" height="60" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="50" y="30" width="30" height="8" fill="#14111B"/>
+      <rect x="55" y="65" width="20" height="30" fill="#6CD4B6"/>
+      <circle cx="62" cy="80" r="2" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="68" cy="85" r="1.5" fill="#FBF5E5" opacity="0.7"/>
+      <rect x="95" y="45" width="20" height="50" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="90" y="40" width="30" height="8" fill="#14111B"/>
+      <rect x="95" y="70" width="20" height="25" fill="#FFCE2E"/>
+      <path d="M155 35 Q175 40 175 60 Q175 80 155 85 Q170 75 170 60 Q170 45 155 35 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="155" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 006 忘れ物GPS - ピン + 円波紋 -->
+    <symbol id="art-006" viewBox="0 0 200 120">
+      <circle cx="100" cy="60" r="38" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5"/>
+      <circle cx="100" cy="60" r="26" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7"/>
+      <path d="M100 25 Q85 25 85 45 Q85 55 100 75 Q115 55 115 45 Q115 25 100 25 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="45" r="6" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="100" cy="85" rx="15" ry="4" fill="#14111B" opacity="0.3"/>
+      <circle cx="40" cy="35" r="4" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="160" cy="90" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="170" cy="35" r="2" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 007 学割シェア - 札 + パーセンテージ -->
+    <symbol id="art-007" viewBox="0 0 200 120">
+      <rect x="40" y="40" width="80" height="50" rx="6" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" transform="rotate(-8 80 65)"/>
+      <circle cx="55" cy="55" r="3" fill="#14111B" transform="rotate(-8 80 65)"/>
+      <text x="65" y="73" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="24" fill="#14111B" transform="rotate(-8 80 65)">¥</text>
+      <rect x="100" y="55" width="60" height="40" rx="6" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5" transform="rotate(5 130 75)"/>
+      <text x="115" y="83" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="20" fill="#14111B" transform="rotate(5 130 75)">% OFF</text>
+      <circle cx="30" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="180" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="170" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 008 深夜カフェ - コップ + 三日月 -->
+    <symbol id="art-008" viewBox="0 0 200 120">
+      <path d="M155 30 Q175 35 175 55 Q175 75 155 80 Q170 70 170 55 Q170 40 155 30 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="25" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="90" r="1.5" fill="#FBF5E5"/>
+      <path d="M50 50 L50 95 Q50 105 60 105 L100 105 Q110 105 110 95 L110 50 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M110 60 Q125 60 125 75 Q125 90 110 90" fill="none" stroke="#14111B" stroke-width="2.5"/>
+      <ellipse cx="80" cy="55" rx="25" ry="5" fill="#6F4E37" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M65 35 Q67 30 70 35 Q70 40 67 42 Q65 40 65 35 Z M75 30 Q77 25 80 30 Q80 35 77 37 Q75 35 75 30 Z M85 35 Q87 30 90 35 Q90 40 87 42 Q85 40 85 35 Z" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="20" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 009 教科書リレー - 本 + 矢印 -->
+    <symbol id="art-009" viewBox="0 0 200 120">
+      <path d="M40 35 L40 95 L98 95 L98 35 L70 30 L40 35 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="69" y1="32" x2="69" y2="95" stroke="#14111B" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="65" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="60" x2="65" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="70" x2="60" y2="70" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="50" x2="92" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="60" x2="92" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="70" x2="88" y2="70" stroke="#14111B" stroke-width="1"/>
+      <path d="M110 65 L150 65 M145 60 L150 65 L145 70" stroke="#14111B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="155" y="40" width="35" height="50" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="160" y1="50" x2="185" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="58" x2="185" y2="58" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="66" x2="180" y2="66" stroke="#14111B" stroke-width="1"/>
+    </symbol>
+    
+    <!-- 010 グルメMAP - ラーメン + ピン -->
+    <symbol id="art-010" viewBox="0 0 200 120">
+      <ellipse cx="80" cy="80" rx="40" ry="12" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M40 80 Q40 60 80 60 Q120 60 120 80" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M55 70 Q60 50 70 60 Q80 50 90 60 Q100 50 105 65" stroke="#FBF5E5" stroke-width="2" fill="none"/>
+      <circle cx="62" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="78" cy="62" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="95" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <path d="M150 30 Q138 30 138 45 Q138 55 150 70 Q162 55 162 45 Q162 30 150 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="150" cy="45" r="5" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M30 30 L40 35 M180 90 L188 88" stroke="#FBF5E5" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="25" cy="100" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 011 匿名質問BOT - 吹き出し + ? -->
+    <symbol id="art-011" viewBox="0 0 200 120">
+      <path d="M40 30 Q30 30 30 42 L30 70 Q30 82 42 82 L60 82 L60 95 L75 82 L100 82 Q112 82 112 70 L112 42 Q112 30 100 30 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <text x="58" y="68" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="32" fill="#14111B">?</text>
+      <path d="M105 50 Q95 50 95 60 L95 80 Q95 90 105 90 L155 90 Q165 90 165 80 L165 60 Q165 50 155 50 L150 50 L145 40 L140 50 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="120" cy="70" r="2" fill="#14111B"/>
+      <circle cx="130" cy="70" r="2" fill="#14111B"/>
+      <circle cx="140" cy="70" r="2" fill="#14111B"/>
+      <circle cx="180" cy="30" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="40" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- art-default - generic decorative motif -->
+    <symbol id="art-default" viewBox="0 0 200 120">
+      <circle cx="50" cy="60" r="30" fill="none" stroke="#FBF5E5" stroke-width="2" opacity="0.5"/>
+      <circle cx="150" cy="60" r="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M70 30 L130 30 M70 90 L130 90" stroke="#FBF5E5" stroke-width="2" stroke-dasharray="4 3"/>
+      <circle cx="100" cy="60" r="8" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-rio" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 50 Q26 26 50 22 Q74 26 72 50 Q72 65 68 70 L68 50 Q60 35 50 32 Q40 35 32 50 L32 70 Q28 65 28 50 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-yui" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M26 45 Q24 25 45 20 Q65 18 74 30 Q76 45 70 60 L70 50 Q60 38 48 35 Q35 38 30 50 Q26 60 26 45 Z" fill="#14111B"/>
+      <path d="M28 28 Q40 20 56 22 L52 36 Q40 38 28 36 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 66 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-daichi" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#9333A8"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 Q28 22 50 22 Q72 22 72 40 Q72 28 50 26 Q35 28 28 40 Z" fill="#14111B"/>
+      <rect x="26" y="36" width="48" height="6" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="42" cy="54" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="54" r="1.5" fill="#14111B"/>
+      <path d="M44 65 Q50 68 56 65" stroke="#14111B" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-mai" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#9333A8" stroke="#14111B" stroke-width="2"/>
+      <path d="M22 50 Q20 25 36 18 Q50 14 64 18 Q80 25 78 50 L78 75 Q76 90 70 95 L70 50 Q66 38 50 33 Q34 38 30 50 L30 95 Q24 90 22 75 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-souta" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q28 22 50 22 Q72 22 72 42 L72 32 Q60 30 50 32 Q40 30 28 32 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-sasaki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q26 22 50 22 Q74 22 72 42 Q72 32 65 32 Q55 30 50 30 Q42 30 35 32 Q28 32 28 42 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-pending" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#F2EAD0"/>
+      <circle cx="50" cy="50" r="35" fill="#FFFDF6" stroke="#14111B" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="50" y="65" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="36" fill="#14111B">?</text>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" id="backBtn" href="detail.html?id=001" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div style="flex:1;">
+      <div class="ja">コラボ申請</div>
+      <div class="en">COLLAB REQUEST</div>
+    </div>
+    <button class="draft-btn" id="draftBtn">下書き保存</button>
+  </header>
+
+  <div class="envelope">
+    <div class="envelope-stamp">COLLAB</div>
+    <div class="envelope-to">
+      <span class="label">TO</span>
+      <div class="avatar" id="recAvatar"><svg viewBox="0 0 100 100"><use href="#portrait-sasaki"/></svg></div>
+      <div class="who">
+        <div class="n" id="recName">佐々木 ユウキ さん</div>
+        <div class="d" id="recDept">経済学部 3年 · ♥ 312 · @sasaki_yuki</div>
+      </div>
+    </div>
+    <div class="envelope-idea">
+      <div class="mini-card theme-vermillion" id="miniCard">
+        <svg class="thumb-art" id="miniArt" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><use href="#art-001"/></svg>
+        <span class="topline">FOOD TECH</span>
+        <span class="me">🍱</span>
+        <span class="ml">学食AI予測</span>
+      </div>
+      <div class="info">
+        <div class="lbl" id="ideaIdLabel">— RE: IDEA #001</div>
+        <div class="t" id="ideaTitle">学食AI予測</div>
+        <div class="s" id="ideaTagline">今日の混雑も、品切れも、AIがおしえる。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="icon">💡</div>
+    <div class="text">
+      <strong>申請が通りやすくなるコツ</strong>
+      自分のスキル・経験と「このアイディアと共鳴する理由」を具体的に書きましょう。受け取る側は1日に複数の申請を見ています。
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="kicker">— 01 / YOUR ROLE</span>
+    <h2>あなたの<span class="accent">役割</span></h2>
+    <p class="hint">複数選択OK。プロジェクトでどう関わりたいかを示してください。</p>
+  </div>
+  <div class="form-section">
+    <div class="chips" id="roleChips">
+      <span class="chip selected" data-role="ENGINEER"><span class="em">🛠️</span> ENGINEER</span>
+      <span class="chip" data-role="DESIGNER"><span class="em">🎨</span> DESIGNER</span>
+      <span class="chip" data-role="BUSINESS"><span class="em">💼</span> BUSINESS</span>
+      <span class="chip selected" data-role="RESEARCHER"><span class="em">🔬</span> RESEARCHER</span>
+      <span class="chip" data-role="WRITER"><span class="em">✍️</span> WRITER</span>
+      <span class="chip" data-role="MARKETER"><span class="em">📣</span> MARKETER</span>
+      <span class="chip" data-role="OTHER"><span class="em">🤝</span> その他</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="kicker">— 02 / WHY</span>
+    <h2>なぜ一緒にやりたい？</h2>
+    <p class="hint">共感ポイント、自分との関連性、なぜ今やる価値があるか。</p>
+  </div>
+  <div class="form-section">
+    <div class="field-label">
+      <span class="name">志望動機<span class="req">*</span></span>
+      <span class="count" id="whyCount">0/200</span>
+    </div>
+    <textarea id="whyText" class="textarea" maxlength="220">自分も商学部でデータ可視化の卒研をやっていて、学食関連のデータは扱った経験があります。同じ問題意識を持つ人と組めるのは嬉しいし、一緒に事業化まで持っていきたいです。</textarea>
+  </div>
+
+  <div class="section">
+    <span class="kicker">— 03 / CONTRIBUTION</span>
+    <h2>貢献できること</h2>
+    <p class="hint">スキル、経験、所属、ネットワーク、リソースなどを具体的に。</p>
+  </div>
+  <div class="form-section">
+    <div class="field-label">
+      <span class="name">あなたの強み<span class="req">*</span></span>
+      <span class="count" id="contribCount">0/200</span>
+    </div>
+    <textarea id="contribText" class="textarea" maxlength="220">Python＋Pandasでのデータ前処理、Streamlitでのダッシュボード制作。学食ヒアリング20件以上の実績あり。商学部の人脈で学食側との交渉も可能です。</textarea>
+  </div>
+
+  <div class="section">
+    <span class="kicker">— 04 / TIME</span>
+    <h2>関われる時間</h2>
+    <p class="hint">無理のない範囲で。途中で変わってもOKです。</p>
+  </div>
+  <div class="form-section">
+    <div class="chips" id="timeChips">
+      <span class="chip" data-time="light">週1〜3時間</span>
+      <span class="chip selected" data-time="medium">週3〜10時間</span>
+      <span class="chip" data-time="heavy">週10時間以上</span>
+      <span class="chip" data-time="project">期間限定（プロジェクト）</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="kicker">— 05 / LINKS（任意）</span>
+    <h2>ポートフォリオ・リンク</h2>
+    <p class="hint">作品集・GitHub・SNS・履歴書など、伝えたいリンクがあれば。</p>
+  </div>
+  <div class="form-section">
+    <div class="links-group">
+      <div class="link-row">
+        <span class="icon">🎨</span>
+        <input type="url" placeholder="ポートフォリオURL" value="https://yuki-tanaka.studio.site" />
+      </div>
+      <div class="link-row">
+        <span class="icon">🐱</span>
+        <input type="url" placeholder="GitHub URL" value="https://github.com/yuki-tanaka" />
+      </div>
+      <div class="link-row">
+        <span class="icon">🔗</span>
+        <input type="url" placeholder="その他のURL（SNS / 履歴書 など）" />
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="btn-back" onclick="window.history.back()">戻る</button>
+    <button class="btn-send" id="sendBtn">
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      申請を送る
+    </button>
+  </div>
+
+  <div class="success-overlay" id="successModal">
+    <div class="success-card">
+      <div class="emoji">🚀</div>
+      <h2>申請を送りました！</h2>
+      <p>
+        <strong id="recName2">佐々木 ユウキ さん</strong> から返答が来たら<br>
+        通知でお知らせします。<br>
+        平均返答時間は <strong>約8時間</strong>。
+      </p>
+      <div class="success-actions">
+        <a class="primary" id="successBack" href="detail.html?id=001">アイディアに戻る</a>
+        <a class="secondary" href="campus_innovation_home.html">ホームへ</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const ideaAuthors = {
+  '001': { name: '佐々木 ユウキ', portrait: 'sasaki', dept: '経済学部 3年', handle: '@sasaki_yuki', likes: 312, emoji: '🍱', title: '学食AI予測', tagline: '今日の混雑も、品切れも、AIがおしえる。', cat: 'FOOD TECH', theme: 'vermillion' },
+  '002': { name: '中村 リョウ', portrait: 'ryou', dept: '情報学部 2年', handle: '@nakamura_r', likes: 248, emoji: '🧠', title: 'AIノート要約', tagline: '講義の音声を、AIが3分で要約。', cat: 'EDU TECH', theme: 'indigo' },
+  '003': { name: '渡辺 ミナミ', portrait: 'minami', dept: '社会学部 1年', handle: '@minami_w', likes: 189, emoji: '🤝', title: 'サークル仲間検索', tagline: '「同じ熱量の人」と出会う。', cat: 'COMMUNITY', theme: 'mint' },
+  '004': { name: '森田 リオ', portrait: 'rio', dept: '環境学部 4年', handle: '@rio_morita', likes: 142, emoji: '👕', title: '古着リレー', tagline: '着なくなった服が、後輩のスタイルに。', cat: 'SUSTAIN', theme: 'sun' },
+  '005': { name: '佐藤 ハルト', portrait: 'haruto', dept: '理工学部 院M2', handle: '@haruto_s', likes: 198, emoji: '🔬', title: '研究室24時間化', tagline: '夜こそ、研究は加速する。', cat: 'RESEARCH', theme: 'navy' },
+  '006': { name: '岡本 ソウタ', portrait: 'souta', dept: '工学部 3年', handle: '@sota_okamoto', likes: 167, emoji: '📍', title: '忘れ物GPS', tagline: 'もう泣かせない、置き忘れた水筒。', cat: 'LIFE HACK', theme: 'navy' },
+  '007': { name: '山田 リサ', portrait: 'risa', dept: '商学部 3年', handle: '@risa_yamada', likes: 192, emoji: '💸', title: '学割シェア', tagline: '使わない学割、誰かに譲ろう。', cat: 'FINANCE', theme: 'rose' },
+  '008': { name: '田中 ユイ', portrait: 'yui', dept: '文学部 4年', handle: '@yui_tanaka', likes: 156, emoji: '🌙', title: '深夜カフェ勉強会', tagline: '午前3時、誰かと一緒なら頑張れる。', cat: 'STUDY', theme: 'teal' },
+  '009': { name: '鈴木 ナオ', portrait: 'risa', dept: '商学部 2年', handle: '@nao_suzuki', likes: 167, emoji: '📚', title: '教科書リレーフリマ', tagline: '教科書、後輩に渡せばゼロ円。', cat: 'SUSTAIN', theme: 'mint' },
+  '010': { name: '高橋 マイ', portrait: 'mai', dept: '観光学部 3年', handle: '@mai_takahashi', likes: 119, emoji: '🍜', title: 'キャンパスグルメMAP', tagline: '学割クーポン付き、最強の地図。', cat: 'LOCAL', theme: 'sun' },
+  '011': { name: '中村 アスカ', portrait: 'rio', dept: '文学部 2年', handle: '@asuka_n', likes: 98, emoji: '💬', title: '匿名質問BOT', tagline: '教授に聞きにくい、を解決する。', cat: 'EDU TECH', theme: 'rose' },
+};
+
+const params = new URLSearchParams(window.location.search);
+const ideaId = params.get('id') || '001';
+const r = ideaAuthors[ideaId] || ideaAuthors['001'];
+
+document.getElementById('recAvatar').innerHTML = `<svg viewBox="0 0 100 100"><use href="#portrait-${r.portrait}"/></svg>`;
+document.getElementById('recName').textContent = r.name + ' さん';
+document.getElementById('recDept').textContent = `${r.dept} · ♥ ${r.likes} · ${r.handle}`;
+document.getElementById('recName2').textContent = r.name + ' さん';
+document.getElementById('backBtn').href = 'detail.html?id=' + ideaId;
+document.getElementById('successBack').href = 'detail.html?id=' + ideaId;
+document.getElementById('ideaIdLabel').textContent = `— RE: IDEA #${ideaId}`;
+document.getElementById('ideaTitle').textContent = r.title;
+document.getElementById('ideaTagline').textContent = r.tagline;
+
+const mc = document.getElementById('miniCard');
+mc.className = 'mini-card theme-' + r.theme;
+mc.querySelector('.topline').textContent = r.cat;
+mc.querySelector('.me').textContent = r.emoji;
+mc.querySelector('.ml').textContent = r.title;
+document.querySelector('#miniArt use').setAttribute('href', '#art-' + ideaId);
+
+document.querySelectorAll('#roleChips .chip').forEach(c => {
+  c.addEventListener('click', () => c.classList.toggle('selected'));
+});
+document.querySelectorAll('#timeChips .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#timeChips .chip').forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+  });
+});
+
+function updateCount(id, countId, max) {
+  const el = document.getElementById(id);
+  const cnt = document.getElementById(countId);
+  cnt.textContent = `${el.value.length}/${max}`;
+}
+['whyText', 'contribText'].forEach((id, i) => {
+  const cid = ['whyCount', 'contribCount'][i];
+  document.getElementById(id).addEventListener('input', () => updateCount(id, cid, 200));
+  updateCount(id, cid, 200);
+});
+
+document.getElementById('draftBtn').addEventListener('click', () => {
+  const btn = document.getElementById('draftBtn');
+  btn.textContent = '✓ 保存済み';
+  btn.style.background = 'var(--mint)';
+  setTimeout(() => { btn.textContent = '下書き保存'; btn.style.background = ''; }, 1800);
+});
+document.getElementById('sendBtn').addEventListener('click', () => {
+  document.getElementById('successModal').classList.add('active');
+});
+</script>
+
+</body>
+</html>

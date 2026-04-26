@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜大学生のひらめきが集まる場所</title>
+<meta name="description" content="大学生のためのアイディア共有プラットフォーム。問題意識を共有し、共感する仲間と出会い、一緒にカタチにする。招待制ベータ版、参加者募集中。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* Paper grain overlay */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 200;
+    background-image: radial-gradient(rgba(20,17,27,.045) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* === Top bar === */
+  .topbar {
+    position: sticky;
+    top: 0; z-index: 50;
+    background: rgba(251, 245, 229, .92);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--ink);
+    padding: 14px 0;
+  }
+  .topbar .container {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .top-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--ink);
+    flex-shrink: 0;
+  }
+  .top-logo .mark {
+    width: 36px; height: 36px;
+    background: var(--ink); color: var(--sun);
+    border: 2px solid var(--ink); border-radius: 9px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 20px;
+    transform: rotate(-6deg);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .top-logo .name {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 14px;
+    line-height: 1.1;
+  }
+  .top-logo .name .en {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 8.5px;
+    letter-spacing: .25em; color: var(--vermillion);
+    margin-top: 1px;
+  }
+  .top-nav {
+    display: flex; gap: 4px;
+    flex: 1; justify-content: center;
+  }
+  .top-nav a {
+    padding: 8px 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--ink-2); text-decoration: none;
+    letter-spacing: .04em;
+    border-radius: 8px;
+    transition: all .15s ease;
+  }
+  .top-nav a:hover { background: var(--cream-2); color: var(--ink); }
+  @media (max-width: 768px) { .top-nav { display: none; } }
+  .top-cta {
+    background: var(--vermillion); color: #fff;
+    padding: 10px 16px;
+    font-family: inherit;
+    font-weight: 800; font-size: 12px;
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 var(--ink);
+    text-decoration: none;
+    transition: transform .15s ease;
+    white-space: nowrap;
+  }
+  .top-cta:hover { transform: translateY(-2px); }
+
+  /* === Hero === */
+  .hero {
+    padding: 60px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 60px; right: -150px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,206,46,.4) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(232,65,43,.3) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding: 40px 0 60px; }
+  }
+
+  .hero-text .beta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--vermillion);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10.5px;
+    letter-spacing: .2em;
+    margin-bottom: 24px;
+  }
+  .hero-text .beta-pill .dot {
+    width: 7px; height: 7px;
+    background: var(--vermillion);
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .4; transform: scale(.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  .hero-text h1 {
+    margin: 0 0 24px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -.03em;
+    color: var(--ink);
+  }
+  .hero-text h1 .accent {
+    background: linear-gradient(transparent 65%, var(--sun) 65%);
+    padding: 0 6px;
+  }
+  .hero-text h1 .vermillion {
+    color: var(--vermillion);
+  }
+  .hero-text .lead {
+    margin: 0 0 32px;
+    font-size: clamp(15px, 1.4vw, 18px);
+    line-height: 1.75;
+    color: var(--ink-2);
+    max-width: 540px;
+    font-weight: 500;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 22px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform .15s ease;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn:hover { transform: translateY(-3px); }
+  .btn-primary { background: var(--vermillion); color: #fff; }
+  .btn-primary svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round;
+  }
+  .btn-secondary { background: var(--paper); color: var(--ink); }
+
+  .hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .hero-trust .avatars {
+    display: flex;
+  }
+  .hero-trust .avatars .av {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    margin-left: -8px;
+    overflow: hidden;
+    background: var(--cream-2);
+  }
+  .hero-trust .avatars .av svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .hero-trust .avatars .av:first-child { margin-left: 0; }
+  .hero-trust strong { color: var(--ink); font-weight: 800; }
+
+  /* Hero phone container */
+  .hero-phones {
+    position: relative;
+    height: 580px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero-phones { height: 480px; }
+  }
+  .hero-phone {
+    position: absolute;
+    width: 280px;
+    aspect-ratio: 9/19.5;
+    background: var(--cream);
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 2px #2A2333,
+      0 0 0 10px #14111B,
+      0 0 0 11px #322B3D,
+      0 40px 80px -20px rgba(0,0,0,.45);
+    transition: transform .4s ease;
+  }
+  .hero-phone iframe {
+    border: none;
+    background: var(--cream);
+    pointer-events: none;
+    transform-origin: top left;
+  }
+  .hero-phone .notch-mini {
+    position: absolute; top: 6px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 22px;
+    background: #14111B; border-radius: 12px;
+    z-index: 10;
+  }
+  /* Phone 1: front, primary */
+  .hero-phone.p1 {
+    z-index: 3;
+    transform: rotate(-3deg);
+  }
+  .hero-phone.p1 iframe {
+    width: 412px;
+    height: 870px;
+    transform: scale(0.68);
+  }
+  /* Phone 2: behind left */
+  .hero-phone.p2 {
+    z-index: 2;
+    transform: translate(-160px, 30px) rotate(-12deg) scale(.85);
+    opacity: .85;
+  }
+  .hero-phone.p2 iframe {
+    width: 412px;
+    height: 870px;
+    transform: scale(0.68);
+  }
+  /* Phone 3: behind right */
+  .hero-phone.p3 {
+    z-index: 2;
+    transform: translate(160px, 40px) rotate(8deg) scale(.85);
+    opacity: .85;
+  }
+  .hero-phone.p3 iframe {
+    width: 412px;
+    height: 870px;
+    transform: scale(0.68);
+  }
+  @media (max-width: 900px) {
+    .hero-phone.p1 { transform: rotate(-2deg) scale(.85); }
+    .hero-phone.p2 { transform: translate(-110px, 20px) rotate(-12deg) scale(.7); }
+    .hero-phone.p3 { transform: translate(110px, 30px) rotate(8deg) scale(.7); }
+  }
+
+  /* Floating decoration around phones */
+  .float-deco {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+    animation: floaty 4s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+  }
+  .float-deco.fd1 {
+    top: 8%; left: 5%;
+    background: var(--sun);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    box-shadow: 3px 3px 0 var(--ink);
+    transform: rotate(-8deg);
+    animation-delay: 0s;
+  }
+  .float-deco.fd2 {
+    top: 12%; right: 5%;
+    background: var(--vermillion);
+    color: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    box-shadow: 3px 3px 0 var(--ink);
+    transform: rotate(6deg);
+    animation-delay: 1s;
+  }
+  .float-deco.fd3 {
+    bottom: 10%; left: 8%;
+    font-size: 36px;
+    animation-delay: 2s;
+  }
+  .float-deco.fd4 {
+    bottom: 18%; right: 6%;
+    font-size: 32px;
+    animation-delay: 1.5s;
+  }
+  @media (max-width: 600px) {
+    .float-deco.fd1, .float-deco.fd2 { display: none; }
+  }
+
+  /* === STATS BAR === */
+  .stats-bar {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 28px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    text-align: center;
+  }
+  @media (max-width: 700px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+  .stat .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1;
+    color: var(--sun);
+    letter-spacing: -.025em;
+  }
+  .stat .num .small {
+    font-size: .55em;
+    color: var(--cream);
+    margin-left: 2px;
+  }
+  .stat .lbl {
+    margin-top: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: rgba(251,245,229,.7);
+    letter-spacing: .2em;
+  }
+
+  /* === Section common === */
+  section.feature {
+    padding: 100px 0;
+    position: relative;
+  }
+  @media (max-width: 768px) {
+    section.feature { padding: 60px 0; }
+  }
+  .section-head {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 60px;
+  }
+  .section-head .kicker {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--vermillion); letter-spacing: .3em;
+    margin-bottom: 14px;
+  }
+  .section-head .kicker::before, .section-head .kicker::after {
+    content: ""; width: 24px; height: 2px;
+    background: var(--vermillion);
+  }
+  .section-head h2 {
+    margin: 0 0 14px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+  }
+  .section-head h2 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 6px;
+  }
+  .section-head .desc {
+    font-size: clamp(14px, 1.2vw, 16px);
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+
+  /* === Steps === */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    position: relative;
+  }
+  @media (max-width: 900px) {
+    .steps-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .step-card {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 5px 5px 0 var(--ink);
+    position: relative;
+    transition: transform .25s ease;
+  }
+  .step-card:hover { transform: translateY(-4px); }
+  .step-card.highlight {
+    box-shadow: 5px 5px 0 var(--vermillion);
+  }
+  .step-card .step-num {
+    position: absolute;
+    top: -16px; left: -8px;
+    width: 48px; height: 48px;
+    background: var(--ink);
+    color: var(--sun);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    box-shadow: 3px 3px 0 var(--vermillion);
+    transform: rotate(-8deg);
+  }
+  .step-card .step-em {
+    font-size: 56px;
+    line-height: 1;
+    margin: 12px 0 18px;
+  }
+  .step-card h3 {
+    margin: 0 0 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 1.3;
+    letter-spacing: -.015em;
+  }
+  .step-card p {
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+  .step-card .step-tags {
+    display: flex; flex-wrap: wrap; gap: 4px;
+  }
+  .step-card .step-tag {
+    background: var(--cream);
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    padding: 3px 9px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* === Showcase / aboard === */
+  .showcase {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 1100px) { .showcase-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 768px) { .showcase-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+  @media (max-width: 480px) { .showcase-grid { grid-template-columns: 1fr; } }
+
+  .show-card {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: all .25s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  .show-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 6px 8px 0 var(--vermillion);
+  }
+  .show-frame {
+    background: linear-gradient(135deg, #2A2333, #14111B);
+    padding: 18px 14px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .show-frame::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+  .show-mini-phone {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 9/19.5;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--cream);
+    box-shadow:
+      0 0 0 1px #2A2333,
+      0 0 0 5px #14111B,
+      0 12px 28px rgba(0,0,0,.4);
+    transform: rotate(-3deg);
+    position: relative;
+    transition: transform .35s ease;
+  }
+  .show-card:hover .show-mini-phone {
+    transform: rotate(0deg) scale(1.03);
+  }
+  .show-mini-phone iframe {
+    border: none;
+    width: 412px;
+    height: 850px;
+    transform: scale(0.485);
+    transform-origin: top left;
+    pointer-events: none;
+  }
+  .show-tag {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    letter-spacing: .12em;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    transform: rotate(8deg);
+    z-index: 3;
+  }
+  .show-info {
+    padding: 16px;
+  }
+  .show-info h4 {
+    margin: 0 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+  }
+  .show-info p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .showcase-cta {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  /* === Testimonials === */
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr; } }
+
+  .testi {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .testi.tilt-l { transform: rotate(-1deg); }
+  .testi.tilt-r { transform: rotate(1deg); }
+  .testi .quote-mark {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 1;
+    color: var(--vermillion);
+    margin-bottom: -12px;
+  }
+  .testi p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink);
+    flex: 1;
+  }
+  .testi p strong {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 2px;
+    font-weight: 700;
+  }
+  .testi .author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(20,17,27,.18);
+  }
+  .testi .author .av {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--cream-2);
+  }
+  .testi .author .av svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .testi .author .info { line-height: 1.3; }
+  .testi .author .name {
+    font-weight: 900;
+    font-size: 13px;
+  }
+  .testi .author .meta {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: .04em;
+    margin-top: 1px;
+  }
+
+  /* === FAQ === */
+  .faq {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  details.faq-item {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+    overflow: hidden;
+    transition: box-shadow .15s ease;
+  }
+  details.faq-item[open] {
+    box-shadow: 3px 3px 0 var(--vermillion);
+  }
+  details.faq-item summary {
+    padding: 18px 20px;
+    cursor: pointer;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item summary::after {
+    content: "+";
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--vermillion);
+    line-height: 1;
+    transition: transform .25s ease;
+    flex-shrink: 0;
+  }
+  details.faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+  details.faq-item .faq-body {
+    padding: 0 20px 20px;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.75;
+  }
+  details.faq-item .faq-body strong {
+    color: var(--ink);
+    font-weight: 800;
+  }
+
+  /* === Final CTA === */
+  .final-cta {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .final-cta::before {
+    content: "";
+    position: absolute;
+    top: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,206,46,.25) 0%, transparent 70%);
+  }
+  .final-cta::after {
+    content: "";
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,65,43,.3) 0%, transparent 70%);
+  }
+  .final-cta .container { position: relative; z-index: 1; }
+  .final-cta .mark {
+    width: 80px; height: 80px;
+    background: var(--sun);
+    color: var(--ink);
+    border: 2.5px solid var(--cream);
+    border-radius: 18px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 44px;
+    transform: rotate(-6deg);
+    box-shadow: 6px 6px 0 var(--vermillion);
+    margin: 0 auto 30px;
+  }
+  .final-cta h2 {
+    margin: 0 0 18px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    color: var(--cream);
+  }
+  .final-cta h2 .accent {
+    background: linear-gradient(transparent 60%, var(--vermillion) 60%);
+    padding: 0 6px;
+    color: var(--cream);
+  }
+  .final-cta p {
+    margin: 0 auto 32px;
+    max-width: 540px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(251,245,229,.75);
+  }
+  .final-cta .btn-primary {
+    background: var(--sun);
+    color: var(--ink);
+    box-shadow: 4px 4px 0 var(--vermillion);
+  }
+
+  /* === Footer === */
+  footer.lp-footer {
+    background: var(--cream-2);
+    padding: 50px 0 30px;
+    border-top: 2px solid var(--ink);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .footer-grid .brand-block { grid-column: 1 / -1; }
+  }
+  .footer-grid .brand-block {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .footer-grid .brand-block .mark {
+    width: 48px; height: 48px;
+    background: var(--ink); color: var(--sun);
+    border: 2px solid var(--ink); border-radius: 12px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 24px;
+    transform: rotate(-6deg);
+    box-shadow: 3px 3px 0 var(--vermillion);
+    flex-shrink: 0;
+  }
+  .footer-grid .brand-block h4 {
+    margin: 0 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+  }
+  .footer-grid .brand-block .en {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    letter-spacing: .25em;
+    color: var(--vermillion);
+  }
+  .footer-grid .brand-block p {
+    margin: 12px 0 0;
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    max-width: 360px;
+  }
+  .footer-grid .col h5 {
+    margin: 0 0 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .footer-grid .col a {
+    display: block;
+    padding: 4px 0;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color .15s ease;
+  }
+  .footer-grid .col a:hover { color: var(--ink); }
+
+  .footer-bottom {
+    padding-top: 20px;
+    border-top: 1px dashed rgba(20,17,27,.2);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: .08em;
+  }
+  .footer-bottom strong { color: var(--vermillion); font-weight: 800; }
+
+  /* Animation: reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===== TOP BAR ===== -->
+<header class="topbar">
+  <div class="container">
+    <a class="top-logo" href="#top">
+      <div class="mark">閃</div>
+      <div class="name">
+        キャンパスイノベーション
+        <span class="en">CAMPUS × INNOVATION</span>
+      </div>
+    </a>
+    <nav class="top-nav">
+      <a href="#features">体験</a>
+      <a href="#showcase">画面</a>
+      <a href="#voices">声</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="top-cta" href="waitlist.html">▶︎ 参加する</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="beta-pill">
+          <span class="dot"></span>BETA · 招待制で運営中
+        </div>
+
+        <h1>
+          ひらめきは、<br>
+          <span class="accent">大学の数だけ</span><br>
+          <span class="vermillion">埋もれている。</span>
+        </h1>
+
+        <p class="lead">
+          学食を変える発想、研究室を変える工夫、毎日を変える小さなアイディア。
+          全国の大学生のひらめきを集め、共感する仲間と出会い、一緒にカタチにする
+          ── そんな場所を、つくっています。
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="waitlist.html">
+            ウェイトリストに登録
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-secondary" href="splash.html">▶︎ デモを見る</a>
+        </div>
+
+        <div class="hero-trust">
+          <div class="avatars">
+            <span class="av"><svg viewBox="0 0 100 100"><use href="#portrait-yuki"/></svg></span>
+            <span class="av"><svg viewBox="0 0 100 100"><use href="#portrait-minami"/></svg></span>
+            <span class="av"><svg viewBox="0 0 100 100"><use href="#portrait-risa"/></svg></span>
+            <span class="av"><svg viewBox="0 0 100 100"><use href="#portrait-haruto"/></svg></span>
+          </div>
+          <span><strong>1,247人</strong>がすでに登録済み · 89大学</span>
+        </div>
+      </div>
+
+      <div class="hero-phones">
+        <span class="float-deco fd1">💡 +123</span>
+        <span class="float-deco fd2">🤝 コラボ申請!</span>
+        <span class="float-deco fd3">✨</span>
+        <span class="float-deco fd4">⭐</span>
+
+        <div class="hero-phone p2">
+          <div class="notch-mini"></div>
+          <iframe src="explore.html" loading="lazy"></iframe>
+        </div>
+        <div class="hero-phone p3">
+          <div class="notch-mini"></div>
+          <iframe src="dashboard.html" loading="lazy"></iframe>
+        </div>
+        <div class="hero-phone p1">
+          <div class="notch-mini"></div>
+          <iframe src="campus_innovation_home.html" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="num">24,800<span class="small">人</span></div>
+        <div class="lbl">想定アクティブ</div>
+      </div>
+      <div class="stat">
+        <div class="num">89<span class="small">校</span></div>
+        <div class="lbl">参加大学</div>
+      </div>
+      <div class="stat">
+        <div class="num">1,247<span class="small">人</span></div>
+        <div class="lbl">ウェイトリスト</div>
+      </div>
+      <div class="stat">
+        <div class="num">200<span class="small">/週</span></div>
+        <div class="lbl">招待発行ペース</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES / 3 STEPS ===== -->
+<section class="feature" id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="kicker">— THE EXPERIENCE</div>
+      <h2><span class="accent">3ステップ</span>で、<br>あなたのアイディアが世界に届く。</h2>
+      <p class="desc">
+        投稿して、共感を集めて、一緒に作る。すべてが繋がった体験を提供します。
+      </p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-num">01</div>
+        <div class="step-em">💡</div>
+        <h3>ひらめきを<br>3ステップで投稿</h3>
+        <p>
+          タイトル・問題・アプローチ・ターゲット。書きながら自動でカードがリアルタイムに完成していくUIで、誰でも 5分で美しい投稿が作れます。
+        </p>
+        <div class="step-tags">
+          <span class="step-tag">#構造化</span>
+          <span class="step-tag">#ライブプレビュー</span>
+        </div>
+      </div>
+
+      <div class="step-card highlight reveal">
+        <div class="step-num">02</div>
+        <div class="step-em">🤝</div>
+        <h3>共感する仲間と<br>出会う</h3>
+        <p>
+          回転テーブル、4タブのエクスプローラ、タグクラウド、ライブ検索。発見の仕掛けを多重に用意。気になる投稿には ♥ や 💬 で反応を返せます。
+        </p>
+        <div class="step-tags">
+          <span class="step-tag">#3Dカルーセル</span>
+          <span class="step-tag">#タグ検索</span>
+        </div>
+      </div>
+
+      <div class="step-card reveal">
+        <div class="step-num">03</div>
+        <div class="step-em">🚀</div>
+        <h3>一緒に<br>カタチにする</h3>
+        <p>
+          コラボ申請を送って、専用のコラボルームでチームを組成。タスク管理・投票・リンク共有・フェーズ管理。最後まで伴走するチャット環境。
+        </p>
+        <div class="step-tags">
+          <span class="step-tag">#コラボルーム</span>
+          <span class="step-tag">#タスク管理</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SHOWCASE ===== -->
+<section class="feature showcase" id="showcase">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="kicker">— PEEK INSIDE</div>
+      <h2><span class="accent">アプリの中</span>を、<br>そっとのぞいてみる。</h2>
+      <p class="desc">
+        実際に動くプロトタイプを、ここから試せます。タップで拡大表示。
+      </p>
+    </div>
+
+    <div class="showcase-grid">
+      <a class="show-card reveal" href="campus_innovation_home.html">
+        <div class="show-frame">
+          <span class="show-tag">HOME</span>
+          <div class="show-mini-phone"><iframe src="campus_innovation_home.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>ホーム</h4>
+          <p>3D回転テーブルでアイディアが優雅に巡る。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="explore.html">
+        <div class="show-frame">
+          <span class="show-tag">EXPLORE</span>
+          <div class="show-mini-phone"><iframe src="explore.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>探す</h4>
+          <p>4タブ × ライブ検索で、共感する投稿を発見。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="detail.html?id=001">
+        <div class="show-frame">
+          <span class="show-tag">DETAIL</span>
+          <div class="show-mini-phone"><iframe src="detail.html?id=001" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>詳細</h4>
+          <p>問題・解決策・ターゲットを構造化して伝える。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="dashboard.html">
+        <div class="show-frame">
+          <span class="show-tag">DASHBOARD</span>
+          <div class="show-mini-phone"><iframe src="dashboard.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>ダッシュボード</h4>
+          <p>自分のインパクトを Wrapped 風に味わう体験。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="collab_room.html">
+        <div class="show-frame">
+          <span class="show-tag">COLLAB</span>
+          <div class="show-mini-phone"><iframe src="collab_room.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>コラボルーム</h4>
+          <p>テキスト・タスク・投票で進捗を共有。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="onboarding.html">
+        <div class="show-frame">
+          <span class="show-tag">START</span>
+          <div class="show-mini-phone"><iframe src="onboarding.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>オンボーディング</h4>
+          <p>5ステップでプロフィールが完成する瞬間。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="invite.html">
+        <div class="show-frame">
+          <span class="show-tag">INVITE</span>
+          <div class="show-mini-phone"><iframe src="invite.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>招待コード</h4>
+          <p>友達を招待してバッジを獲得。</p>
+        </div>
+      </a>
+
+      <a class="show-card reveal" href="mypage.html">
+        <div class="show-frame">
+          <span class="show-tag">PROFILE</span>
+          <div class="show-mini-phone"><iframe src="mypage.html" loading="lazy" tabindex="-1"></iframe></div>
+        </div>
+        <div class="show-info">
+          <h4>マイページ</h4>
+          <p>Innovation Score とバッジで成長を可視化。</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="showcase-cta">
+      <a class="btn btn-secondary" href="index.html">全画面ショーケースを見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="feature" id="voices">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="kicker">— STUDENT VOICES</div>
+      <h2>すでに使っている<br><span class="accent">学生たち</span>の声。</h2>
+      <p class="desc">
+        ベータ版に参加している大学生からの感想を紹介します。
+      </p>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi tilt-l reveal">
+        <div class="quote-mark">"</div>
+        <p>
+          学食の混雑を予測するアイディアを投稿したら、<strong>10人のエンジニア志望が連絡をくれて</strong>、いまチームで実際に開発してます。一人だったら絶対実現できなかった。
+        </p>
+        <div class="author">
+          <div class="av"><svg viewBox="0 0 100 100"><use href="#portrait-yuki"/></svg></div>
+          <div class="info">
+            <div class="name">田中 ユウキ</div>
+            <div class="meta">高崎経済大学 · 経済学部 3年</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi reveal">
+        <div class="quote-mark">"</div>
+        <p>
+          色々な学部の学生のアイディアが見れて、<strong>視野が広がった</strong>。同じ大学にこんな面白いことを考えてる人がいるんだと知れただけで、入って良かったと思いました。
+        </p>
+        <div class="author">
+          <div class="av"><svg viewBox="0 0 100 100"><use href="#portrait-ryou"/></svg></div>
+          <div class="info">
+            <div class="name">中村 リョウ</div>
+            <div class="meta">早稲田大学 · 情報学部 2年</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi tilt-r reveal">
+        <div class="quote-mark">"</div>
+        <p>
+          コラボルームのタスク管理がすごく便利。slack や LINE と違って、<strong>このプロジェクト専用の場</strong>があるから、議論が散らからずに進められる。
+        </p>
+        <div class="author">
+          <div class="av"><svg viewBox="0 0 100 100"><use href="#portrait-minami"/></svg></div>
+          <div class="info">
+            <div class="name">渡辺 ミナミ</div>
+            <div class="meta">慶應義塾大学 · 社会学部 1年</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="feature" id="faq" style="background: var(--cream-2); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="kicker">— QUESTIONS</div>
+      <h2>よくあるご質問。</h2>
+      <p class="desc">気になることに、お答えします。</p>
+    </div>
+
+    <div class="faq">
+      <details class="faq-item">
+        <summary>なぜ招待制なのですか？</summary>
+        <div class="faq-body">
+          初期の体験品質を保つためです。<strong>本気でアイディアを共有したい学生</strong>同士で繋がる場をつくるため、最初は一人ひとり丁寧に招待しています。ベータが安定したら、段階的に開放する予定です。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>招待コードはどうしたらもらえますか？</summary>
+        <div class="faq-body">
+          ウェイトリストに登録すると、<strong>毎週 200名ずつ</strong>順番にコードが発行されます。<strong>大学のメールアドレス</strong>で登録すると優先されます。さらに友達を紹介すると順位を上げることができます。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>無料ですか？</summary>
+        <div class="faq-body">
+          はい、ベータ期間中は<strong>完全に無料</strong>です。今後、有料機能を追加する可能性はありますが、基本機能は今後もずっと無料で提供する予定です。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>大学院生・社会人でも使えますか？</summary>
+        <div class="faq-body">
+          現在は <strong>4年制大学・大学院・短大の在学生</strong>のみ対象としています。学生コミュニティに集中することで、独自の体験を作るためです。卒業後の利用についても今後検討します。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>投稿したアイディアの権利はどうなりますか？</summary>
+        <div class="faq-body">
+          投稿者本人に帰属します。アプリ側がアイディアを商業利用することは一切ありません。詳細は<a href="#" style="color: var(--vermillion); font-weight: 800;">利用規約</a>をご確認ください。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>iOSとAndroid、どちらでも使えますか？</summary>
+        <div class="faq-body">
+          現在は <strong>Webブラウザ版</strong>のみ提供しています。ネイティブアプリは2026年内のリリースを目指して開発中です。
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta">
+  <div class="container">
+    <div class="mark">閃</div>
+    <h2 class="reveal">
+      あなたのひらめきを、<br>
+      <span class="accent">世界に届けよう</span>。
+    </h2>
+    <p class="reveal">
+      待っているのは、あなたと共感する仲間。<br>
+      ウェイトリストに登録して、最初の招待コードを受け取ろう。
+    </p>
+    <a class="btn btn-primary reveal" href="waitlist.html">
+      ▶︎ いますぐ参加する
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+    <div style="margin-top: 18px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 11px; color: rgba(251,245,229,.55); letter-spacing: .15em;">
+      30秒で完了 · クレジットカード不要
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="lp-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="brand-block">
+        <div class="mark">閃</div>
+        <div>
+          <h4>キャンパスイノベーション</h4>
+          <div class="en">CAMPUS × INNOVATION</div>
+          <p>大学生のひらめきが集まる場所。問題意識を共有し、共感する仲間と出会い、世界を少しだけ変える。</p>
+        </div>
+      </div>
+      <div class="col">
+        <h5>— PRODUCT</h5>
+        <a href="splash.html">デモを起動</a>
+        <a href="index.html">画面ショーケース</a>
+        <a href="design_system.html">デザインシステム</a>
+        <a href="app_icon.html">ブランドキット</a>
+      </div>
+      <div class="col">
+        <h5>— COMPANY</h5>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Press Kit</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="col">
+        <h5>— LEGAL</h5>
+        <a href="#">利用規約</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">特定商取引法</a>
+        <a href="#">お問い合わせ</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CAMPUS × INNOVATION · MADE BY <strong>STUDENTS</strong> FOR <strong>STUDENTS</strong></span>
+      <span>v 1.2.4 · APRIL 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== Reveal on scroll =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== Smooth scroll =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = target.offsetTop - 70;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

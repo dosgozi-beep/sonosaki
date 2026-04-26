@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜デザインシステム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8; --rose: #C13F77; --teal: #1D7A7A; --navy: #0E2C5C;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100;
+    background-image: radial-gradient(rgba(20,17,27,.045) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+  }
+
+  /* === Layout === */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* === Sidebar === */
+  .sidebar {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 28px 22px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid var(--ink);
+    scrollbar-width: thin;
+  }
+  @media (max-width: 900px) {
+    .sidebar {
+      position: static; height: auto;
+      border-right: none;
+      border-bottom: 2px solid var(--ink);
+    }
+  }
+  .sidebar-brand {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: inherit;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed rgba(255,255,255,.18);
+  }
+  .sidebar-brand .mark {
+    width: 40px; height: 40px;
+    background: var(--sun); color: var(--ink);
+    border: 1.5px solid var(--cream); border-radius: 10px;
+    display: grid; place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 22px;
+    transform: rotate(-6deg);
+    box-shadow: 3px 3px 0 var(--vermillion);
+    flex-shrink: 0;
+  }
+  .sidebar-brand .name {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 13px;
+    line-height: 1.2;
+  }
+  .sidebar-brand .name .en {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 8.5px;
+    letter-spacing: .25em; color: var(--sun);
+    margin-top: 2px;
+  }
+
+  .sidebar-label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--vermillion);
+    letter-spacing: .25em;
+    margin: 18px 0 8px;
+  }
+  .sidebar-label:first-of-type { margin-top: 0; }
+
+  .toc {
+    display: flex; flex-direction: column;
+    gap: 2px;
+  }
+  .toc a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 10px;
+    font-size: 12.5px; color: rgba(251,245,229,.65);
+    text-decoration: none;
+    border-radius: 8px;
+    border-left: 2px solid transparent;
+    transition: all .15s ease;
+  }
+  .toc a:hover {
+    background: rgba(255,255,255,.06);
+    color: var(--cream);
+  }
+  .toc a.active {
+    background: rgba(255,206,46,.1);
+    color: var(--sun);
+    border-left-color: var(--vermillion);
+    font-weight: 700;
+  }
+  .toc a .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion);
+    width: 22px; flex-shrink: 0;
+  }
+  .toc a .em { font-size: 14px; }
+
+  .sidebar-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(255,255,255,.18);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 9.5px;
+    color: rgba(251,245,229,.5);
+    letter-spacing: .04em;
+    line-height: 1.7;
+  }
+  .sidebar-footer .v { color: var(--sun); font-weight: 800; }
+  .sidebar-footer a {
+    color: var(--cream);
+    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  /* === Main content === */
+  .main {
+    padding: 40px 56px 80px;
+    max-width: 1100px;
+  }
+  @media (max-width: 768px) {
+    .main { padding: 32px 24px 60px; }
+  }
+
+  /* === Hero === */
+  .hero {
+    margin-bottom: 60px;
+    position: relative;
+  }
+  .hero .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--vermillion); letter-spacing: .3em;
+  }
+  .hero .kicker::before { content: ""; width: 30px; height: 2px; background: var(--vermillion); }
+  .hero h1 {
+    margin: 16px 0 16px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -.025em;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 6px;
+  }
+  .hero .lead {
+    font-size: 15px; line-height: 1.75;
+    color: var(--ink-2);
+    max-width: 600px;
+    font-weight: 500;
+  }
+  .hero-stats {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-top: 22px;
+  }
+  .hero-stat {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    box-shadow: 2px 2px 0 var(--ink);
+    letter-spacing: .04em;
+  }
+  .hero-stat .n {
+    color: var(--vermillion);
+    font-size: 13px;
+    margin-right: 4px;
+  }
+
+  /* === Chapter === */
+  .chapter {
+    margin-bottom: 80px;
+    padding-top: 30px;
+    scroll-margin-top: 16px;
+  }
+  .chapter-head {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .chapter-num {
+    display: inline-block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion);
+    letter-spacing: .3em;
+    margin-bottom: 8px;
+  }
+  .chapter-num::before { content: "— "; opacity: .6; }
+  .chapter-head h2 {
+    margin: 0 0 6px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3.5vw, 38px);
+    line-height: 1.2;
+    letter-spacing: -.025em;
+  }
+  .chapter-head h2 .em { margin-right: 8px; font-size: .85em; }
+  .chapter-head .desc {
+    margin: 6px 0 0;
+    font-size: 13px; line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 640px;
+  }
+
+  /* Subsection */
+  h3.subhead {
+    margin: 32px 0 12px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -.015em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  h3.subhead::before {
+    content: "";
+    width: 14px; height: 14px;
+    background: var(--vermillion);
+    border: 1.5px solid var(--ink);
+    border-radius: 4px;
+    transform: rotate(-8deg);
+    box-shadow: 2px 2px 0 var(--sun);
+    flex-shrink: 0;
+  }
+  p.note {
+    font-size: 13px; line-height: 1.7;
+    color: var(--ink-2);
+    margin: 8px 0 16px;
+  }
+  p.note strong { color: var(--ink); font-weight: 800; }
+  code.inline {
+    background: var(--cream-2);
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--ink);
+  }
+
+  /* === Color swatches === */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .swatch {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--ink);
+    cursor: pointer;
+    transition: transform .15s ease;
+  }
+  .swatch:hover { transform: translateY(-3px); }
+  .swatch .chip {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 10px;
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.15);
+  }
+  .swatch.light .chip { color: var(--ink); text-shadow: none; }
+  .swatch .meta {
+    padding: 10px 12px;
+    border-top: 1.5px solid var(--ink);
+  }
+  .swatch .var-name {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 11px;
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+  .swatch .hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    color: var(--ink-2);
+    margin-top: 2px;
+    cursor: pointer;
+    transition: color .15s;
+  }
+  .swatch .hex:hover { color: var(--vermillion); }
+  .swatch .role {
+    font-size: 10.5px;
+    color: var(--ink-2);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* === Typography demo === */
+  .type-row {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 20px;
+    align-items: center;
+  }
+  @media (max-width: 700px) {
+    .type-row { grid-template-columns: 1fr; }
+  }
+  .type-row .demo {
+    color: var(--ink);
+    line-height: 1.2;
+    overflow-wrap: break-word;
+  }
+  .type-row .meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .type-row .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    color: var(--vermillion); letter-spacing: .15em;
+  }
+  .type-row .name {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 13px;
+    color: var(--ink);
+  }
+  .type-row .specs {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 10.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* === Scale rows === */
+  .scale-grid {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+    overflow: hidden;
+  }
+  .scale-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 80px;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 14px;
+    border-bottom: 1px dashed rgba(20,17,27,.18);
+  }
+  .scale-row:last-child { border-bottom: none; }
+  .scale-row .token {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    color: var(--vermillion);
+  }
+  .scale-row .vis {
+    background: var(--ink);
+    border-radius: 4px;
+  }
+  .scale-row .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+    color: var(--ink-2);
+    text-align: right;
+  }
+
+  /* === Component demo === */
+  .demo-block {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .demo-stage {
+    background: var(--cream);
+    background-image: linear-gradient(135deg, rgba(20,17,27,.04) 25%, transparent 25%, transparent 75%, rgba(20,17,27,.04) 75%),
+                      linear-gradient(135deg, rgba(20,17,27,.04) 25%, transparent 25%, transparent 75%, rgba(20,17,27,.04) 75%);
+    background-size: 12px 12px;
+    background-position: 0 0, 6px 6px;
+    padding: 30px 24px;
+    border-bottom: 1.5px solid var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+  }
+  .demo-code {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 12px 16px;
+    overflow-x: auto;
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.65;
+    scrollbar-width: thin;
+  }
+  .demo-code::-webkit-scrollbar { height: 4px; }
+  .demo-code::-webkit-scrollbar-thumb { background: var(--vermillion); border-radius: 99px; }
+  .demo-code .copy-btn {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: rgba(255,255,255,.1);
+    color: var(--cream);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    cursor: pointer;
+    letter-spacing: .08em;
+    transition: all .15s ease;
+  }
+  .demo-code .copy-btn:hover {
+    background: var(--sun);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .demo-code pre {
+    margin: 0;
+    white-space: pre;
+  }
+  .demo-code .tk-key { color: #FF93C5; }
+  .demo-code .tk-str { color: var(--mint); }
+  .demo-code .tk-tag { color: var(--sun); }
+  .demo-code .tk-com { color: rgba(251,245,229,.4); font-style: italic; }
+  .demo-code .tk-attr { color: #D27BFF; }
+
+  /* === Component examples (live) === */
+  /* Buttons */
+  .btn-demo-primary {
+    background: var(--vermillion); color: #fff;
+    border: 2px solid var(--ink); border-radius: 14px;
+    padding: 12px 18px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 800; font-size: 13px;
+    cursor: pointer; box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .15s ease;
+  }
+  .btn-demo-primary:hover { transform: translateY(-2px); }
+  .btn-demo-secondary {
+    background: var(--paper); color: var(--ink);
+    border: 2px solid var(--ink); border-radius: 14px;
+    padding: 12px 18px;
+    font-weight: 800; font-size: 13px;
+    cursor: pointer; box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .15s ease;
+  }
+  .btn-demo-secondary:hover { transform: translateY(-2px); }
+  .btn-demo-ink {
+    background: var(--ink); color: var(--sun);
+    border: 2px solid var(--ink); border-radius: 14px;
+    padding: 12px 18px;
+    font-weight: 800; font-size: 13px;
+    cursor: pointer; box-shadow: 4px 4px 0 var(--vermillion);
+    transition: transform .15s ease;
+  }
+  .btn-demo-ink:hover { transform: translateY(-2px); }
+  .btn-demo-icon {
+    width: 42px; height: 42px;
+    background: var(--paper); border: 1.5px solid var(--ink);
+    border-radius: 12px; display: grid; place-items: center;
+    cursor: pointer; transition: transform .15s ease;
+    color: var(--ink);
+  }
+  .btn-demo-icon:hover { transform: translateY(-2px); }
+  .btn-demo-icon svg {
+    width: 18px; height: 18px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* Chips */
+  .chip-demo {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 800; font-size: 12px;
+    color: var(--ink); cursor: pointer;
+    transition: all .15s ease;
+    user-select: none;
+  }
+  .chip-demo:hover { transform: translateY(-1px); }
+  .chip-demo.selected {
+    background: var(--ink); color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .tag-demo {
+    background: var(--ink); color: var(--sun);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10.5px;
+    padding: 3px 9px; border-radius: 999px;
+    letter-spacing: .04em;
+  }
+  .tag-demo::before { content: "#"; opacity: .65; margin-right: 1px; }
+
+  /* Toggle */
+  .toggle-demo {
+    width: 46px; height: 26px;
+    background: var(--cream-2);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    position: relative; cursor: pointer;
+    transition: background .25s ease;
+  }
+  .toggle-demo::after {
+    content: ""; position: absolute;
+    top: 1px; left: 1px;
+    width: 20px; height: 20px;
+    background: var(--ink);
+    border-radius: 50%;
+    transition: transform .25s ease;
+  }
+  .toggle-demo.on { background: var(--mint); }
+  .toggle-demo.on::after { transform: translateX(20px); }
+
+  /* Input */
+  .input-demo {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 11px 13px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    color: var(--ink); outline: none;
+    transition: box-shadow .15s ease;
+    width: 280px;
+    max-width: 100%;
+  }
+  .input-demo:focus { box-shadow: 3px 3px 0 var(--vermillion); }
+  .input-demo::placeholder { color: rgba(20,17,27,.32); }
+
+  /* Card mini */
+  .card-mini {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+    width: 220px;
+    max-width: 100%;
+  }
+  .card-mini .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9px;
+    color: var(--vermillion); letter-spacing: .25em;
+  }
+  .card-mini .ttl {
+    margin-top: 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 14px;
+  }
+  .card-mini .desc {
+    margin-top: 4px;
+    font-size: 11px; color: var(--ink-2); line-height: 1.5;
+  }
+
+  /* Badge / pill */
+  .pill-demo {
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 9.5px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: .15em;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .pill-demo.rotated { transform: rotate(8deg); }
+  .stamp-demo {
+    background: var(--sun);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    padding: 4px 9px;
+    border-radius: 3px;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--vermillion);
+    transform: rotate(8deg);
+    letter-spacing: .15em;
+    display: inline-block;
+  }
+
+  /* Idea card preview */
+  .idea-preview {
+    width: 200px; max-width: 100%;
+    aspect-ratio: 16/10;
+    background: linear-gradient(160deg, var(--vermillion), #FF7F3F);
+    color: #fff;
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 var(--ink);
+    overflow: hidden;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .idea-preview .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-size: 8px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 2px;
+    line-height: 1;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+  .idea-preview .ml {
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 16px; line-height: 1.05;
+    text-shadow: 2px 2px 0 rgba(20,17,27,.5);
+    z-index: 1;
+  }
+  .idea-preview .me {
+    position: absolute; right: -6px; bottom: -10px;
+    font-size: 70px; opacity: .35; line-height: 1;
+  }
+
+  /* === Principles === */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 700px) {
+    .principles-grid { grid-template-columns: 1fr; }
+  }
+  .principle-card {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 3px 3px 0 var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .principle-card::before {
+    content: "";
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%; opacity: .15;
+  }
+  .principle-card.p1::before { background: var(--vermillion); }
+  .principle-card.p2::before { background: var(--sun); }
+  .principle-card.p3::before { background: var(--mint); }
+  .principle-card.p4::before { background: var(--indigo); }
+  .principle-card .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 24px;
+    color: var(--vermillion); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .principle-card h4 {
+    margin: 0 0 6px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 16px;
+    color: var(--ink); letter-spacing: -.015em;
+  }
+  .principle-card p {
+    margin: 0;
+    font-size: 12px; color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* === Spacing rule strip === */
+  .rule-strip {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 3px 3px 0 var(--ink);
+    margin-bottom: 14px;
+  }
+  .rule-strip .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion);
+    letter-spacing: .15em;
+    margin-bottom: 6px;
+  }
+  .rule-strip .text {
+    font-size: 13px; line-height: 1.7;
+    color: var(--ink);
+  }
+  .rule-strip .text strong { font-weight: 900; }
+  .rule-strip .text code {
+    background: var(--cream-2);
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 11px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: var(--cream);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 800; font-size: 12px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 1.5px solid var(--ink);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .35s cubic-bezier(.5,1.4,.5,1);
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <a class="sidebar-brand" href="index.html">
+      <div class="mark">閃</div>
+      <div class="name">
+        Design System
+        <span class="en">CAMPUS × INNOVATION</span>
+      </div>
+    </a>
+
+    <div class="sidebar-label">— FOUNDATIONS</div>
+    <nav class="toc">
+      <a href="#brand"><span class="num">01</span><span class="em">🌟</span>Brand</a>
+      <a href="#color"><span class="num">02</span><span class="em">🎨</span>Color</a>
+      <a href="#typography"><span class="num">03</span><span class="em">🔠</span>Typography</a>
+      <a href="#spacing"><span class="num">04</span><span class="em">📐</span>Spacing & Radius</a>
+    </nav>
+
+    <div class="sidebar-label">— COMPONENTS</div>
+    <nav class="toc">
+      <a href="#buttons"><span class="num">05</span><span class="em">🔘</span>Buttons</a>
+      <a href="#forms"><span class="num">06</span><span class="em">📝</span>Forms & Chips</a>
+      <a href="#cards"><span class="num">07</span><span class="em">🃏</span>Cards & Badges</a>
+    </nav>
+
+    <div class="sidebar-label">— PATTERNS</div>
+    <nav class="toc">
+      <a href="#patterns"><span class="num">08</span><span class="em">🧩</span>Patterns</a>
+      <a href="#motion"><span class="num">09</span><span class="em">🎬</span>Motion</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div>v <span class="v">1.2.4</span></div>
+      <div>17 SCREENS · APRIL 2026</div>
+      <div style="margin-top: 8px;">
+        <a href="index.html">← ハブに戻る</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- ===== HERO ===== -->
+    <div class="hero">
+      <div class="kicker">— DESIGN SYSTEM v 1.2.4</div>
+      <h1>このアプリを支える<br><span class="accent">ぜんぶの法則</span>。</h1>
+      <p class="lead">
+        色・字・形・動き・余白 ── プロトタイプの17画面を貫く設計原則を、ここに集めました。
+        新しい画面を作るとき、デザイナーや開発者が <strong>「迷ったらここを見る」</strong> 場所を目指しています。
+      </p>
+      <div class="hero-stats">
+        <span class="hero-stat"><span class="n">9</span>カラー</span>
+        <span class="hero-stat"><span class="n">3</span>フォント</span>
+        <span class="hero-stat"><span class="n">12</span>コンポーネント</span>
+        <span class="hero-stat"><span class="n">4</span>原則</span>
+      </div>
+    </div>
+
+    <!-- ============ 01. BRAND ============ -->
+    <section class="chapter" id="brand">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 01</div>
+        <h2><span class="em">🌟</span>ブランド</h2>
+        <p class="desc">
+          私たちのアプリは「学生のひらめきを世界へ」がコアメッセージ。それを <code class="inline">閃</code> という1文字、
+          <code class="inline">クリーム×ヴァーミリオン×サン×インク</code> の4色、
+          そして紙のステッカー的な質感で表現しています。
+        </p>
+      </div>
+
+      <h3 class="subhead">プロダクトマーク</h3>
+      <p class="note">
+        ブランドの中心は <strong>「閃」</strong> の一文字。<strong>RocknRoll One</strong> で組み、
+        黒地サン色の角丸正方形に <code class="inline">-6deg</code> の傾きを付け、
+        <strong>バーミリオン＋サン色の二段オフセット影</strong> で立体感を作ります。
+        右上には小さなバーミリオンのドット（クリームの縁取り付き）でアクセント。
+      </p>
+
+      <div class="demo-block">
+        <div class="demo-stage" style="padding: 60px 24px;">
+          <div style="
+            width: 130px; height: 130px;
+            background: var(--ink); color: var(--sun);
+            border: 3px solid var(--ink); border-radius: 28px;
+            display: grid; place-items: center;
+            font-family: 'RocknRoll One', sans-serif;
+            font-size: 70px;
+            transform: rotate(-6deg);
+            box-shadow: 8px 8px 0 var(--vermillion), 16px 16px 0 var(--sun);
+            position: relative;
+          ">
+            閃
+            <span style="
+              position: absolute;
+              top: -8px; right: -8px;
+              width: 22px; height: 22px;
+              background: var(--vermillion);
+              border-radius: 50%;
+              border: 3px solid var(--cream);
+            "></span>
+          </div>
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="brand-mark">COPY</button>
+<pre id="brand-mark"><span class="tk-tag">&lt;div</span> <span class="tk-attr">class</span>=<span class="tk-str">"brand-mark"</span><span class="tk-tag">&gt;</span>閃<span class="tk-tag">&lt;/div&gt;</span>
+
+<span class="tk-com">/* CSS */</span>
+<span class="tk-key">.brand-mark</span> {
+  <span class="tk-key">width</span>: 130px; <span class="tk-key">height</span>: 130px;
+  <span class="tk-key">background</span>: <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">color</span>: <span class="tk-str">var(--sun)</span>;
+  <span class="tk-key">border</span>: 3px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">border-radius</span>: 28px;
+  <span class="tk-key">font-family</span>: <span class="tk-str">'RocknRoll One'</span>, sans-serif;
+  <span class="tk-key">font-size</span>: 70px;
+  <span class="tk-key">transform</span>: rotate(-6deg);
+  <span class="tk-key">box-shadow</span>:
+    8px 8px 0 <span class="tk-str">var(--vermillion)</span>,
+    16px 16px 0 <span class="tk-str">var(--sun)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <h3 class="subhead">ボイス＆メッセージ</h3>
+      <p class="note">
+        伝え方の指針。すべてのコピー・通知・ボタンラベルは、この性格でチェック：
+      </p>
+
+      <div class="rule-strip">
+        <div class="label">— TONE PRINCIPLES</div>
+        <div class="text">
+          <strong>① 学生らしい：</strong>難しい敬語や専門用語は避け、友達同士の会話のように軽やかに。<br>
+          <strong>② 短く言い切る：</strong>「〜と思います」より「〜です」。曖昧さを残さない。<br>
+          <strong>③ 数字で具体的に：</strong>「たくさん」より「24,800人」。リアル感が信頼を作る。<br>
+          <strong>④ 絵文字を使うけど散らかさない：</strong>1メッセージに最大1〜2個まで。
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02. COLOR ============ -->
+    <section class="chapter" id="color">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 02</div>
+        <h2><span class="em">🎨</span>カラー</h2>
+        <p class="desc">
+          基本は <strong>4色＋補助色5色</strong> の合計9色のみ。色を絞ることで、画面同士が「同じ世界の住民」であることが一目でわかります。
+          各カラーをタップするとHEXコードがコピーできます。
+        </p>
+      </div>
+
+      <h3 class="subhead">プライマリ（4色）</h3>
+      <p class="note">アプリの90%はこの4色で構成されます。新しい画面を作るときも、まずはこの4色で組んでみてください。</p>
+      <div class="color-grid">
+        <div class="swatch">
+          <div class="chip" style="background: var(--cream); color: var(--ink); border-bottom: 1.5px solid var(--ink);"><span style="text-shadow:none;">CREAM</span></div>
+          <div class="meta">
+            <div class="var-name">--cream</div>
+            <div class="hex" data-hex="#FBF5E5">#FBF5E5</div>
+            <div class="role">背景・基本面</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--ink);">INK</div>
+          <div class="meta">
+            <div class="var-name">--ink</div>
+            <div class="hex" data-hex="#14111B">#14111B</div>
+            <div class="role">文字・縁取り・影</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--vermillion);">VERMILLION</div>
+          <div class="meta">
+            <div class="var-name">--vermillion</div>
+            <div class="hex" data-hex="#E8412B">#E8412B</div>
+            <div class="role">主要アクセント・♥・CTA</div>
+          </div>
+        </div>
+        <div class="swatch light">
+          <div class="chip" style="background: var(--sun);">SUN</div>
+          <div class="meta">
+            <div class="var-name">--sun</div>
+            <div class="hex" data-hex="#FFCE2E">#FFCE2E</div>
+            <div class="role">蛍光ペン・スタンプ・サブ影</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subhead">補助色（5色）</h3>
+      <p class="note">特定の意味を持たせる色。乱用せず、それぞれの役割が出る場面でだけ使います。</p>
+      <div class="color-grid">
+        <div class="swatch light">
+          <div class="chip" style="background: var(--mint);">MINT</div>
+          <div class="meta">
+            <div class="var-name">--mint</div>
+            <div class="hex" data-hex="#6CD4B6">#6CD4B6</div>
+            <div class="role">成功・保存済み・フォロー</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--indigo);">INDIGO</div>
+          <div class="meta">
+            <div class="var-name">--indigo</div>
+            <div class="hex" data-hex="#4A45D6">#4A45D6</div>
+            <div class="role">コメント・情報・リンク</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--purple);">PURPLE</div>
+          <div class="meta">
+            <div class="var-name">--purple</div>
+            <div class="hex" data-hex="#9333A8">#9333A8</div>
+            <div class="role">コラボ機能専用</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--rose);">ROSE</div>
+          <div class="meta">
+            <div class="var-name">--rose</div>
+            <div class="hex" data-hex="#C13F77">#C13F77</div>
+            <div class="role">サブアクセント</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--ink-2);">INK-2</div>
+          <div class="meta">
+            <div class="var-name">--ink-2</div>
+            <div class="hex" data-hex="#3A3340">#3A3340</div>
+            <div class="role">補助文字・タイムスタンプ</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subhead">CSS変数</h3>
+      <div class="demo-block">
+        <div class="demo-code">
+          <button class="copy-btn" data-code="color-vars">COPY</button>
+<pre id="color-vars"><span class="tk-key">:root</span> {
+  <span class="tk-com">/* Primary */</span>
+  <span class="tk-key">--cream</span>: <span class="tk-str">#FBF5E5</span>;
+  <span class="tk-key">--cream-2</span>: <span class="tk-str">#F2EAD0</span>;
+  <span class="tk-key">--paper</span>: <span class="tk-str">#FFFDF6</span>;
+  <span class="tk-key">--ink</span>: <span class="tk-str">#14111B</span>;
+  <span class="tk-key">--ink-2</span>: <span class="tk-str">#3A3340</span>;
+  <span class="tk-key">--vermillion</span>: <span class="tk-str">#E8412B</span>;
+  <span class="tk-key">--sun</span>: <span class="tk-str">#FFCE2E</span>;
+
+  <span class="tk-com">/* Secondary */</span>
+  <span class="tk-key">--mint</span>: <span class="tk-str">#6CD4B6</span>;
+  <span class="tk-key">--indigo</span>: <span class="tk-str">#4A45D6</span>;
+  <span class="tk-key">--purple</span>: <span class="tk-str">#9333A8</span>;
+  <span class="tk-key">--rose</span>: <span class="tk-str">#C13F77</span>;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03. TYPOGRAPHY ============ -->
+    <section class="chapter" id="typography">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 03</div>
+        <h2><span class="em">🔠</span>タイポグラフィ</h2>
+        <p class="desc">
+          <strong>3つのフォント</strong>を役割で完全に分けます。フォントが「声色」になり、画面のリズムを作ります。
+        </p>
+      </div>
+
+      <h3 class="subhead">フォントファミリー</h3>
+
+      <div class="type-row">
+        <div class="demo" style="
+          font-family: 'Zen Kaku Gothic New', sans-serif;
+          font-weight: 900;
+          font-size: 32px;
+          letter-spacing: -.02em;
+          line-height: 1.2;
+        ">大学生のひらめき。</div>
+        <div class="meta">
+          <div class="label">— FOR HEADLINES</div>
+          <div class="name">Zen Kaku Gothic New 900</div>
+          <div class="specs">font-weight: 900<br>letter-spacing: -.02em<br>使用例: H1, H2, アバター名</div>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="demo" style="
+          font-family: 'RocknRoll One', sans-serif;
+          font-size: 36px;
+          line-height: 1;
+          color: var(--ink);
+        ">閃 SENMEI 田中ユウキ</div>
+        <div class="meta">
+          <div class="label">— FOR LOGO & AVATARS</div>
+          <div class="name">RocknRoll One 400</div>
+          <div class="specs">font-weight: 400 (only)<br>使用例: ブランドマーク、<br>アバターの頭文字</div>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="demo" style="
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-weight: 800;
+          font-size: 22px;
+          letter-spacing: .04em;
+        ">CAMPUS × INNOVATION 1,840 ♥</div>
+        <div class="meta">
+          <div class="label">— FOR ENGLISH & NUMBERS</div>
+          <div class="name">Bricolage Grotesque 800</div>
+          <div class="specs">font-weight: 800<br>letter-spacing: .04em〜.25em<br>使用例: 英字ラベル、数字</div>
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div class="demo" style="
+          font-family: 'Noto Sans JP', sans-serif;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 1.7;
+          color: var(--ink);
+        ">本文はNoto Sans JPで読みやすく。長文の場合は line-height を 1.7 程度に広げて、リソグラフ印刷的な余白感を保ちます。</div>
+        <div class="meta">
+          <div class="label">— FOR BODY</div>
+          <div class="name">Noto Sans JP 400-700</div>
+          <div class="specs">font-weight: 400, 500, 700<br>line-height: 1.55-1.7<br>使用例: 本文、説明文</div>
+        </div>
+      </div>
+
+      <h3 class="subhead">タイプスケール</h3>
+      <p class="note">サイズの体系。文字サイズはこのリストから選び、独自の中間値は使いません。</p>
+
+      <div class="scale-grid">
+        <div class="scale-row"><span class="token">--text-display</span><span class="vis" style="height: 32px;"></span><span class="val">42-60px / 900</span></div>
+        <div class="scale-row"><span class="token">--text-h1</span><span class="vis" style="height: 24px;"></span><span class="val">28-32px / 900</span></div>
+        <div class="scale-row"><span class="token">--text-h2</span><span class="vis" style="height: 18px;"></span><span class="val">22px / 900</span></div>
+        <div class="scale-row"><span class="token">--text-h3</span><span class="vis" style="height: 16px;"></span><span class="val">18px / 900</span></div>
+        <div class="scale-row"><span class="token">--text-body</span><span class="vis" style="height: 12px;"></span><span class="val">13-14px / 500</span></div>
+        <div class="scale-row"><span class="token">--text-sm</span><span class="vis" style="height: 10px;"></span><span class="val">11-12px / 500-700</span></div>
+        <div class="scale-row"><span class="token">--text-xs</span><span class="vis" style="height: 8px;"></span><span class="val">9-10px / 800</span></div>
+      </div>
+
+      <h3 class="subhead">蛍光ペン強調</h3>
+      <p class="note">
+        見出しの中で <strong>キーワード1つ</strong> をサン色の蛍光ペンで強調するパターン。1文に2回以上使うと効果が薄れるので注意。
+      </p>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <div style="
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: -.02em;
+          ">あなたの<span style="background: linear-gradient(transparent 60%, var(--sun) 60%); padding: 0 4px;">ひらめき</span>を、<br>世界へ。</div>
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="highlight">COPY</button>
+<pre id="highlight"><span class="tk-tag">&lt;span</span> <span class="tk-attr">class</span>=<span class="tk-str">"highlight"</span><span class="tk-tag">&gt;</span>ひらめき<span class="tk-tag">&lt;/span&gt;</span>
+
+<span class="tk-key">.highlight</span> {
+  <span class="tk-key">background</span>: linear-gradient(
+    transparent 60%,
+    <span class="tk-str">var(--sun)</span> 60%
+  );
+  <span class="tk-key">padding</span>: 0 4px;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04. SPACING ============ -->
+    <section class="chapter" id="spacing">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 04</div>
+        <h2><span class="em">📐</span>スペーシング & 角丸</h2>
+        <p class="desc">
+          余白と曲線にも体系があります。<strong>4の倍数</strong> をベースに、角丸は要素のサイズに応じて段階的に大きく。
+        </p>
+      </div>
+
+      <h3 class="subhead">スペーシングスケール</h3>
+      <div class="scale-grid">
+        <div class="scale-row"><span class="token">--sp-1</span><span class="vis" style="width: 4px;"></span><span class="val">4px</span></div>
+        <div class="scale-row"><span class="token">--sp-2</span><span class="vis" style="width: 8px;"></span><span class="val">8px</span></div>
+        <div class="scale-row"><span class="token">--sp-3</span><span class="vis" style="width: 12px;"></span><span class="val">12px</span></div>
+        <div class="scale-row"><span class="token">--sp-4</span><span class="vis" style="width: 16px;"></span><span class="val">16px</span></div>
+        <div class="scale-row"><span class="token">--sp-5</span><span class="vis" style="width: 22px;"></span><span class="val">22px</span></div>
+        <div class="scale-row"><span class="token">--sp-6</span><span class="vis" style="width: 28px;"></span><span class="val">28px</span></div>
+      </div>
+
+      <h3 class="subhead">角丸スケール</h3>
+      <p class="note">小さい要素ほど小さい角丸、大きいコンテナほど大きい角丸。要素ごとに上限があります。</p>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <div style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;justify-content:center;">
+            <div style="text-align:center;">
+              <div style="width: 50px; height: 50px; background: var(--ink); border-radius: 4px;"></div>
+              <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;">4px<br><span style="color:var(--vermillion);">tags</span></div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width: 50px; height: 50px; background: var(--ink); border-radius: 8px;"></div>
+              <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;">8px<br><span style="color:var(--vermillion);">badges</span></div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width: 50px; height: 50px; background: var(--ink); border-radius: 11px;"></div>
+              <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;">11px<br><span style="color:var(--vermillion);">icon-btn</span></div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width: 60px; height: 60px; background: var(--ink); border-radius: 14px;"></div>
+              <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;">14px<br><span style="color:var(--vermillion);">cards</span></div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width: 70px; height: 70px; background: var(--ink); border-radius: 22px;"></div>
+              <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;">22px<br><span style="color:var(--vermillion);">app icon</span></div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width: 60px; height: 60px; background: var(--ink); border-radius: 999px;"></div>
+              <div style="margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;">999px<br><span style="color:var(--vermillion);">pills</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subhead">縁取りと影（ステッカー感）</h3>
+      <p class="note">
+        全てのカード型要素に <strong>2px の黒い縁取り</strong> と <strong>3-4px のオフセット影</strong>。
+        重要な要素は二段重ねで <code class="inline">vermillion → sun</code> の順に。
+      </p>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center;">
+            <div style="background: var(--paper); border: 1.5px solid var(--ink); border-radius: 12px; padding: 14px 18px; box-shadow: 3px 3px 0 var(--ink); font-weight: 800; font-size: 12px;">3px ink</div>
+            <div style="background: var(--paper); border: 1.5px solid var(--ink); border-radius: 12px; padding: 14px 18px; box-shadow: 4px 4px 0 var(--vermillion); font-weight: 800; font-size: 12px;">4px vermillion</div>
+            <div style="background: var(--paper); border: 2px solid var(--ink); border-radius: 14px; padding: 14px 18px; box-shadow: 5px 5px 0 var(--vermillion), 10px 10px 0 var(--sun); font-weight: 800; font-size: 12px; transform: rotate(-3deg);">double offset</div>
+          </div>
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="sticker">COPY</button>
+<pre id="sticker"><span class="tk-com">/* 通常のカード */</span>
+<span class="tk-key">.card</span> {
+  <span class="tk-key">border</span>: 1.5px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">border-radius</span>: 12px;
+  <span class="tk-key">box-shadow</span>: 3px 3px 0 <span class="tk-str">var(--ink)</span>;
+}
+
+<span class="tk-com">/* 強調カード */</span>
+<span class="tk-key">.card-emphasis</span> {
+  <span class="tk-key">border</span>: 2px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">box-shadow</span>:
+    5px 5px 0 <span class="tk-str">var(--vermillion)</span>,
+    10px 10px 0 <span class="tk-str">var(--sun)</span>;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05. BUTTONS ============ -->
+    <section class="chapter" id="buttons">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 05</div>
+        <h2><span class="em">🔘</span>ボタン</h2>
+        <p class="desc">
+          階層を意識した4種類のボタン。CTAは <strong>1画面に1つだけ</strong> がルール。
+          ホバーで <code class="inline">translateY(-2px)</code> 浮き上がる動きが、押せる感を出します。
+        </p>
+      </div>
+
+      <h3 class="subhead">ボタンスタイル</h3>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <button class="btn-demo-primary">プライマリ</button>
+          <button class="btn-demo-ink">セカンダリ (Ink)</button>
+          <button class="btn-demo-secondary">サブ (Paper)</button>
+          <button class="btn-demo-icon" aria-label="アイコン">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="btn-styles">COPY</button>
+<pre id="btn-styles"><span class="tk-com">/* プライマリ：1画面1つ、最重要アクション */</span>
+<span class="tk-key">.btn-primary</span> {
+  <span class="tk-key">background</span>: <span class="tk-str">var(--vermillion)</span>;
+  <span class="tk-key">color</span>: <span class="tk-str">#fff</span>;
+  <span class="tk-key">border</span>: 2px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">border-radius</span>: 14px;
+  <span class="tk-key">padding</span>: 12px 18px;
+  <span class="tk-key">font-weight</span>: 800; <span class="tk-key">font-size</span>: 13px;
+  <span class="tk-key">box-shadow</span>: 4px 4px 0 <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">transition</span>: transform .15s ease;
+}
+<span class="tk-key">.btn-primary:hover</span> { <span class="tk-key">transform</span>: translateY(-2px); }
+
+<span class="tk-com">/* セカンダリ Ink：補助だけど目立たせたい */</span>
+<span class="tk-key">.btn-ink</span> {
+  <span class="tk-key">background</span>: <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">color</span>: <span class="tk-str">var(--sun)</span>;
+  <span class="tk-key">box-shadow</span>: 4px 4px 0 <span class="tk-str">var(--vermillion)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <h3 class="subhead">使い分け</h3>
+      <div class="rule-strip">
+        <div class="label">— USE WHEN</div>
+        <div class="text">
+          <strong>Primary（バーミリオン）：</strong>送信、登録、購入、コラボ承認など、その画面で <strong>最も重要な1つ</strong> のアクション。<br>
+          <strong>Ink Secondary（黒地サン）：</strong>補助的だが目立たせたいアクション。「次へ」「保存」など。<br>
+          <strong>Paper Sub（紙地黒）：</strong>キャンセル、戻る、控えめな選択肢。<br>
+          <strong>Icon Button：</strong>ヘッダー・ナビゲーション内のシンボル単体。
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 06. FORMS ============ -->
+    <section class="chapter" id="forms">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 06</div>
+        <h2><span class="em">📝</span>フォーム & チップ</h2>
+        <p class="desc">
+          入力要素はすべて <strong>紙地に黒の縁取り＋3pxの影</strong>。フォーカス時にバーミリオンの影に変化して、
+          「いま入力中」を強調します。
+        </p>
+      </div>
+
+      <h3 class="subhead">テキスト入力</h3>
+      <div class="demo-block">
+        <div class="demo-stage" style="flex-direction:column;align-items:flex-start;gap:10px;">
+          <input class="input-demo" type="text" placeholder="氏名を入力..." />
+          <input class="input-demo" type="email" placeholder="hana@xxx-u.ac.jp" />
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="input">COPY</button>
+<pre id="input"><span class="tk-key">.input</span> {
+  <span class="tk-key">background</span>: <span class="tk-str">var(--paper)</span>;
+  <span class="tk-key">border</span>: 1.5px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">border-radius</span>: 10px;
+  <span class="tk-key">padding</span>: 11px 13px;
+  <span class="tk-key">font-size</span>: 14px;
+  <span class="tk-key">outline</span>: none;
+  <span class="tk-key">transition</span>: box-shadow .15s ease;
+}
+<span class="tk-key">.input:focus</span> {
+  <span class="tk-key">box-shadow</span>: 3px 3px 0 <span class="tk-str">var(--vermillion)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <h3 class="subhead">セレクトチップ</h3>
+      <p class="note">単一選択・複数選択ともに同じスタイル。選ばれた瞬間に <code class="inline">--ink</code> 地に <code class="inline">--sun</code> 文字＋赤影に切り替わります。</p>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <span class="chip-demo selected">経済学部</span>
+          <span class="chip-demo">商学部</span>
+          <span class="chip-demo">理工学部</span>
+          <span class="chip-demo">情報学部</span>
+          <span class="chip-demo">文学部</span>
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="chip">COPY</button>
+<pre id="chip"><span class="tk-key">.chip</span> {
+  <span class="tk-key">background</span>: <span class="tk-str">var(--paper)</span>;
+  <span class="tk-key">border</span>: 1.5px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">border-radius</span>: 999px;
+  <span class="tk-key">padding</span>: 7px 13px;
+  <span class="tk-key">font-weight</span>: 800; <span class="tk-key">font-size</span>: 12px;
+  <span class="tk-key">cursor</span>: pointer;
+}
+<span class="tk-key">.chip.selected</span> {
+  <span class="tk-key">background</span>: <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">color</span>: <span class="tk-str">var(--sun)</span>;
+  <span class="tk-key">box-shadow</span>: 2px 2px 0 <span class="tk-str">var(--vermillion)</span>;
+}</pre>
+        </div>
+      </div>
+
+      <h3 class="subhead">タグ</h3>
+      <p class="note">タグはチップと違って黒地サン色固定。<code class="inline">#</code> 記号がCSSの擬似要素で自動付与されます。</p>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <span class="tag-demo">AI</span>
+          <span class="tag-demo">学食</span>
+          <span class="tag-demo">時短</span>
+          <span class="tag-demo">EDUTECH</span>
+          <span class="tag-demo">サステナ</span>
+        </div>
+      </div>
+
+      <h3 class="subhead">トグル</h3>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <div class="toggle-demo on" onclick="this.classList.toggle('on')"></div>
+          <div class="toggle-demo" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 07. CARDS ============ -->
+    <section class="chapter" id="cards">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 07</div>
+        <h2><span class="em">🃏</span>カード & バッジ</h2>
+        <p class="desc">
+          情報の単位は「カード」で表現します。すべてのカードに <strong>キッカー → タイトル → 説明</strong> の3段構造。
+        </p>
+      </div>
+
+      <h3 class="subhead">基本カード</h3>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <div class="card-mini">
+            <div class="label">— LATEST</div>
+            <div class="ttl">学食AI予測</div>
+            <div class="desc">今日の混雑も、品切れも、AIがおしえる。</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subhead">アイディアカード（プレビュー）</h3>
+      <p class="note">アイディアの一覧で使う「ステッカー」型カード。テーマ色＋カテゴリラベル＋RocknRollロゴ＋透明絵文字背景の4要素で構成。</p>
+      <div class="demo-block">
+        <div class="demo-stage" style="background: linear-gradient(135deg, #2A2333, #14111B); padding: 30px;">
+          <div class="idea-preview">
+            <span class="topline">FOOD TECH</span>
+            <span class="me">🍱</span>
+            <span class="ml">学食AI予測</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="subhead">バッジ・スタンプ</h3>
+      <p class="note">
+        <strong>ピル：</strong>状態を表すラベル（NEW、未読など）。<br>
+        <strong>スタンプ：</strong>傾けて貼り付けたような演出（OFFICIAL、BETA など）。
+      </p>
+      <div class="demo-block">
+        <div class="demo-stage">
+          <span class="pill-demo">NEW</span>
+          <span class="pill-demo" style="background: var(--mint); color: var(--ink);">+5 ♥</span>
+          <span class="pill-demo" style="background: var(--purple);">COLLAB</span>
+          <span class="stamp-demo">OFFICIAL</span>
+          <span class="stamp-demo" style="background: var(--vermillion); color: #fff;">BETA</span>
+        </div>
+        <div class="demo-code">
+          <button class="copy-btn" data-code="stamp">COPY</button>
+<pre id="stamp"><span class="tk-key">.stamp</span> {
+  <span class="tk-key">background</span>: <span class="tk-str">var(--sun)</span>;
+  <span class="tk-key">color</span>: <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">font-family</span>: <span class="tk-str">'Bricolage Grotesque'</span>, sans-serif;
+  <span class="tk-key">font-weight</span>: 800; <span class="tk-key">font-size</span>: 10px;
+  <span class="tk-key">padding</span>: 4px 9px;
+  <span class="tk-key">border</span>: 1.5px solid <span class="tk-str">var(--ink)</span>;
+  <span class="tk-key">box-shadow</span>: 2px 2px 0 <span class="tk-str">var(--vermillion)</span>;
+  <span class="tk-key">transform</span>: rotate(8deg);
+  <span class="tk-key">letter-spacing</span>: .15em;
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 08. PATTERNS ============ -->
+    <section class="chapter" id="patterns">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 08</div>
+        <h2><span class="em">🧩</span>パターン</h2>
+        <p class="desc">
+          コンポーネントを組み合わせた、繰り返し使う「型」。新しい画面を作るときは、まずこの型から組み立てます。
+        </p>
+      </div>
+
+      <h3 class="subhead">セクション見出しパターン</h3>
+      <p class="note">
+        全画面で共通のセクション開始の合図。<strong>キッカー（小さい英字ラベル）→ 見出し → 説明</strong> の3段構造。
+        キッカーは <code class="inline">— [LABEL]</code> 形式の英字＋ダッシュで、サン色の蛍光ペン強調を見出しに1つ。
+      </p>
+      <div class="demo-block">
+        <div class="demo-stage" style="flex-direction:column;align-items:flex-start;text-align:left;padding:24px;background:var(--cream);">
+          <div style="
+            display:inline-flex;align-items:center;gap:6px;
+            font-family:'Bricolage Grotesque',sans-serif;
+            font-weight:800;font-size:10px;
+            color:var(--vermillion);letter-spacing:.25em;
+          ">
+            <span style="width:18px;height:2px;background:var(--vermillion);"></span>
+            LATEST
+          </div>
+          <h2 style="
+            margin: 6px 0 4px;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-weight: 900; font-size: 22px;
+            letter-spacing: -.02em;
+          ">新着の<span style="background: linear-gradient(transparent 60%, var(--sun) 60%); padding: 0 4px;">アイディア</span></h2>
+          <p style="margin:4px 0 0;font-size:12px;color:var(--ink-2);line-height:1.6;">
+            毎日、全国の大学から100件以上のアイディアが投稿されています。
+          </p>
+        </div>
+      </div>
+
+      <h3 class="subhead">ボトムCTA（モバイル）</h3>
+      <p class="note">モバイル画面の底部に固定するアクションバー。背景は紙、上に2px黒線。</p>
+      <div class="rule-strip">
+        <div class="label">— PATTERN RULE</div>
+        <div class="text">
+          ・常に2px の上線で本文と分離 <br>
+          ・余白は <code>12px 18px 24px</code>（下を厚めに：iPhoneのホームインジケータを意識） <br>
+          ・3つ以上のボタンを並べないこと
+        </div>
+      </div>
+
+      <h3 class="subhead">空状態 / エラー状態</h3>
+      <div class="rule-strip">
+        <div class="label">— EMPTY STATE</div>
+        <div class="text">
+          中央寄せ、絵文字（48-56px）、見出し（900）、説明（1行）の4要素。<br>
+          例：<strong>📭 該当する通知はありません</strong> ／ <em>別のカテゴリを選んでみてください</em>
+        </div>
+      </div>
+
+      <h3 class="subhead">確認モーダル</h3>
+      <div class="rule-strip">
+        <div class="label">— MODAL DESIGN</div>
+        <div class="text">
+          ・絵文字（48-60px）が常に最初<br>
+          ・見出し（900）→ 説明（1.65 line-height）→ プライマリ → セカンダリの順<br>
+          ・<code>bounceIn</code> で 0.55s かけて弾むように出現<br>
+          ・破壊的アクション（削除など）は影をバーミリオンに
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 09. MOTION ============ -->
+    <section class="chapter" id="motion">
+      <div class="chapter-head">
+        <div class="chapter-num">CHAPTER 09</div>
+        <h2><span class="em">🎬</span>モーション</h2>
+        <p class="desc">
+          動きにも法則があります。<strong>速くて軽い</strong> が基本（150〜350ms）。重い動きは特別な瞬間にだけ使います。
+        </p>
+      </div>
+
+      <h3 class="subhead">タイミング</h3>
+      <div class="scale-grid">
+        <div class="scale-row"><span class="token">--motion-fast</span><span class="vis" style="height: 14px;"></span><span class="val">120ms / リアクション</span></div>
+        <div class="scale-row"><span class="token">--motion-base</span><span class="vis" style="height: 14px; background: var(--vermillion);"></span><span class="val">150ms / 基本</span></div>
+        <div class="scale-row"><span class="token">--motion-medium</span><span class="vis" style="height: 14px; background: var(--sun);"></span><span class="val">250ms / 状態切替</span></div>
+        <div class="scale-row"><span class="token">--motion-slow</span><span class="vis" style="height: 14px; background: var(--mint);"></span><span class="val">350-550ms / モーダル登場</span></div>
+        <div class="scale-row"><span class="token">--motion-feature</span><span class="vis" style="height: 14px; background: var(--indigo);"></span><span class="val">900ms+ / 特別演出</span></div>
+      </div>
+
+      <h3 class="subhead">イージング</h3>
+      <p class="note">基本は <code class="inline">ease</code> または <code class="inline">cubic-bezier(.5, 1.5, .5, 1)</code> の弾むカーブ。</p>
+      <div class="demo-block">
+        <div class="demo-code">
+          <button class="copy-btn" data-code="easings">COPY</button>
+<pre id="easings"><span class="tk-com">/* 基本 — UI状態切替 */</span>
+<span class="tk-key">transition</span>: all .15s ease;
+
+<span class="tk-com">/* 弾む — モーダル登場、成功演出 */</span>
+<span class="tk-key">animation</span>: bounce .55s cubic-bezier(.5, 1.5, .5, 1);
+
+<span class="tk-com">/* 浮く — ホバー時の沈み */</span>
+<span class="tk-key">.btn:hover</span> { <span class="tk-key">transform</span>: translateY(-2px); }
+
+<span class="tk-com">/* 揺れる — 永続アニメーション */</span>
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-6px) rotate(-6deg); }
+}</pre>
+        </div>
+      </div>
+
+      <h3 class="subhead">よく使うアニメーション</h3>
+      <div class="principles-grid">
+        <div class="principle-card p1">
+          <div class="num">01</div>
+          <h4>Hover Float</h4>
+          <p>ボタン・カードを150msで <code>translateY(-2px)</code>。「押せる感」の基本。</p>
+        </div>
+        <div class="principle-card p2">
+          <div class="num">02</div>
+          <h4>Bounce In</h4>
+          <p>モーダル・成功画面で550msかけて <code>scale(.5)→1</code>。喜びの演出。</p>
+        </div>
+        <div class="principle-card p3">
+          <div class="num">03</div>
+          <h4>Pulse</h4>
+          <p>未読ドット・ライブ表示などで1.4sの呼吸。「生きてる感」。</p>
+        </div>
+        <div class="principle-card p4">
+          <div class="num">04</div>
+          <h4>Shake</h4>
+          <p>無効入力時に350ms左右ブレ。優しい否定のフィードバック。</p>
+        </div>
+      </div>
+
+      <h3 class="subhead">設計原則（4つの哲学）</h3>
+      <div class="principles-grid" style="margin-top:14px;">
+        <div class="principle-card p1">
+          <div class="num">01</div>
+          <h4>触ってわかる「ステッカー感」</h4>
+          <p>2px縁取り＋3-4pxオフセット影でリソグラフ印刷の質感を再現。すべてのカード型要素に適用。</p>
+        </div>
+        <div class="principle-card p2">
+          <div class="num">02</div>
+          <h4>4色だけで世界を表現</h4>
+          <p>クリーム / インク / バーミリオン / サンを基本に色を絞る。補助色は意味があるときだけ。</p>
+        </div>
+        <div class="principle-card p3">
+          <div class="num">03</div>
+          <h4>3つのフォントで役割を分ける</h4>
+          <p>Zen Kaku Gothic / RocknRoll One / Bricolage Grotesque で声色を分ける。役割を交差させない。</p>
+        </div>
+        <div class="principle-card p4">
+          <div class="num">04</div>
+          <h4>使った瞬間に笑顔になる細部</h4>
+          <p>紙吹雪、回転テーブル、絵文字の揺れ、ボタンの沈み込み。機能じゃなく感情を設計する。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ コピーしました</div>
+
+<script>
+// ===== Copy buttons =====
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.code;
+    const codeBlock = document.getElementById(id);
+    if (!codeBlock) return;
+    const text = codeBlock.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('✓ コードをコピーしました');
+    }).catch(() => {
+      showToast('コピーに失敗しました');
+    });
+  });
+});
+
+// ===== Hex copy =====
+document.querySelectorAll('.hex').forEach(h => {
+  h.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const hex = h.dataset.hex;
+    navigator.clipboard.writeText(hex).then(() => {
+      showToast(`✓ ${hex} をコピーしました`);
+    });
+  });
+});
+
+// ===== Swatch click → copy hex =====
+document.querySelectorAll('.swatch').forEach(s => {
+  s.addEventListener('click', () => {
+    const hex = s.querySelector('.hex')?.dataset.hex;
+    if (hex) {
+      navigator.clipboard.writeText(hex).then(() => {
+        showToast(`✓ ${hex} をコピーしました`);
+      });
+    }
+  });
+});
+
+// ===== Toast =====
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ===== TOC active state on scroll =====
+const sections = document.querySelectorAll('.chapter');
+const tocLinks = document.querySelectorAll('.toc a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      tocLinks.forEach(l => {
+        const isActive = l.getAttribute('href') === '#' + id;
+        l.classList.toggle('active', isActive);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+sections.forEach(s => observer.observe(s));
+
+// ===== Demo chip toggle =====
+document.querySelectorAll('.chip-demo').forEach(c => {
+  c.addEventListener('click', () => c.classList.toggle('selected'));
+});
+</script>
+
+</body>
+</html>

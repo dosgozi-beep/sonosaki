@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜アイディア詳細</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FBF5E5;
+    --cream-2: #F2EAD0;
+    --paper: #FFFDF6;
+    --ink: #14111B;
+    --ink-2: #3A3340;
+    --vermillion: #E8412B;
+    --vermillion-deep: #B82B1A;
+    --purple: #9333A8;
+    --sun: #FFCE2E;
+    --mint: #6CD4B6;
+    --indigo: #4A45D6;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 28px 16px 48px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .phone {
+    width: 100%;
+    max-width: 412px;
+    background: var(--cream);
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 88px;
+    box-shadow:
+      0 0 0 2px #2A2333,
+      0 0 0 12px #14111B,
+      0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65),
+      0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    opacity: .55;
+    z-index: 1;
+  }
+
+  .notch {
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 28px;
+    background: #14111B;
+    border-radius: 16px;
+    z-index: 5;
+  }
+
+  .status-bar {
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 22px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--ink);
+    letter-spacing: .02em;
+    position: relative;
+    z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; font-size: 13px; }
+  .status-bar .battery {
+    width: 26px; height: 12px; border-radius: 3px;
+    border: 1.5px solid var(--ink); position: relative;
+  }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative;
+    z-index: 2;
+    padding: 8px 18px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .icon-btn {
+    width: 38px; height: 38px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform .15s ease;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .topbar .actions { display: flex; gap: 8px; }
+
+  /* === Hero === */
+  .hero-card {
+    position: relative;
+    z-index: 2;
+    margin: 6px 18px 0;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    overflow: hidden;
+    color: #fff;
+    padding: 18px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero-card .thumb-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-card > *:not(.thumb-art) {
+    position: relative;
+    z-index: 1;
+  }
+  .hero-card .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    letter-spacing: .15em;
+    line-height: 1;
+  }
+  .hero-card .emoji-bg {
+    display: none;
+  }
+  .hero-card .hero-logo {
+    margin: 0;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 42px;
+    line-height: 1.05;
+    letter-spacing: .005em;
+    text-shadow: 3px 3px 0 rgba(20,17,27,.55);
+    position: relative;
+    z-index: 2;
+  }
+  .hero-card .hero-tag {
+    margin: 8px 0 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255,255,255,.95);
+    text-shadow: 1px 1px 0 rgba(20,17,27,.4);
+    position: relative;
+    z-index: 2;
+  }
+  .hero-card .stamp {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: .15em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transform: rotate(8deg);
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    z-index: 3;
+  }
+
+  /* Theme variants */
+  .theme-vermillion { background: linear-gradient(160deg,#E8412B,#FF7F3F); }
+  .theme-indigo     { background: linear-gradient(160deg,#4A45D6,#7B6CFF); }
+  .theme-mint       { background: linear-gradient(160deg,#1B7F5A,#6CD4B6); }
+  .theme-sun        { background: linear-gradient(160deg,#D4A100,#FFCE2E); color: var(--ink); }
+  .theme-sun .topline { background: var(--ink); color: var(--sun); }
+  .theme-sun .hero-logo { color: var(--ink); text-shadow: 3px 3px 0 rgba(255,255,255,.6); }
+  .theme-sun .hero-tag { color: var(--ink); text-shadow: 1px 1px 0 rgba(255,255,255,.5); }
+  .theme-night      { background: linear-gradient(160deg,#0E2C5C,#3F6FB0); }
+  .theme-navy       { background: linear-gradient(160deg,#0E2C5C,#3F6FB0); }
+  .theme-rose       { background: linear-gradient(160deg,#C13F77,#FF93C5); }
+  .theme-teal       { background: linear-gradient(160deg,#1D7A7A,#48C7C7); }
+  .theme-purple     { background: linear-gradient(160deg,#9333A8,#D27BFF); }
+
+  /* === Author strip === */
+  .author-strip {
+    position: relative;
+    z-index: 2;
+    margin: 16px 18px 0;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .author-strip .avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--cream-2);
+    border: 2px solid var(--ink);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .author-strip .avatar svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .author-strip .meta { flex: 1; line-height: 1.2; }
+  .author-strip .name { font-weight: 900; font-size: 13px; color: var(--ink); }
+  .author-strip .dept {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--ink-2);
+    margin-top: 3px;
+    letter-spacing: .04em;
+  }
+  .author-strip .stats {
+    display: flex;
+    gap: 10px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+  }
+  .author-strip .stat { display: flex; align-items: center; gap: 3px; }
+  .author-strip .stat.likes { color: var(--vermillion); }
+  .author-strip .stat svg { width: 13px; height: 13px; }
+
+  /* === Section blocks === */
+  .section {
+    position: relative;
+    z-index: 2;
+    margin-top: 24px;
+    padding: 0 22px;
+  }
+  .section .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--vermillion);
+    letter-spacing: .25em;
+    text-transform: uppercase;
+  }
+  .section .kicker::before {
+    content: ""; width: 22px; height: 2px; background: var(--vermillion);
+  }
+  .section h2 {
+    margin: 6px 0 10px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: -.02em;
+    color: var(--ink);
+  }
+  .section p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+
+  /* Highlight cards (Problem / Approach) */
+  .highlight-block {
+    margin-top: 12px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+  }
+  .highlight-block.problem { border-color: var(--vermillion); box-shadow: 4px 4px 0 var(--vermillion); }
+  .highlight-block.solution { border-color: var(--ink); box-shadow: 4px 4px 0 var(--sun); background: var(--paper); }
+  .highlight-block .icon {
+    position: absolute;
+    top: -14px; left: 14px;
+    width: 32px; height: 32px;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+  }
+  .highlight-block.problem .icon { background: var(--vermillion); border-color: var(--ink); }
+  .highlight-block.solution .icon { background: var(--sun); border-color: var(--ink); }
+  .highlight-block p {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  /* Tags */
+  .tag-list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 5px 10px;
+    border-radius: 999px;
+    letter-spacing: .04em;
+  }
+  .tag::before { content: "#"; opacity: .55; margin-right: 1px; }
+
+  /* === Comments === */
+  .comments {
+    margin-top: 28px;
+    padding: 22px 18px 0;
+    border-top: 2px dashed rgba(20,17,27,.18);
+    position: relative;
+    z-index: 2;
+  }
+  .comments h2 {
+    margin: 6px 0 14px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: -.02em;
+    color: var(--ink);
+  }
+  .comments h2 .count {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--vermillion);
+    margin-left: 6px;
+  }
+  .comment {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .comment .head { display: flex; align-items: center; gap: 8px; }
+  .comment .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--cream-2);
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .comment .avatar svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .comment .who { line-height: 1.2; flex: 1; }
+  .comment .who .n { font-weight: 800; font-size: 12px; }
+  .comment .who .d { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 9px; color: var(--ink-2); margin-top: 2px; letter-spacing: .04em; }
+  .comment .like {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--vermillion);
+  }
+  .comment .text {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+
+  /* Comment input */
+  .comment-input {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 8px 8px 8px 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .comment-input input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+  }
+  .comment-input button {
+    background: var(--ink);
+    color: var(--sun);
+    border: none;
+    border-radius: 9px;
+    padding: 6px 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: .12em;
+    cursor: pointer;
+  }
+
+  /* === Sticky bottom CTA === */
+  .sticky-cta {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 6;
+    background: var(--paper);
+    border-top: 2px solid var(--ink);
+    padding: 12px 18px 24px;
+    display: flex;
+    gap: 10px;
+  }
+  .cta-secondary {
+    flex: 0 0 auto;
+    background: var(--paper);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+  }
+  .cta-secondary:hover { transform: translateY(-2px); }
+  .collab-link {
+    color: var(--purple);
+    box-shadow: 3px 3px 0 var(--purple);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cta-primary {
+    flex: 1;
+    background: var(--vermillion);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .cta-primary:hover { transform: translateY(-2px); }
+  .cta-primary .heart {
+    display: inline-block;
+    transform: scale(1.2);
+  }
+  .cta-primary .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    background: rgba(255,255,255,.25);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+  }
+
+  /* fade in */
+  .phone > * { animation: fadein .5s ease both; }
+  .phone > *:nth-child(2) { animation-delay: .04s; }
+  .phone > *:nth-child(3) { animation-delay: .1s; }
+  .phone > *:nth-child(4) { animation-delay: .14s; }
+  .phone > *:nth-child(5) { animation-delay: .18s; }
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Idea Card Art Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <!-- 001 学食AI予測 - お弁当 + チャート -->
+    <symbol id="art-001" viewBox="0 0 200 120">
+      <rect x="40" y="55" width="100" height="48" rx="3" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" opacity="0.95"/>
+      <line x1="73" y1="55" x2="73" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <line x1="106" y1="55" x2="106" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <circle cx="56" cy="79" r="9" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="78" y="65" width="22" height="30" fill="#6CD4B6" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="123" cy="79" r="9" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="153" y="40" width="9" height="30" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="166" y="20" width="9" height="50" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="179" y="50" width="9" height="20" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="20" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="32" cy="14" r="1.8" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 002 AIノート要約 - 脳 + 線 -->
+    <symbol id="art-002" viewBox="0 0 200 120">
+      <path d="M70 40 Q55 38 50 50 Q40 58 45 72 Q40 85 55 90 Q60 100 75 95 Q90 100 100 92 Q115 95 120 82 Q130 75 125 60 Q130 50 115 45 Q110 35 95 38 Q85 32 70 40 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M65 55 Q70 60 75 55 M85 50 Q90 58 88 65 M75 70 Q85 75 100 70 M90 80 Q100 85 110 80" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="180" y2="40" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="55" x2="175" y2="55" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="70" x2="180" y2="70" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="85" x2="170" y2="85" stroke="#FFCE2E" stroke-width="3"/>
+      <circle cx="20" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="32" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 003 サークル仲間検索 - 2人 + ハート -->
+    <symbol id="art-003" viewBox="0 0 200 120">
+      <circle cx="65" cy="50" r="18" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="55" cy="48" r="2" fill="#14111B"/>
+      <circle cx="73" cy="48" r="2" fill="#14111B"/>
+      <path d="M58 56 Q65 60 72 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="65" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="50" r="18" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="125" cy="48" r="2" fill="#14111B"/>
+      <circle cx="143" cy="48" r="2" fill="#14111B"/>
+      <path d="M128 56 Q135 60 142 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="135" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M100 30 Q92 22 90 32 Q90 38 100 45 Q110 38 110 32 Q108 22 100 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+    </symbol>
+    
+    <!-- 004 古着リレー - シャツ + 矢印 -->
+    <symbol id="art-004" viewBox="0 0 200 120">
+      <path d="M65 40 L80 30 L90 38 Q100 45 110 38 L120 30 L135 40 L145 60 L130 65 L130 100 L70 100 L70 65 L55 60 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="50" r="5" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M155 65 L185 65 M180 60 L185 65 L180 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M30 65 L20 65 M25 60 L20 65 L25 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="170" cy="30" r="2.5" fill="#FFCE2E"/>
+      <circle cx="180" cy="20" r="1.8" fill="#FFCE2E"/>
+      <circle cx="20" cy="100" r="2" fill="#FFCE2E"/>
+    </symbol>
+    
+    <!-- 005 研究室24時間化 - 試験管 + 月 -->
+    <symbol id="art-005" viewBox="0 0 200 120">
+      <rect x="55" y="35" width="20" height="60" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="50" y="30" width="30" height="8" fill="#14111B"/>
+      <rect x="55" y="65" width="20" height="30" fill="#6CD4B6"/>
+      <circle cx="62" cy="80" r="2" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="68" cy="85" r="1.5" fill="#FBF5E5" opacity="0.7"/>
+      <rect x="95" y="45" width="20" height="50" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="90" y="40" width="30" height="8" fill="#14111B"/>
+      <rect x="95" y="70" width="20" height="25" fill="#FFCE2E"/>
+      <path d="M155 35 Q175 40 175 60 Q175 80 155 85 Q170 75 170 60 Q170 45 155 35 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="155" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 006 忘れ物GPS - ピン + 円波紋 -->
+    <symbol id="art-006" viewBox="0 0 200 120">
+      <circle cx="100" cy="60" r="38" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5"/>
+      <circle cx="100" cy="60" r="26" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7"/>
+      <path d="M100 25 Q85 25 85 45 Q85 55 100 75 Q115 55 115 45 Q115 25 100 25 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="45" r="6" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="100" cy="85" rx="15" ry="4" fill="#14111B" opacity="0.3"/>
+      <circle cx="40" cy="35" r="4" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="160" cy="90" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="170" cy="35" r="2" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 007 学割シェア - 札 + パーセンテージ -->
+    <symbol id="art-007" viewBox="0 0 200 120">
+      <rect x="40" y="40" width="80" height="50" rx="6" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" transform="rotate(-8 80 65)"/>
+      <circle cx="55" cy="55" r="3" fill="#14111B" transform="rotate(-8 80 65)"/>
+      <text x="65" y="73" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="24" fill="#14111B" transform="rotate(-8 80 65)">¥</text>
+      <rect x="100" y="55" width="60" height="40" rx="6" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5" transform="rotate(5 130 75)"/>
+      <text x="115" y="83" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="20" fill="#14111B" transform="rotate(5 130 75)">% OFF</text>
+      <circle cx="30" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="180" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="170" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 008 深夜カフェ - コップ + 三日月 -->
+    <symbol id="art-008" viewBox="0 0 200 120">
+      <path d="M155 30 Q175 35 175 55 Q175 75 155 80 Q170 70 170 55 Q170 40 155 30 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="25" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="90" r="1.5" fill="#FBF5E5"/>
+      <path d="M50 50 L50 95 Q50 105 60 105 L100 105 Q110 105 110 95 L110 50 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M110 60 Q125 60 125 75 Q125 90 110 90" fill="none" stroke="#14111B" stroke-width="2.5"/>
+      <ellipse cx="80" cy="55" rx="25" ry="5" fill="#6F4E37" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M65 35 Q67 30 70 35 Q70 40 67 42 Q65 40 65 35 Z M75 30 Q77 25 80 30 Q80 35 77 37 Q75 35 75 30 Z M85 35 Q87 30 90 35 Q90 40 87 42 Q85 40 85 35 Z" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="20" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 009 教科書リレー - 本 + 矢印 -->
+    <symbol id="art-009" viewBox="0 0 200 120">
+      <path d="M40 35 L40 95 L98 95 L98 35 L70 30 L40 35 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="69" y1="32" x2="69" y2="95" stroke="#14111B" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="65" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="60" x2="65" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="70" x2="60" y2="70" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="50" x2="92" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="60" x2="92" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="70" x2="88" y2="70" stroke="#14111B" stroke-width="1"/>
+      <path d="M110 65 L150 65 M145 60 L150 65 L145 70" stroke="#14111B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="155" y="40" width="35" height="50" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="160" y1="50" x2="185" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="58" x2="185" y2="58" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="66" x2="180" y2="66" stroke="#14111B" stroke-width="1"/>
+    </symbol>
+    
+    <!-- 010 グルメMAP - ラーメン + ピン -->
+    <symbol id="art-010" viewBox="0 0 200 120">
+      <ellipse cx="80" cy="80" rx="40" ry="12" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M40 80 Q40 60 80 60 Q120 60 120 80" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M55 70 Q60 50 70 60 Q80 50 90 60 Q100 50 105 65" stroke="#FBF5E5" stroke-width="2" fill="none"/>
+      <circle cx="62" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="78" cy="62" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="95" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <path d="M150 30 Q138 30 138 45 Q138 55 150 70 Q162 55 162 45 Q162 30 150 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="150" cy="45" r="5" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M30 30 L40 35 M180 90 L188 88" stroke="#FBF5E5" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="25" cy="100" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 011 匿名質問BOT - 吹き出し + ? -->
+    <symbol id="art-011" viewBox="0 0 200 120">
+      <path d="M40 30 Q30 30 30 42 L30 70 Q30 82 42 82 L60 82 L60 95 L75 82 L100 82 Q112 82 112 70 L112 42 Q112 30 100 30 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <text x="58" y="68" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="32" fill="#14111B">?</text>
+      <path d="M105 50 Q95 50 95 60 L95 80 Q95 90 105 90 L155 90 Q165 90 165 80 L165 60 Q165 50 155 50 L150 50 L145 40 L140 50 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="120" cy="70" r="2" fill="#14111B"/>
+      <circle cx="130" cy="70" r="2" fill="#14111B"/>
+      <circle cx="140" cy="70" r="2" fill="#14111B"/>
+      <circle cx="180" cy="30" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="40" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- art-default - generic decorative motif -->
+    <symbol id="art-default" viewBox="0 0 200 120">
+      <circle cx="50" cy="60" r="30" fill="none" stroke="#FBF5E5" stroke-width="2" opacity="0.5"/>
+      <circle cx="150" cy="60" r="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M70 30 L130 30 M70 90 L130 90" stroke="#FBF5E5" stroke-width="2" stroke-dasharray="4 3"/>
+      <circle cx="100" cy="60" r="8" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-rio" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 50 Q26 26 50 22 Q74 26 72 50 Q72 65 68 70 L68 50 Q60 35 50 32 Q40 35 32 50 L32 70 Q28 65 28 50 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-yui" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M26 45 Q24 25 45 20 Q65 18 74 30 Q76 45 70 60 L70 50 Q60 38 48 35 Q35 38 30 50 Q26 60 26 45 Z" fill="#14111B"/>
+      <path d="M28 28 Q40 20 56 22 L52 36 Q40 38 28 36 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 66 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-daichi" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#9333A8"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 Q28 22 50 22 Q72 22 72 40 Q72 28 50 26 Q35 28 28 40 Z" fill="#14111B"/>
+      <rect x="26" y="36" width="48" height="6" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="42" cy="54" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="54" r="1.5" fill="#14111B"/>
+      <path d="M44 65 Q50 68 56 65" stroke="#14111B" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-mai" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#9333A8" stroke="#14111B" stroke-width="2"/>
+      <path d="M22 50 Q20 25 36 18 Q50 14 64 18 Q80 25 78 50 L78 75 Q76 90 70 95 L70 50 Q66 38 50 33 Q34 38 30 50 L30 95 Q24 90 22 75 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-souta" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q28 22 50 22 Q72 22 72 42 L72 32 Q60 30 50 32 Q40 30 28 32 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-sasaki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q26 22 50 22 Q74 22 72 42 Q72 32 65 32 Q55 30 50 30 Q42 30 35 32 Q28 32 28 42 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-pending" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#F2EAD0"/>
+      <circle cx="50" cy="50" r="35" fill="#FFFDF6" stroke="#14111B" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="50" y="65" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="36" fill="#14111B">?</text>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="campus_innovation_home.html" aria-label="戻る">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <div class="actions">
+      <button class="icon-btn" aria-label="共有">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="保存">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero card -->
+  <section id="heroCard" class="hero-card theme-vermillion">
+    <svg class="thumb-art" id="heroArt" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><use href="#art-001"/></svg>
+    <span id="heroCategory" class="topline">FOOD TECH</span>
+    <span id="heroEmoji" class="emoji-bg">🍱</span>
+    <div class="stamp">IDEA #<span id="heroId">001</span></div>
+    <div>
+      <h1 id="heroTitle" class="hero-logo">学食AI予測</h1>
+      <p id="heroTag" class="hero-tag">今日の混雑も、品切れも、AIがおしえる。</p>
+    </div>
+  </section>
+
+  <!-- Author strip -->
+  <div class="author-strip">
+    <div id="authorAvatar" class="avatar"><svg viewBox="0 0 100 100"><use href="#portrait-sasaki"/></svg></div>
+    <div class="meta">
+      <div id="authorName" class="name">佐々木 ユウキ</div>
+      <div id="authorDept" class="dept">経済学部 3年 · 2026.04.22</div>
+    </div>
+    <div class="stats">
+      <span class="stat likes">♥ <span id="statLikes">312</span></span>
+      <span class="stat">💬 <span id="statComments">28</span></span>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <section class="section">
+    <span class="kicker">— SECTION 01 / OVERVIEW</span>
+    <h2>概要</h2>
+    <p id="textDescription"></p>
+  </section>
+
+  <!-- Problem -->
+  <section class="section">
+    <span class="kicker" style="color:var(--vermillion);">— SECTION 02 / PROBLEM</span>
+    <h2>解決する課題</h2>
+    <div class="highlight-block problem">
+      <div class="icon">💡</div>
+      <p id="textProblem"></p>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section class="section">
+    <span class="kicker" style="color:#B07700;">— SECTION 03 / APPROACH</span>
+    <h2>アプローチ</h2>
+    <div class="highlight-block solution">
+      <div class="icon">⚡</div>
+      <p id="textSolution"></p>
+    </div>
+  </section>
+
+  <!-- Target -->
+  <section class="section">
+    <span class="kicker">— SECTION 04 / TARGET</span>
+    <h2>こんな人に届けたい</h2>
+    <p id="textTarget"></p>
+  </section>
+
+  <!-- Tags -->
+  <section class="section">
+    <span class="kicker">— TAGS</span>
+    <h2 style="font-size:14px;margin:6px 0 4px;">関連キーワード</h2>
+    <div id="tagList" class="tag-list"></div>
+  </section>
+
+  <!-- Comments -->
+  <section class="comments">
+    <span class="kicker" style="color:var(--vermillion);">— DISCUSSION</span>
+    <h2>コメント<span class="count" id="commentCount">(28)</span></h2>
+    <div id="commentsList"></div>
+    <div class="comment-input">
+      <input type="text" placeholder="このアイディアにコメントする..." />
+      <button>送信</button>
+    </div>
+  </section>
+
+  <!-- Sticky bottom CTA -->
+  <div class="sticky-cta">
+    <button class="cta-secondary">💬</button>
+    <a class="cta-secondary collab-link" id="collabLink" href="collab_send.html?id=001" style="text-decoration:none;">🤝 コラボ</a>
+    <button class="cta-primary">
+      <span class="heart">♥</span> 応援する
+      <span class="num" id="ctaLikes">312</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+const ideas = {
+  "001": {
+    "emoji": "🍱",
+    "title": "学食AI予測",
+    "category": "FOOD TECH",
+    "tagline": "今日の混雑も、品切れも、AIがおしえる。",
+    "theme": "vermillion",
+    "author": "佐々木 ユウキ",
+    "avatar": "佐",
+    "dept": "経済学部 3年",
+    "date": "2026.04.22",
+    "likes": 312,
+    "comments_n": 28,
+    "views": "2.1k",
+    "description": "毎日昼休みに学食へ行くと、お目当てのメニューが品切れだったり、レジの行列が信じられない長さだったり。45分の昼休みが、並ぶだけで終わってしまう日もあります。「学食AI予測」は、過去の販売データと履修登録データを学習したAIが、今日のメニュー残数と各食堂の混雑ピークを5分単位で予測してくれるアプリです。",
+    "problem": "昼休みは45分しかないのに、レジ待ちで10分以上並ぶ日もあれば、お目当ての日替わりが11:30で完売している日も。一度行って失敗したら、コンビニに走る時間も残らない。",
+    "solution": "直近3年分の販売データ＋履修登録パターン＋天気＋曜日を学習したモデルが、メニューごとの完売予測時刻と各食堂の混雑ピークを朝のうちに通知。「11:50 第二食堂のチキン南蛮、残り推定12食」のようにピンポイントで教えてくれる。学食側にAPI提供を依頼する仕組みも併設。",
+    "target": "1限から授業が詰まっている人 / 学食ヘビーユーザー / 行列に並ぶのが苦手な人 / 通学に時間がかかる人",
+    "tags": [
+      "AI",
+      "学食",
+      "時短",
+      "機械学習",
+      "データ活用"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "田中 アオイ",
+        "dept": "法学部 2年",
+        "text": "私もこれ毎日困ってる！1限終わってすぐ行っても唐揚げなくなってる時の絶望よ……。",
+        "likes": 24
+      },
+      {
+        "name": "山田 ケンタ",
+        "dept": "理工学部 4年",
+        "text": "販売データって学食側がAPI提供してくれるんでしょうか？そこの調達のところを聞いてみたいです。",
+        "likes": 11
+      },
+      {
+        "name": "藤本 サオリ",
+        "dept": "教育学部 1年",
+        "text": "新入生として地味に死活問題。早く実装してほしい！",
+        "likes": 8
+      }
+    ]
+  },
+  "002": {
+    "emoji": "🧠",
+    "title": "AIノート要約",
+    "category": "EDU TECH",
+    "tagline": "講義の音声を、AIが3分で要約。",
+    "theme": "indigo",
+    "author": "中村 リョウ",
+    "avatar": "中",
+    "dept": "情報学部 2年",
+    "date": "2026.04.18",
+    "likes": 248,
+    "comments_n": 19,
+    "views": "1.8k",
+    "description": "90分の講義、ずっと集中力が持つ人ってどれくらいいるでしょうか。バイトで疲れた日、聞き逃した10分が試験範囲だったりします。「AIノート要約」は、講義を録音するだけで、AIが文字起こし→要約→構造化されたノートを自動で作ってくれるアプリです。",
+    "problem": "講義中に集中が切れる、聞き逃す、ノートを取るのに必死で内容が頭に入らない。試験前にノートを見返しても自分が何を書いたのか思い出せない。",
+    "solution": "スマホで講義を録音 → Whisperで文字起こし → LLMで要点を抽出 → セクション別の構造化ノートを生成。重要な数式・固有名詞は自動で太字化。教授の口癖「ここ試験出ます」も検出して赤字で表示。録音は教授の許可ありの講義のみ対応。",
+    "target": "ノートを取るのが苦手な人 / 復習効率を上げたい人 / 聞き逃した日を補完したい人 / 留学生",
+    "tags": [
+      "AI",
+      "LLM",
+      "Whisper",
+      "ノート",
+      "復習"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "小川 ハル",
+        "dept": "文学部 3年",
+        "text": "教授の許可をどう取るかが鍵ですね。シラバスに録音可否を書く文化を広げる必要がありそう。",
+        "likes": 31
+      },
+      {
+        "name": "井上 タクヤ",
+        "dept": "情報学部 2年",
+        "text": "Whisper local実装ならプライバシー守れそう。MVPなら2週間で作れる気がする。",
+        "likes": 18
+      }
+    ]
+  },
+  "003": {
+    "emoji": "🤝",
+    "title": "サークル仲間検索",
+    "category": "COMMUNITY",
+    "tagline": "「同じ熱量の人」と出会う、新しいマッチング。",
+    "theme": "mint",
+    "author": "渡辺 ミナミ",
+    "avatar": "渡",
+    "dept": "社会学部 1年",
+    "date": "2026.04.20",
+    "likes": 189,
+    "comments_n": 22,
+    "views": "1.4k",
+    "description": "新歓の勢いで入ったサークル、温度感が合わなくて辞めた経験はありませんか。逆に「自分が本当に興味あるニッチな分野」を一緒にやれる人が、なかなか見つからない。「サークル仲間検索」は、趣味と熱量を可視化することで、本当に気が合う仲間を学内で見つけるためのマッチングアプリです。",
+    "problem": "サークルの「ガチ勢」と「ゆる勢」のミスマッチ問題。ニッチすぎる趣味は、そもそも該当するサークルが存在しない。新歓イベントでは雰囲気しか分からない。",
+    "solution": "趣味・関心を「熱量メーター（1〜5）」付きで登録。例：写真 #ストリート 熱量4。同じ趣味＋同じ熱量の人を学内マッチング。最初は匿名アイコン、お互いOKを出した時点で本名と顔を公開。サークル単位でなく「人単位」で繋がる。",
+    "target": "新入生 / ニッチ趣味の学生 / 既存サークルに馴染めなかった人 / 上級生で改めてコミュニティを探したい人",
+    "tags": [
+      "マッチング",
+      "コミュニティ",
+      "サークル",
+      "新歓"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "石田 アヤ",
+        "dept": "社会学部 1年",
+        "text": "新歓ジプシーになってる新入生、これ絶対欲しい。同じ学科でも合う人いなくて困ってます。",
+        "likes": 14
+      },
+      {
+        "name": "藤村 ケイ",
+        "dept": "経済学部 4年",
+        "text": "熱量メーターっていう発想、良いですね。アクティビティの頻度で温度感を可視化するのもアリかも。",
+        "likes": 9
+      }
+    ]
+  },
+  "004": {
+    "emoji": "👕",
+    "title": "古着リレー",
+    "category": "SUSTAIN",
+    "tagline": "着なくなった服が、後輩のスタイルになる。",
+    "theme": "sun",
+    "author": "森田 リオ",
+    "avatar": "森",
+    "dept": "環境学部 4年",
+    "date": "2026.04.15",
+    "likes": 142,
+    "comments_n": 15,
+    "views": "980",
+    "description": "卒業のときに大量の服を捨てる、買って数回しか着ていない服も処分する、こんな経験はありませんか。実はこれ、世界中で起きている深刻な問題です。「古着リレー」は、卒業生が後輩へ服を引き継ぐ、学内クローズドの衣類シェアリングです。",
+    "problem": "卒業時に家具と一緒に大量の衣類を廃棄する文化。一度しか着ていない服も処分される。フリマアプリだと値段交渉が面倒で、結局捨てる方が早い。",
+    "solution": "値段はつけない。出品者は「次に着てくれる人」を写真とサイズ付きで募集。受け取った人は感謝コメント＋着用写真を投稿。「あの先輩の服を私が引き継いだ」という物語が残る。学内ポップアップショップも年2回開催。",
+    "target": "卒業を控える4年生 / ファッションが好きな新入生 / サスティナビリティに関心ある人 / 経済的に節約したい人",
+    "tags": [
+      "サステナビリティ",
+      "古着",
+      "循環型社会",
+      "ファッション"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "高橋 ナナミ",
+        "dept": "デザイン学部 2年",
+        "text": "コーディネート写真をリレーで繋いでいくの、めちゃめちゃエモい。",
+        "likes": 22
+      },
+      {
+        "name": "田村 ショウ",
+        "dept": "環境学部 3年",
+        "text": "環境負荷データを可視化して「あなたの選択でCO2を◯kg削減」みたいな表示も入れたい！",
+        "likes": 12
+      }
+    ]
+  },
+  "005": {
+    "emoji": "🔬",
+    "title": "研究室24時間化",
+    "category": "RESEARCH",
+    "tagline": "夜こそ、研究は加速する。",
+    "theme": "night",
+    "author": "佐藤 ハルト",
+    "avatar": "佐",
+    "dept": "理工学部 大学院M2",
+    "date": "2026.04.10",
+    "likes": 198,
+    "comments_n": 31,
+    "views": "1.6k",
+    "description": "締切前夜、論文の追い込み、実験の最終フェーズ。研究は夜にこそ進むものですが、22時で施錠される研究室では、その時間がまるごと失われてしまいます。家じゃ実験設備も使えません。「研究室24時間化」は、安全を担保しつつ深夜帯も研究室を使えるようにする仕組みです。",
+    "problem": "22時の施錠ルールで研究の生産性が大幅に下がる。家では実験設備が使えないので、結局朝まで悩むだけになる。論文締切間際に物理的にアクセスできないのは死活問題。",
+    "solution": "学生証＋顔認証で深夜帯入退室を管理。利用ログは大学事務に自動共有して安全担保。緊急通報ボタンも各部屋に設置。装置の予約・利用ログも一元化されるので、「あの装置、深夜なら空いてる」が見える化。教員の事前承認制で運用。",
+    "target": "卒業研究中の4年生 / 修論シーズンの大学院生 / 締切前の研究者全般 / 夜型クリエイター",
+    "tags": [
+      "研究",
+      "IoT",
+      "顔認証",
+      "生産性",
+      "DX"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "西川 ユウタ",
+        "dept": "理工学部 D1",
+        "text": "これ、安全管理の話で大学側を説得するのが一番難しい。先行事例として◯◯大学のモデルがあったはず。",
+        "likes": 28
+      },
+      {
+        "name": "宮本 アキラ",
+        "dept": "薬学部 M1",
+        "text": "実験系は深夜の方が集中できるのリアル。教員承認のフローを軽くできれば実現しそう。",
+        "likes": 15
+      },
+      {
+        "name": "桐谷 リカ",
+        "dept": "理工学部 4年",
+        "text": "卒研追い込み中の身として、これを今すぐ実装してほしい……！",
+        "likes": 11
+      }
+    ]
+  },
+  "006": {
+    "emoji": "📍",
+    "title": "忘れ物GPS",
+    "category": "LIFE HACK",
+    "tagline": "その教室に置いてきた水筒、もう泣かせない。",
+    "theme": "navy",
+    "author": "岡本 ソウタ",
+    "avatar": "岡",
+    "dept": "工学部 3年",
+    "date": "2026.04.08",
+    "likes": 167,
+    "comments_n": 18,
+    "views": "1.2k",
+    "description": "教科書、水筒、傘、AirPods…1学期で3回は何かを失くす、それが大学生。学内事務所に問い合わせるのは面倒、SNSで呼びかけるのは恥ずかしい。「忘れ物GPS」は、持ち物にBLEタグをつけて、学内のどこにあるかを瞬時に教えてくれる仕組みです。",
+    "problem": "忘れ物が多いのは大学生あるある。落とし物は事務所に届くまでにタイムラグがあり、その間に他の人に拾われたら戻ってこない。",
+    "solution": "持ち物にBLEタグを貼る。学内の主要ポイント（教室、図書館、食堂）にスキャナーを設置。「あなたの水筒は3号館207教室にあります」とリアルタイム通知。落し物BOXに移動した瞬間にも通知。タグは1個300円程度で配布。",
+    "target": "忘れ物常習犯 / AirPodsをよく失くす人 / 紛失届を出す前に自力で探したい人 / IoTに興味ある学生",
+    "tags": [
+      "IoT",
+      "BLE",
+      "紛失防止",
+      "ハードウェア"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "本田 ナツキ",
+        "dept": "経営学部 2年",
+        "text": "AirTagでよくない？って思ったけど、学内全体でスキャナー網があるのが革命的。",
+        "likes": 19
+      },
+      {
+        "name": "野口 タケル",
+        "dept": "工学部 4年",
+        "text": "プライバシーの設計が肝ですね。学生本人以外には位置情報を見せない仕組みが必須。",
+        "likes": 14
+      }
+    ]
+  },
+  "007": {
+    "emoji": "💸",
+    "title": "学割シェア",
+    "category": "FINANCE",
+    "tagline": "使わない学割、誰かに譲ろう。",
+    "theme": "rose",
+    "author": "山田 リサ",
+    "avatar": "山",
+    "dept": "商学部 3年",
+    "date": "2026.04.12",
+    "likes": 192,
+    "comments_n": 24,
+    "views": "1.5k",
+    "description": "Amazon Prime Student、Adobe学割、出版社の専門書学割……年に1〜2回しか使わないものがほとんど。しかも同じ学校の友達も同じ学割を持っている。「学割シェア」は、全国の大学生で学割を相互シェアして、学校をまたいだ「学割市場」を作る仕組みです。",
+    "problem": "学割は学校・学科ごとに偏っていて、自分が必要な学割を持っていないことが多い。同じ大学の中ではシェアの意味が薄い。",
+    "solution": "全国の大学生で学割を相互シェア。理系学科の学割で買ったソフトを文系の学生に譲り、代わりに文系の出版社学割を使わせてもらう。プラットフォーム上で「在庫」と「需要」をマッチング。決済は学校のメアド認証＋エスクロー。",
+    "target": "節約志向の学生 / 新しいツールを試したい人 / 専門書をたくさん買う人 / 商学・経済学に興味ある人",
+    "tags": [
+      "学割",
+      "シェアエコノミー",
+      "C2C",
+      "節約"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "三浦 アキ",
+        "dept": "デザイン学部 4年",
+        "text": "Adobe CCの学割シェアできたら本当にありがたい。卒業後に切れる人とのバトンリレーも欲しい。",
+        "likes": 26
+      },
+      {
+        "name": "村田 ヒロキ",
+        "dept": "法学部 2年",
+        "text": "規約違反になるサービスもあるので、各社との交渉設計が肝。",
+        "likes": 17
+      }
+    ]
+  },
+  "008": {
+    "emoji": "🌙",
+    "title": "深夜カフェ勉強会",
+    "category": "STUDY",
+    "tagline": "午前3時、誰かと一緒なら頑張れる。",
+    "theme": "teal",
+    "author": "田中 ユイ",
+    "avatar": "田",
+    "dept": "文学部 4年",
+    "date": "2026.04.05",
+    "likes": 156,
+    "comments_n": 21,
+    "views": "1.1k",
+    "description": "テスト前の深夜、ひとりだとモチベが続かない。Discordの勉強会は雑談で終わる。リアルなカフェは閉まってる。「深夜カフェ勉強会」は、深夜だけ開く学生限定のオンラインカフェ。30分集中→5分雑談を繰り返す、Pomodoro型のコミュニティです。",
+    "problem": "深夜の孤独な勉強はモチベが切れがち。一人だと集中できない、でもDiscordだと雑談で終わる。",
+    "solution": "23時〜5時だけ開放されるオンラインルーム。30分集中→5分雑談のPomodoroタイマー連動。カメラON必須（手元だけでもOK）。学校の枠を超えた全国の徹夜組と繋がれる。30分集中後にちょっと褒め合うチャットで疲労が和らぐ仕組み。",
+    "target": "試験期間の学生 / 留学準備の人 / 深夜型クリエイター / 一人だと集中できないタイプ",
+    "tags": [
+      "Pomodoro",
+      "勉強会",
+      "コミュニティ",
+      "生産性"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "白石 サラ",
+        "dept": "文学部 3年",
+        "text": "テスト期間に絶対欲しいやつ。手元カメラだけでOKっていうのが心理的ハードル下げてて良い。",
+        "likes": 21
+      },
+      {
+        "name": "黒田 ケンイチ",
+        "dept": "情報学部 1年",
+        "text": "全国規模になったら時差で「常に誰かいる」状態が作れそう。",
+        "likes": 13
+      }
+    ]
+  },
+  "009": {
+    "emoji": "📚",
+    "title": "教科書リレーフリマ",
+    "category": "SUSTAIN",
+    "tagline": "教科書、後輩に渡せばゼロ円。",
+    "theme": "mint",
+    "author": "鈴木 ナオ",
+    "avatar": "鈴",
+    "dept": "商学部 2年",
+    "date": "2026.04.16",
+    "likes": 167,
+    "comments_n": 14,
+    "views": "1.0k",
+    "description": "大学指定の教科書、5,000円超は普通。1学期使ったら出番ない。Amazonで売っても二束三文。「教科書リレーフリマ」は、上級生から後輩へ教科書をリレーする、学内クローズドのフリマです。",
+    "problem": "高額な教科書を1学期で使い終わって死蔵。Amazonの買取は二束三文。後輩は新品を買わざるを得ない。",
+    "solution": "学内限定のリレーフリマ。価格は「定価÷使用回数＋ドネーション」で公正に算出。書き込みやマーカーは「先輩のヒント集」として残せる仕様。誰がいつ使った教科書なのかが履歴で見える「先輩の系譜」機能も。",
+    "target": "新入生〜3年生全員 / 必修科目が多い学部 / 専門書が高額な学部",
+    "tags": [
+      "フリマ",
+      "教科書",
+      "循環",
+      "C2C"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "三上 ジュリ",
+        "dept": "商学部 1年",
+        "text": "先輩のマーカーが「ヒント集」になるの、控えめに言って最高。",
+        "likes": 18
+      },
+      {
+        "name": "高木 リョウタ",
+        "dept": "法学部 4年",
+        "text": "卒業前に在庫整理したい4年として、これあったら助かる。",
+        "likes": 9
+      }
+    ]
+  },
+  "010": {
+    "emoji": "🍜",
+    "title": "キャンパスグルメMAP",
+    "category": "LOCAL",
+    "tagline": "学割クーポン付き、最強の地図。",
+    "theme": "sun",
+    "author": "高橋 マイ",
+    "avatar": "高",
+    "dept": "観光学部 3年",
+    "date": "2026.04.14",
+    "likes": 119,
+    "comments_n": 12,
+    "views": "890",
+    "description": "大学周辺の隠れた名店、口コミでしか伝わりません。新入生は2年経ってもチェーン店ばかり。「キャンパスグルメMAP」は、学生が投稿するレビューと、お店と提携した学割クーポンが地図上で一覧できる、地域密着の食ガイドです。",
+    "problem": "せっかく大学に通ってるのに、地元の名店を知らないまま卒業する人が多い。チェーン店ばかりじゃもったいない。",
+    "solution": "学生がレビュー＋写真を投稿。大学生協と地域商店会が連携して、提携店の学割クーポンを地図上に展開。実食レポは月一更新。「テスト期間の栄養補給」「金欠の味方」など目的別フィルタも搭載。",
+    "target": "新入生 / 外食好き / 地域密着派 / 観光学・地域経済に関心ある人",
+    "tags": [
+      "グルメ",
+      "ローカル",
+      "学割",
+      "観光"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "井上 ハナ",
+        "dept": "観光学部 2年",
+        "text": "地域経済の活性化にも繋がる。卒業研究のテーマにもなりそう。",
+        "likes": 11
+      },
+      {
+        "name": "森下 ケイタ",
+        "dept": "経済学部 1年",
+        "text": "新入生の救世主アプリ。1年生のうちに知りたかった！",
+        "likes": 8
+      }
+    ]
+  },
+  "011": {
+    "emoji": "💬",
+    "title": "オンライン質問BOT",
+    "category": "EDU TECH",
+    "tagline": "教授に聞きにくい、を解決する。",
+    "theme": "rose",
+    "author": "中村 アスカ",
+    "avatar": "中",
+    "dept": "文学部 2年",
+    "date": "2026.04.11",
+    "likes": 98,
+    "comments_n": 9,
+    "views": "720",
+    "description": "講義中の些細な疑問、教授に直接聞くのは気が引ける。LINEで質問するほどでもないけど、答えがないと前提が崩れて先に進めない。「オンライン質問BOT」は、各講義専用のAIに匿名で気軽に聞ける仕組みです。",
+    "problem": "教授や先輩に聞くハードルが高い。匿名質問箱はあっても返信が遅い。LMSでの質問は周りに見られる。",
+    "solution": "各講義専用のAIボット。教授がシラバス・参考文献・過去のFAQをアップロード。学生は匿名でなんでも聞ける。教授は週1で「よくある質問トップ5」をレビューして補足。AIだが回答の最終責任は教授にある建付け。",
+    "target": "内向的な学生 / 留学生（言語の壁） / 復習したい人 / 大規模講義で質問しづらい人",
+    "tags": [
+      "AI",
+      "教育",
+      "LLM",
+      "RAG",
+      "匿名"
+    ],
+    "cta_a": "応援する",
+    "comments": [
+      {
+        "name": "林 ユウキ",
+        "dept": "経済学部 1年",
+        "text": "大規模講義で手を挙げる勇気ない人類の救世主。",
+        "likes": 13
+      },
+      {
+        "name": "Anna Müller",
+        "dept": "国際学部 交換留学",
+        "text": "Japanese is hard for me. This BOT could help me to ask in English first.",
+        "likes": 8
+      }
+    ]
+  }
+};
+
+function render(id) {
+  const idea = ideas[id] || ideas['001'];
+
+  // Hero
+  const hero = document.getElementById('heroCard');
+  hero.className = 'hero-card theme-' + idea.theme;
+  document.getElementById('heroCategory').textContent = idea.category;
+  document.getElementById('heroEmoji').textContent = idea.emoji;
+  document.querySelector('#heroArt use').setAttribute('href', '#art-' + id);
+  document.getElementById('heroTitle').textContent = idea.title;
+  document.getElementById('heroTag').textContent = idea.tagline;
+  document.getElementById('heroId').textContent = id;
+  document.title = idea.title + ' — キャンパスイノベーション';
+
+  // Author
+  // Portrait mapping by name
+  function getPortrait(name) {
+    const map = {
+      '佐々木 ユウキ': 'sasaki', '中村 リョウ': 'ryou', '渡辺 ミナミ': 'minami',
+      '森田 リオ': 'rio', '佐藤 ハルト': 'haruto', '岡本 ソウタ': 'souta',
+      '山田 リサ': 'risa', '田中 ユイ': 'yui', '鈴木 ナオ': 'risa',
+      '高橋 マイ': 'mai', '中村 アスカ': 'rio', '田中 ユウキ': 'yuki',
+      '山下 ダイチ': 'daichi'
+    };
+    if (map[name]) return map[name];
+    // Fallback by surname for comment authors
+    const surnameMap = {
+      '田中': 'yui', '山田': 'haruto', '佐藤': 'haruto', '鈴木': 'risa',
+      '高橋': 'mai', '中村': 'ryou', '渡辺': 'minami', '伊藤': 'yui',
+      '小林': 'souta', '加藤': 'rio', '藤本': 'minami', '森田': 'rio',
+      '岡本': 'souta', '佐々木': 'sasaki', '吉田': 'haruto', '山本': 'sasaki'
+    };
+    const surname = name.split(' ')[0];
+    return surnameMap[surname] || 'sasaki';
+  }
+  
+  document.getElementById('authorAvatar').innerHTML = `<svg viewBox="0 0 100 100"><use href="#portrait-${getPortrait(idea.author)}"/></svg>`;
+  document.getElementById('authorName').textContent = idea.author;
+  document.getElementById('authorDept').textContent = idea.dept + ' · ' + idea.date;
+  document.getElementById('statLikes').textContent = idea.likes;
+  document.getElementById('statComments').textContent = idea.comments_n;
+  document.getElementById('ctaLikes').textContent = idea.likes;
+  document.getElementById('collabLink').href = 'collab_send.html?id=' + id;
+
+  // Sections
+  document.getElementById('textDescription').textContent = idea.description;
+  document.getElementById('textProblem').textContent = idea.problem;
+  document.getElementById('textSolution').textContent = idea.solution;
+  document.getElementById('textTarget').textContent = idea.target;
+
+  // Tags
+  const tagList = document.getElementById('tagList');
+  tagList.innerHTML = '';
+  idea.tags.forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'tag';
+    span.textContent = t;
+    tagList.appendChild(span);
+  });
+
+  // Comments
+  document.getElementById('commentCount').textContent = '(' + idea.comments_n + ')';
+  const list = document.getElementById('commentsList');
+  list.innerHTML = '';
+  idea.comments.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'comment';
+    div.innerHTML = `
+      <div class="head">
+        <div class="avatar"><svg viewBox="0 0 100 100"><use href="#portrait-${getPortrait(c.name)}"/></svg></div>
+        <div class="who">
+          <div class="n">${c.name}</div>
+          <div class="d">${c.dept}</div>
+        </div>
+        <div class="like">♥ ${c.likes}</div>
+      </div>
+      <p class="text">${c.text}</p>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// Read ?id= from URL and render
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id') || '001';
+render(id);
+
+// Like button micro-interaction
+document.querySelector('.cta-primary').addEventListener('click', () => {
+  const numEl = document.getElementById('ctaLikes');
+  const heart = document.querySelector('.cta-primary .heart');
+  numEl.textContent = parseInt(numEl.textContent) + 1;
+  heart.style.animation = 'none';
+  void heart.offsetWidth;
+  heart.style.animation = 'pop .4s ease';
+  document.getElementById('statLikes').textContent = numEl.textContent;
+});
+
+// Inject pop keyframes
+const style = document.createElement('style');
+style.textContent = '@keyframes pop { 0% { transform: scale(1.2);} 30% {transform: scale(1.7);} 100% {transform: scale(1.2);} }';
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>

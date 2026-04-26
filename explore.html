@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜EXPLORE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FBF5E5;
+    --cream-2: #F2EAD0;
+    --paper: #FFFDF6;
+    --ink: #14111B;
+    --ink-2: #3A3340;
+    --vermillion: #E8412B;
+    --vermillion-deep: #B82B1A;
+    --sun: #FFCE2E;
+    --mint: #6CD4B6;
+    --indigo: #4A45D6;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 28px 16px 48px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === Phone frame === */
+  .phone {
+    width: 100%;
+    max-width: 412px;
+    background: var(--cream);
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 80px;
+    box-shadow:
+      0 0 0 2px #2A2333,
+      0 0 0 12px #14111B,
+      0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65),
+      0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    opacity: .55;
+    z-index: 1;
+  }
+
+  .notch {
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 28px;
+    background: #14111B;
+    border-radius: 16px;
+    z-index: 5;
+  }
+
+  .status-bar {
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 22px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--ink);
+    position: relative;
+    z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery {
+    width: 26px; height: 12px; border-radius: 3px;
+    border: 1.5px solid var(--ink); position: relative;
+  }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Top bar === */
+  .topbar {
+    position: relative;
+    z-index: 2;
+    padding: 6px 18px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .icon-btn {
+    width: 38px; height: 38px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform .15s ease;
+    text-decoration: none;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .icon-btn:hover { transform: translateY(-2px); }
+  .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .page-title {
+    flex: 1;
+    line-height: 1;
+  }
+  .page-title .ja {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -.02em;
+    color: var(--ink);
+  }
+  .page-title .en {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    letter-spacing: .25em;
+    color: var(--vermillion);
+    margin-top: 3px;
+  }
+
+  /* === Search bar === */
+  .search-wrap {
+    margin: 0 18px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 4px 4px 4px 14px;
+    box-shadow: 3px 3px 0 var(--ink);
+    gap: 8px;
+  }
+  .search-wrap svg.search-icon {
+    width: 16px; height: 16px;
+    stroke: var(--ink-2); fill: none; stroke-width: 2;
+    flex-shrink: 0;
+  }
+  .search-wrap input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    padding: 8px 0;
+  }
+  .search-wrap input::placeholder { color: rgba(20,17,27,.4); }
+  .ai-btn {
+    background: linear-gradient(135deg, var(--indigo), var(--vermillion));
+    color: #fff;
+    border: 1.5px solid var(--ink);
+    border-radius: 9px;
+    padding: 6px 10px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: .12em;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  /* === Tab bar === */
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    background: var(--cream);
+    margin-top: 14px;
+    padding: 8px 14px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-bottom: 2px solid rgba(20,17,27,.12);
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    padding: 7px 14px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tab:hover { transform: translateY(-1px); }
+  .tab.active {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .tab .emoji { font-size: 13px; }
+
+  /* === Tab content sections === */
+  .tab-content { display: none; padding-bottom: 14px; }
+  .tab-content.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section {
+    position: relative;
+    z-index: 2;
+    padding: 20px 22px 4px;
+  }
+  .section .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--vermillion);
+    letter-spacing: .25em;
+    text-transform: uppercase;
+  }
+  .section .kicker::before {
+    content: ""; width: 22px; height: 2px; background: var(--vermillion);
+  }
+  .section h2 {
+    margin: 6px 0 12px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: -.02em;
+    color: var(--ink);
+  }
+  .section .h-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .section .h-row .more {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 1px;
+  }
+
+  /* === Featured hero card === */
+  .featured {
+    position: relative;
+    margin: 6px 0 0;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    border: 2px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--ink);
+    overflow: hidden;
+    color: #fff;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+  }
+  .featured .stamp {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    letter-spacing: .15em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transform: rotate(8deg);
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    z-index: 3;
+  }
+  .featured .thumb-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .featured > *:not(.stamp):not(.thumb-art) {
+    position: relative;
+    z-index: 1;
+  }
+  .featured .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: .12em;
+    line-height: 1;
+  }
+  .featured .emoji-bg {
+    display: none;
+  }
+  .featured .logo {
+    margin: 0;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 26px;
+    line-height: 1.05;
+    text-shadow: 2px 2px 0 rgba(20,17,27,.55);
+    position: relative;
+    z-index: 2;
+  }
+  .featured .tag-line {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-shadow: 1px 1px 0 rgba(20,17,27,.4);
+    position: relative;
+    z-index: 2;
+    color: rgba(255,255,255,.95);
+  }
+  .featured .meta-bar {
+    margin-top: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: .08em;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 0 rgba(20,17,27,.4);
+  }
+
+  /* Themes */
+  .theme-vermillion { background: linear-gradient(160deg,#E8412B,#FF7F3F); }
+  .theme-indigo     { background: linear-gradient(160deg,#4A45D6,#7B6CFF); }
+  .theme-mint       { background: linear-gradient(160deg,#1B7F5A,#6CD4B6); }
+  .theme-sun        { background: linear-gradient(160deg,#D4A100,#FFCE2E); color: var(--ink); }
+  .theme-sun .topline { background: var(--ink); color: var(--sun); }
+  .theme-sun .logo { color: var(--ink); text-shadow: 2px 2px 0 rgba(255,255,255,.5); }
+  .theme-sun .tag-line { color: var(--ink); text-shadow: 1px 1px 0 rgba(255,255,255,.5); }
+  .theme-sun .meta-bar { color: var(--ink); text-shadow: 1px 1px 0 rgba(255,255,255,.5); }
+  .theme-navy       { background: linear-gradient(160deg,#0E2C5C,#3F6FB0); }
+  .theme-rose       { background: linear-gradient(160deg,#C13F77,#FF93C5); }
+  .theme-teal       { background: linear-gradient(160deg,#1D7A7A,#48C7C7); }
+  .theme-purple     { background: linear-gradient(160deg,#9333A8,#D27BFF); }
+
+  /* === Tag scroll === */
+  .tag-scroll {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 22px 10px;
+    scrollbar-width: none;
+  }
+  .tag-scroll::-webkit-scrollbar { display: none; }
+  .tag-chip {
+    flex-shrink: 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+    text-decoration: none;
+    letter-spacing: .04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .tag-chip::before { content: "#"; opacity: .55; }
+  .tag-chip:hover { transform: translateY(-1px); }
+  .tag-chip.hot {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+  .tag-chip .count {
+    font-size: 9px;
+    opacity: .65;
+    margin-left: 2px;
+  }
+
+  /* === Idea card (compact for grid) === */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 10px;
+    padding: 0 18px;
+  }
+  .idea-card {
+    cursor: pointer;
+    transition: transform .15s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+  }
+  .idea-card:hover { transform: translateY(-3px); }
+  .idea-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--ink);
+    position: relative;
+    box-shadow: 3px 3px 0 var(--ink);
+    color: #fff;
+    padding: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .idea-thumb .thumb-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .idea-thumb > *:not(.thumb-art) {
+    position: relative;
+    z-index: 1;
+  }
+  .idea-thumb .topline {
+    align-self: flex-start;
+    background: rgba(255,255,255,.95);
+    color: var(--ink);
+    font-size: 8px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: .03em;
+    line-height: 1;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+  .idea-thumb .logo {
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 16px;
+    line-height: 1.05;
+    text-shadow: 2px 2px 0 rgba(20,17,27,.6);
+  }
+  .idea-thumb .emoji-bg {
+    display: none;
+  }
+  .idea-thumb .badge-rise {
+    position: absolute;
+    top: 6px; right: 6px;
+    background: var(--vermillion);
+    color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    border: 1px solid var(--ink);
+    letter-spacing: .05em;
+  }
+  .idea-tagline {
+    margin: 7px 0 3px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+  .idea-title {
+    margin: 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .idea-meta {
+    margin: 3px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .idea-meta .dot { width: 2.5px; height: 2.5px; background: currentColor; border-radius: 50%; }
+  .idea-meta .likes {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    color: var(--vermillion);
+  }
+
+  /* Theme sun on idea-thumb */
+  .theme-sun .topline { background: var(--ink); color: var(--sun); }
+  .theme-sun .logo { color: var(--ink); text-shadow: 2px 2px 0 rgba(255,255,255,.5); }
+
+  /* === Horizontal scroll cards (departments) === */
+  .h-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 4px 18px 12px;
+    scrollbar-width: none;
+  }
+  .h-scroll::-webkit-scrollbar { display: none; }
+  .dept-card {
+    flex-shrink: 0;
+    width: 220px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* === Ranking list === */
+  .rank-period {
+    display: flex;
+    gap: 6px;
+    padding: 4px 22px 4px;
+  }
+  .rank-period .pchip {
+    flex-shrink: 0;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--ink);
+    cursor: pointer;
+    letter-spacing: .12em;
+    transition: all .15s ease;
+  }
+  .rank-period .pchip.active {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+
+  .rank-list {
+    padding: 6px 18px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .rank-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .15s ease;
+    padding: 6px 4px;
+    border-bottom: 1px dashed rgba(20,17,27,.18);
+    padding-bottom: 12px;
+  }
+  .rank-item:hover { transform: translateX(3px); }
+  .rank-num {
+    flex-shrink: 0;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+    width: 50px;
+    letter-spacing: -.04em;
+    position: relative;
+  }
+  .rank-num::after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--vermillion);
+    margin-top: 4px;
+  }
+  .rank-item.top1 .rank-num,
+  .rank-item.top2 .rank-num,
+  .rank-item.top3 .rank-num {
+    color: var(--vermillion);
+  }
+  .rank-item.top1 .rank-num { font-size: 44px; }
+  .rank-item .rank-thumb {
+    flex-shrink: 0;
+    width: 88px;
+    aspect-ratio: 1;
+    border-radius: 9px;
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .rank-item .rank-thumb .emoji-bg {
+    position: absolute;
+    right: -6px; bottom: -10px;
+    font-size: 58px;
+    opacity: .35;
+  }
+  .rank-item .rank-thumb .mini-logo {
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    text-shadow: 1.5px 1.5px 0 rgba(20,17,27,.55);
+    position: relative;
+    z-index: 2;
+  }
+  .rank-item .rank-info {
+    flex: 1;
+    line-height: 1.3;
+  }
+  .rank-item .rank-info .rt {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .rank-item .rank-info .rg {
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .rank-item .rank-info .rmeta {
+    margin-top: 5px;
+    display: flex;
+    gap: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10.5px;
+  }
+  .rank-item .rank-info .rmeta .l { color: var(--vermillion); }
+  .rank-item .rank-info .rmeta .c { color: var(--ink-2); }
+  .rank-item .rank-info .rmeta .a { color: var(--ink-2); font-weight: 500; }
+
+  /* === New tab: date sections === */
+  .date-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--sun);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: .15em;
+    margin-bottom: 8px;
+  }
+  .date-label .dot {
+    width: 6px; height: 6px;
+    background: var(--vermillion);
+    border-radius: 50%;
+    animation: pulseDot 1.4s ease-in-out infinite;
+  }
+  @keyframes pulseDot { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+
+  /* === Tag tab: cloud === */
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 8px 22px 16px;
+    align-items: center;
+    justify-content: center;
+  }
+  .tag-cloud .cc {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+    text-decoration: none;
+    letter-spacing: .03em;
+  }
+  .tag-cloud .cc:hover { transform: translateY(-1px); }
+  .tag-cloud .cc.s1 { font-size: 10px; padding: 4px 10px; }
+  .tag-cloud .cc.s2 { font-size: 11px; }
+  .tag-cloud .cc.s3 { font-size: 13px; padding: 8px 16px; }
+  .tag-cloud .cc.s4 {
+    font-size: 16px;
+    padding: 10px 18px;
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 3px 3px 0 var(--vermillion);
+  }
+  .tag-cloud .cc.selected {
+    background: var(--vermillion);
+    color: #fff;
+    box-shadow: 2px 2px 0 var(--ink);
+    border-color: var(--ink);
+  }
+  .tag-cloud .cc::before { content: "#"; opacity: .55; margin-right: 1px; }
+
+  .filter-status {
+    margin: 0 22px 8px;
+    padding: 10px 14px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .filter-status .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--vermillion);
+    letter-spacing: .15em;
+  }
+  .filter-status .selected-tag {
+    background: var(--ink);
+    color: var(--sun);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 11px;
+  }
+  .filter-status .selected-tag::before { content: "#"; opacity: .65; }
+  .filter-status .clear {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--ink-2);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* === Empty state === */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-2);
+  }
+  .empty-state .emoji {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+  .empty-state h3 {
+    margin: 0 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .empty-state p {
+    margin: 0;
+    font-size: 11px;
+  }
+
+  /* === Bottom nav === */
+  .bottom-nav {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 6;
+    background: var(--paper);
+    border-top: 2px solid var(--ink);
+    padding: 12px 24px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--ink-2);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-item.active { color: var(--vermillion); }
+  .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-item .label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: .1em;
+  }
+  .nav-post {
+    width: 54px; height: 54px;
+    background: var(--ink);
+    color: var(--sun);
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    margin-top: -22px;
+    box-shadow: 4px 4px 0 var(--vermillion);
+    border: 2px solid var(--ink);
+    text-decoration: none;
+    transition: transform .15s ease;
+  }
+  .nav-post:hover { transform: translateY(-3px) rotate(-3deg); }
+  .nav-post svg { width: 24px; height: 24px; stroke-width: 2.5; }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Idea Card Art Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <!-- 001 学食AI予測 - お弁当 + チャート -->
+    <symbol id="art-001" viewBox="0 0 200 120">
+      <rect x="40" y="55" width="100" height="48" rx="3" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" opacity="0.95"/>
+      <line x1="73" y1="55" x2="73" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <line x1="106" y1="55" x2="106" y2="103" stroke="#14111B" stroke-width="1.8"/>
+      <circle cx="56" cy="79" r="9" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="78" y="65" width="22" height="30" fill="#6CD4B6" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="123" cy="79" r="9" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="153" y="40" width="9" height="30" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="166" y="20" width="9" height="50" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <rect x="179" y="50" width="9" height="20" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="20" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="32" cy="14" r="1.8" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 002 AIノート要約 - 脳 + 線 -->
+    <symbol id="art-002" viewBox="0 0 200 120">
+      <path d="M70 40 Q55 38 50 50 Q40 58 45 72 Q40 85 55 90 Q60 100 75 95 Q90 100 100 92 Q115 95 120 82 Q130 75 125 60 Q130 50 115 45 Q110 35 95 38 Q85 32 70 40 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M65 55 Q70 60 75 55 M85 50 Q90 58 88 65 M75 70 Q85 75 100 70 M90 80 Q100 85 110 80" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="180" y2="40" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="55" x2="175" y2="55" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="70" x2="180" y2="70" stroke="#FFCE2E" stroke-width="3"/>
+      <line x1="145" y1="85" x2="170" y2="85" stroke="#FFCE2E" stroke-width="3"/>
+      <circle cx="20" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="32" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 003 サークル仲間検索 - 2人 + ハート -->
+    <symbol id="art-003" viewBox="0 0 200 120">
+      <circle cx="65" cy="50" r="18" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="55" cy="48" r="2" fill="#14111B"/>
+      <circle cx="73" cy="48" r="2" fill="#14111B"/>
+      <path d="M58 56 Q65 60 72 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="65" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="50" r="18" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="125" cy="48" r="2" fill="#14111B"/>
+      <circle cx="143" cy="48" r="2" fill="#14111B"/>
+      <path d="M128 56 Q135 60 142 56" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="135" cy="95" rx="28" ry="15" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M100 30 Q92 22 90 32 Q90 38 100 45 Q110 38 110 32 Q108 22 100 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+    </symbol>
+    
+    <!-- 004 古着リレー - シャツ + 矢印 -->
+    <symbol id="art-004" viewBox="0 0 200 120">
+      <path d="M65 40 L80 30 L90 38 Q100 45 110 38 L120 30 L135 40 L145 60 L130 65 L130 100 L70 100 L70 65 L55 60 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="50" r="5" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M155 65 L185 65 M180 60 L185 65 L180 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M30 65 L20 65 M25 60 L20 65 L25 70" stroke="#14111B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="170" cy="30" r="2.5" fill="#FFCE2E"/>
+      <circle cx="180" cy="20" r="1.8" fill="#FFCE2E"/>
+      <circle cx="20" cy="100" r="2" fill="#FFCE2E"/>
+    </symbol>
+    
+    <!-- 005 研究室24時間化 - 試験管 + 月 -->
+    <symbol id="art-005" viewBox="0 0 200 120">
+      <rect x="55" y="35" width="20" height="60" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="50" y="30" width="30" height="8" fill="#14111B"/>
+      <rect x="55" y="65" width="20" height="30" fill="#6CD4B6"/>
+      <circle cx="62" cy="80" r="2" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="68" cy="85" r="1.5" fill="#FBF5E5" opacity="0.7"/>
+      <rect x="95" y="45" width="20" height="50" rx="2" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <rect x="90" y="40" width="30" height="8" fill="#14111B"/>
+      <rect x="95" y="70" width="20" height="25" fill="#FFCE2E"/>
+      <path d="M155 35 Q175 40 175 60 Q175 80 155 85 Q170 75 170 60 Q170 45 155 35 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="155" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="105" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 006 忘れ物GPS - ピン + 円波紋 -->
+    <symbol id="art-006" viewBox="0 0 200 120">
+      <circle cx="100" cy="60" r="38" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.5"/>
+      <circle cx="100" cy="60" r="26" fill="none" stroke="#FBF5E5" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7"/>
+      <path d="M100 25 Q85 25 85 45 Q85 55 100 75 Q115 55 115 45 Q115 25 100 25 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="100" cy="45" r="6" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="100" cy="85" rx="15" ry="4" fill="#14111B" opacity="0.3"/>
+      <circle cx="40" cy="35" r="4" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="160" cy="90" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="170" cy="35" r="2" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 007 学割シェア - 札 + パーセンテージ -->
+    <symbol id="art-007" viewBox="0 0 200 120">
+      <rect x="40" y="40" width="80" height="50" rx="6" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5" transform="rotate(-8 80 65)"/>
+      <circle cx="55" cy="55" r="3" fill="#14111B" transform="rotate(-8 80 65)"/>
+      <text x="65" y="73" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="24" fill="#14111B" transform="rotate(-8 80 65)">¥</text>
+      <rect x="100" y="55" width="60" height="40" rx="6" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5" transform="rotate(5 130 75)"/>
+      <text x="115" y="83" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="20" fill="#14111B" transform="rotate(5 130 75)">% OFF</text>
+      <circle cx="30" cy="100" r="2" fill="#FBF5E5"/>
+      <circle cx="180" cy="20" r="2.5" fill="#FBF5E5"/>
+      <circle cx="170" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 008 深夜カフェ - コップ + 三日月 -->
+    <symbol id="art-008" viewBox="0 0 200 120">
+      <path d="M155 30 Q175 35 175 55 Q175 75 155 80 Q170 70 170 55 Q170 40 155 30 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="135" cy="25" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="90" r="1.5" fill="#FBF5E5"/>
+      <path d="M50 50 L50 95 Q50 105 60 105 L100 105 Q110 105 110 95 L110 50 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M110 60 Q125 60 125 75 Q125 90 110 90" fill="none" stroke="#14111B" stroke-width="2.5"/>
+      <ellipse cx="80" cy="55" rx="25" ry="5" fill="#6F4E37" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M65 35 Q67 30 70 35 Q70 40 67 42 Q65 40 65 35 Z M75 30 Q77 25 80 30 Q80 35 77 37 Q75 35 75 30 Z M85 35 Q87 30 90 35 Q90 40 87 42 Q85 40 85 35 Z" fill="#FBF5E5" opacity="0.7"/>
+      <circle cx="20" cy="30" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 009 教科書リレー - 本 + 矢印 -->
+    <symbol id="art-009" viewBox="0 0 200 120">
+      <path d="M40 35 L40 95 L98 95 L98 35 L70 30 L40 35 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="69" y1="32" x2="69" y2="95" stroke="#14111B" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="65" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="60" x2="65" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="50" y1="70" x2="60" y2="70" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="50" x2="92" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="60" x2="92" y2="60" stroke="#14111B" stroke-width="1"/>
+      <line x1="74" y1="70" x2="88" y2="70" stroke="#14111B" stroke-width="1"/>
+      <path d="M110 65 L150 65 M145 60 L150 65 L145 70" stroke="#14111B" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="155" y="40" width="35" height="50" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <line x1="160" y1="50" x2="185" y2="50" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="58" x2="185" y2="58" stroke="#14111B" stroke-width="1"/>
+      <line x1="160" y1="66" x2="180" y2="66" stroke="#14111B" stroke-width="1"/>
+    </symbol>
+    
+    <!-- 010 グルメMAP - ラーメン + ピン -->
+    <symbol id="art-010" viewBox="0 0 200 120">
+      <ellipse cx="80" cy="80" rx="40" ry="12" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M40 80 Q40 60 80 60 Q120 60 120 80" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <path d="M55 70 Q60 50 70 60 Q80 50 90 60 Q100 50 105 65" stroke="#FBF5E5" stroke-width="2" fill="none"/>
+      <circle cx="62" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="78" cy="62" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <circle cx="95" cy="65" r="3" fill="#FFCE2E" stroke="#14111B" stroke-width="1"/>
+      <path d="M150 30 Q138 30 138 45 Q138 55 150 70 Q162 55 162 45 Q162 30 150 30 Z" fill="#E8412B" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="150" cy="45" r="5" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M30 30 L40 35 M180 90 L188 88" stroke="#FBF5E5" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="25" cy="100" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- 011 匿名質問BOT - 吹き出し + ? -->
+    <symbol id="art-011" viewBox="0 0 200 120">
+      <path d="M40 30 Q30 30 30 42 L30 70 Q30 82 42 82 L60 82 L60 95 L75 82 L100 82 Q112 82 112 70 L112 42 Q112 30 100 30 Z" fill="#FBF5E5" stroke="#14111B" stroke-width="2.5"/>
+      <text x="58" y="68" font-family="Bricolage Grotesque, sans-serif" font-weight="900" font-size="32" fill="#14111B">?</text>
+      <path d="M105 50 Q95 50 95 60 L95 80 Q95 90 105 90 L155 90 Q165 90 165 80 L165 60 Q165 50 155 50 L150 50 L145 40 L140 50 Z" fill="#FFCE2E" stroke="#14111B" stroke-width="2.5"/>
+      <circle cx="120" cy="70" r="2" fill="#14111B"/>
+      <circle cx="130" cy="70" r="2" fill="#14111B"/>
+      <circle cx="140" cy="70" r="2" fill="#14111B"/>
+      <circle cx="180" cy="30" r="2" fill="#FBF5E5"/>
+      <circle cx="170" cy="40" r="1.5" fill="#FBF5E5"/>
+    </symbol>
+    
+    <!-- art-default - generic decorative motif -->
+    <symbol id="art-default" viewBox="0 0 200 120">
+      <circle cx="50" cy="60" r="30" fill="none" stroke="#FBF5E5" stroke-width="2" opacity="0.5"/>
+      <circle cx="150" cy="60" r="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M70 30 L130 30 M70 90 L130 90" stroke="#FBF5E5" stroke-width="2" stroke-dasharray="4 3"/>
+      <circle cx="100" cy="60" r="8" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="icon-btn" href="campus_innovation_home.html" aria-label="ホーム">
+      <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
+    </a>
+    <div class="page-title">
+      <span class="ja">ひらめきを探す</span>
+      <span class="en">EXPLORE</span>
+    </div>
+    <button class="icon-btn" aria-label="フィルター">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+    </button>
+  </header>
+
+  <!-- Search bar -->
+  <div class="search-wrap">
+    <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="searchInput" type="text" placeholder="アイディア・タグ・学部で検索..." />
+    <button class="ai-btn">✨ AI検索</button>
+  </div>
+
+  <!-- Tabs -->
+  <nav class="tab-bar">
+    <button class="tab active" data-tab="hot"><span class="emoji">🔥</span> ホット</button>
+    <button class="tab" data-tab="rank"><span class="emoji">📈</span> ランキング</button>
+    <button class="tab" data-tab="new"><span class="emoji">⭐</span> 新着</button>
+    <button class="tab" data-tab="tag"><span class="emoji">🏷️</span> タグ</button>
+  </nav>
+
+  <!-- ====== HOT TAB ====== -->
+  <div class="tab-content active" data-content="hot">
+
+    <!-- Featured -->
+    <div class="section">
+      <span class="kicker">— EDITOR'S PICK</span>
+      <h2>今週のピックアップ</h2>
+    </div>
+    <div style="padding: 0 22px;">
+      <a id="featured" class="featured theme-vermillion" href="detail.html?id=001">
+        <svg class="thumb-art" id="fArt" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><use href="#art-001"/></svg>
+        <div class="stamp">FEATURED</div>
+        <span class="topline" id="fCategory">FOOD TECH</span>
+        <span class="emoji-bg" id="fEmoji">🍱</span>
+        <div>
+          <div class="logo" id="fTitle">学食AI予測</div>
+          <div class="tag-line" id="fTag">今日の混雑も、品切れも、AIがおしえる。</div>
+          <div class="meta-bar">
+            <span id="fAuthor">佐々木 ユウキ · 経済学部</span>
+            <span>♥ <span id="fLikes">312</span></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Trending tags -->
+    <div class="section">
+      <span class="kicker">— TRENDING NOW</span>
+      <h2>急上昇タグ</h2>
+    </div>
+    <div class="tag-scroll" id="trendingTags"></div>
+
+    <!-- 急上昇 -->
+    <div class="section">
+      <div class="h-row">
+        <div>
+          <span class="kicker">— RISING</span>
+          <h2 style="margin-bottom:0;">急上昇中</h2>
+        </div>
+        <a class="more" href="#">全て見る →</a>
+      </div>
+    </div>
+    <div class="grid-2" id="risingGrid"></div>
+
+    <!-- 学部別 -->
+    <div class="section">
+      <span class="kicker">— BY DEPARTMENT</span>
+      <h2>学部別ホットアイディア</h2>
+    </div>
+    <div class="h-scroll" id="deptScroll"></div>
+  </div>
+
+  <!-- ====== RANKING TAB ====== -->
+  <div class="tab-content" data-content="rank">
+    <div class="section">
+      <span class="kicker">— LEADERBOARD</span>
+      <h2>ランキング TOP 10</h2>
+    </div>
+    <div class="rank-period" id="rankPeriod">
+      <span class="pchip" data-period="day">今日</span>
+      <span class="pchip active" data-period="week">今週</span>
+      <span class="pchip" data-period="month">今月</span>
+      <span class="pchip" data-period="all">累計</span>
+    </div>
+    <div class="rank-list" id="rankList"></div>
+  </div>
+
+  <!-- ====== NEW TAB ====== -->
+  <div class="tab-content" data-content="new">
+    <div class="section">
+      <span class="kicker">— LATEST</span>
+      <h2>新着アイディア</h2>
+    </div>
+    <div id="newSections"></div>
+  </div>
+
+  <!-- ====== TAG TAB ====== -->
+  <div class="tab-content" data-content="tag">
+    <div class="section">
+      <span class="kicker">— DISCOVER BY TAG</span>
+      <h2>気になるタグから探す</h2>
+    </div>
+    <div class="tag-cloud" id="tagCloud"></div>
+
+    <div id="filterStatus" class="filter-status" style="display:none;">
+      <span class="label">FILTERED BY</span>
+      <span class="selected-tag" id="selectedTagName"></span>
+      <button class="clear" id="clearFilter">クリア</button>
+    </div>
+
+    <div class="grid-2" id="tagResults" style="margin-top: 8px;"></div>
+  </div>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a class="nav-item" href="campus_innovation_home.html">
+      <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2z"/></svg>
+      <span class="label">HOME</span>
+    </a>
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span class="label">EXPLORE</span>
+    </div>
+    <a class="nav-post" href="post.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </a>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M9 18V6a3 3 0 016 0v12"/><circle cx="12" cy="20" r="2"/></svg>
+      <span class="label">IDEAS</span>
+    </div>
+    <a class="nav-item" href="mypage.html">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+      <span class="label">ME</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+// ===== Idea data: 24 ideas total =====
+function I(realId, emoji, title, tagline, cat, theme, author, dept, deptShort, date, likes, comments, tags, rising) {
+  return {realId, emoji, title, tagline, cat, theme, author, dept, deptShort, date, likes, comments, tags, rising: !!rising};
+}
+
+const ideas = [
+  // The 11 detailed ideas
+  I('001','🍱','学食AI予測','今日の混雑も、品切れも、AIがおしえる。','FOOD TECH','vermillion','佐々木 ユウキ','経済学部','経済','2026.04.22',312,28,['AI','学食','時短','機械学習','データ活用'],true),
+  I('002','🧠','AIノート要約','講義の音声を、AIが3分で要約。','EDU TECH','indigo','中村 リョウ','情報学部','情報','2026.04.18',248,19,['AI','LLM','ノート','復習'],true),
+  I('003','🤝','サークル仲間検索','「同じ熱量の人」と出会う、新しいマッチング。','COMMUNITY','mint','渡辺 ミナミ','社会学部','社会','2026.04.20',189,22,['マッチング','コミュニティ','サークル','新歓']),
+  I('004','👕','古着リレー','着なくなった服が、後輩のスタイルになる。','SUSTAIN','sun','森田 リオ','環境学部','環境','2026.04.15',142,15,['サステナビリティ','古着','循環','ファッション']),
+  I('005','🔬','研究室24時間化','夜こそ、研究は加速する。','RESEARCH','navy','佐藤 ハルト','理工学部','理工','2026.04.10',198,31,['研究','IoT','顔認証','生産性'],true),
+  I('006','📍','忘れ物GPS','その教室に置いてきた水筒、もう泣かせない。','LIFE HACK','navy','岡本 ソウタ','工学部','工','2026.04.08',167,18,['IoT','BLE','紛失防止']),
+  I('007','💸','学割シェア','使わない学割、誰かに譲ろう。','FINANCE','rose','山田 リサ','商学部','商','2026.04.12',192,24,['学割','シェアエコノミー','C2C','節約']),
+  I('008','🌙','深夜カフェ勉強会','午前3時、誰かと一緒なら頑張れる。','STUDY','teal','田中 ユイ','文学部','文','2026.04.05',156,21,['Pomodoro','勉強会','コミュニティ','生産性']),
+  I('009','📚','教科書リレーフリマ','教科書、後輩に渡せばゼロ円。','SUSTAIN','mint','鈴木 ナオ','商学部','商','2026.04.16',167,14,['フリマ','教科書','循環','C2C']),
+  I('010','🍜','キャンパスグルメMAP','学割クーポン付き、最強の地図。','LOCAL','sun','高橋 マイ','観光学部','観光','2026.04.14',119,12,['グルメ','ローカル','学割']),
+  I('011','💬','匿名質問BOT','教授に聞きにくい、を解決する。','EDU TECH','rose','中村 アスカ','文学部','文','2026.04.11',98,9,['AI','教育','LLM','匿名']),
+  // 13 additional fillers (link to existing IDs by recycling)
+  I('001','🌃','図書館24時間開放','深夜こそ、図書館を解放せよ。','RESEARCH','navy','西山 タクミ','法学部','法','2026.04.24',108,11,['研究','図書館','24時間'],true),
+  I('002','📄','テスト過去問アーカイブ','大学公認の過去問プラットフォーム。','EDU TECH','indigo','石井 ユカリ','教育学部','教育','2026.04.23',221,17,['過去問','EDU TECH','公認']),
+  I('003','✏️','レポート相互レビュー','匿名で添削しあう、文章筋トレ。','EDU TECH','indigo','安藤 ケンジ','文学部','文','2026.04.21',76,8,['レポート','添削','匿名'],true),
+  I('004','☔','キャンパス傘シェア','急な雨でも、傘はキャンパスに置いてある。','LIFE HACK','teal','吉村 アヤカ','理学部','理','2026.04.19',64,6,['シェア','ライフハック','傘']),
+  I('005','📅','履修登録AI相談','時間割、AIが最適化します。','EDU TECH','indigo','本田 マサキ','情報学部','情報','2026.04.17',289,33,['AI','履修','時間割'],true),
+  I('006','🎓','ゼミ募集マーケット','空き枠の見える化で、ゼミ難民ゼロへ。','EDU TECH','vermillion','藤原 ヒロト','法学部','法','2026.04.13',87,10,['ゼミ','EDU','マーケット']),
+  I('007','💪','キャンパス筋トレ仲間','ジムで会う「筋肉の同志」を見つける。','COMMUNITY','vermillion','山下 ダイチ','体育学部','体育','2026.04.09',54,7,['コミュニティ','筋トレ','ジム']),
+  I('008','🌏','留学生バディマッチ','言語と文化、交換しよう。','COMMUNITY','teal','Park Min-jun','国際学部','国際','2026.04.07',132,15,['国際','留学','言語交換']),
+  I('009','🚪','教室空き状況リアルタイム','空き教室、もう探さない。','LIFE HACK','sun','久保 サクラ','建築学部','建築','2026.04.06',95,9,['IoT','教室','リアルタイム']),
+  I('010','🥗','学食ベジMAP','ベジ・ヴィーガン対応をひと目で。','FOOD TECH','mint','後藤 ユウマ','栄養学部','栄養','2026.04.04',73,8,['学食','ベジ','ダイバーシティ']),
+  I('011','♻️','廃棄食材レスキュー','閉店前の学食、半額で救う。','SUSTAIN','mint','長谷川 アイ','環境学部','環境','2026.04.03',144,16,['サステナビリティ','フードロス','学食'],true),
+  I('001','🎪','学園祭ボラマッチ','「やりたい役割」と「人手」を一致させる。','COMMUNITY','rose','宮田 ナナ','社会学部','社会','2026.04.02',88,11,['学園祭','ボランティア','マッチング']),
+  I('002','🏃','キャンパスラン仲間','5kmだけ、誰かと走る。','COMMUNITY','vermillion','加藤 ショウタ','体育学部','体育','2026.04.01',62,5,['ランニング','コミュニティ','健康']),
+];
+
+// ===== Tag popularity (count occurrences) =====
+const tagCounts = {};
+ideas.forEach(i => i.tags.forEach(t => tagCounts[t] = (tagCounts[t] || 0) + 1));
+const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+// ====== Card builder helpers ======
+function cardThumbHTML(i) {
+  return `
+    <div class="idea-thumb theme-${i.theme}">
+      <svg class="thumb-art" viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice"><use href="#art-${i.realId || i.id || 'default'}"/></svg>
+      <span class="topline">${i.cat}</span>
+      <div class="emoji-bg">${i.emoji}</div>
+      <div class="logo">${i.title}</div>
+      ${i.rising ? '<div class="badge-rise">↑ HOT</div>' : ''}
+    </div>
+  `;
+}
+function cardHTML(i) {
+  return `
+    <a class="idea-card" href="detail.html?id=${i.realId}">
+      ${cardThumbHTML(i)}
+      <p class="idea-tagline">${i.tagline}</p>
+      <h3 class="idea-title">${i.title}</h3>
+      <p class="idea-meta">${i.deptShort} ${i.author.split(' ')[1] || ''} <span class="dot"></span> <span class="likes">♥ ${i.likes}</span></p>
+    </a>
+  `;
+}
+
+// ====== Render: HOT tab ======
+function renderHot() {
+  // Featured: top 1 by likes
+  const top = [...ideas].sort((a,b) => b.likes - a.likes)[0];
+  const f = document.getElementById('featured');
+  f.className = 'featured theme-' + top.theme;
+  f.href = 'detail.html?id=' + top.realId;
+  document.getElementById('fCategory').textContent = top.cat;
+  document.getElementById('fEmoji').textContent = top.emoji;
+  document.querySelector('#fArt use').setAttribute('href', '#art-' + top.realId);
+  document.getElementById('fTitle').textContent = top.title;
+  document.getElementById('fTag').textContent = top.tagline;
+  document.getElementById('fAuthor').textContent = `${top.author} · ${top.dept}`;
+  document.getElementById('fLikes').textContent = top.likes;
+
+  // Trending tags scroll
+  const tt = document.getElementById('trendingTags');
+  tt.innerHTML = '';
+  sortedTags.slice(0, 12).forEach(([t, c], idx) => {
+    const a = document.createElement('a');
+    a.className = 'tag-chip' + (idx < 3 ? ' hot' : '');
+    a.href = '#';
+    a.innerHTML = `${t} <span class="count">${c}</span>`;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab('tag');
+      selectTag(t);
+    });
+    tt.appendChild(a);
+  });
+
+  // Rising grid: top 4 with rising flag
+  const rising = ideas.filter(i => i.rising).slice(0, 4);
+  document.getElementById('risingGrid').innerHTML = rising.map(cardHTML).join('');
+
+  // Department horizontal scroll: top idea per dept (5)
+  const byDept = {};
+  ideas.forEach(i => {
+    if (!byDept[i.dept] || byDept[i.dept].likes < i.likes) byDept[i.dept] = i;
+  });
+  const deptIdeas = Object.values(byDept).sort((a,b) => b.likes - a.likes).slice(0, 6);
+  document.getElementById('deptScroll').innerHTML = deptIdeas.map(i => `
+    <a class="idea-card dept-card" href="detail.html?id=${i.realId}">
+      ${cardThumbHTML(i)}
+      <p class="idea-tagline" style="margin-top:7px;">${i.dept}</p>
+      <h3 class="idea-title">${i.title}</h3>
+      <p class="idea-meta"><span class="likes">♥ ${i.likes}</span></p>
+    </a>
+  `).join('');
+}
+
+// ====== Render: RANKING tab ======
+function renderRanking(period) {
+  // Apply mock period multiplier to vary results
+  let list = [...ideas];
+  if (period === 'day') list = list.filter(i => i.date >= '2026.04.22');
+  else if (period === 'week') list = list.filter(i => i.date >= '2026.04.15');
+  else if (period === 'month') list = list.filter(i => i.date >= '2026.04.01');
+  list.sort((a, b) => b.likes - a.likes);
+  list = list.slice(0, 10);
+
+  document.getElementById('rankList').innerHTML = list.map((i, idx) => {
+    const rankClass = idx === 0 ? 'top1' : idx === 1 ? 'top2' : idx === 2 ? 'top3' : '';
+    const num = String(idx + 1).padStart(2, '0');
+    return `
+      <a class="rank-item ${rankClass}" href="detail.html?id=${i.realId}">
+        <div class="rank-num">${num}</div>
+        <div class="rank-thumb theme-${i.theme}">
+          <div class="emoji-bg">${i.emoji}</div>
+          <div class="mini-logo">${i.title.length > 6 ? i.title.slice(0,6) : i.title}</div>
+        </div>
+        <div class="rank-info">
+          <div class="rt">${i.title}</div>
+          <div class="rg">${i.tagline}</div>
+          <div class="rmeta">
+            <span class="l">♥ ${i.likes}</span>
+            <span class="c">💬 ${i.comments}</span>
+            <span class="a">${i.dept}</span>
+          </div>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+// Period chip click
+document.querySelectorAll('#rankPeriod .pchip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#rankPeriod .pchip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderRanking(chip.dataset.period);
+  });
+});
+
+// ====== Render: NEW tab ======
+function renderNew() {
+  const sorted = [...ideas].sort((a,b) => b.date.localeCompare(a.date));
+
+  // Group by date buckets
+  const groups = { '今日': [], '今週': [], '今月': [], 'もっと前': [] };
+  sorted.forEach(i => {
+    if (i.date >= '2026.04.24') groups['今日'].push(i);
+    else if (i.date >= '2026.04.20') groups['今週'].push(i);
+    else if (i.date >= '2026.04.10') groups['今月'].push(i);
+    else groups['もっと前'].push(i);
+  });
+
+  let html = '';
+  Object.entries(groups).forEach(([label, items]) => {
+    if (!items.length) return;
+    html += `
+      <div class="section">
+        <div class="date-label"><span class="dot"></span>${label}</div>
+      </div>
+      <div class="grid-2">${items.map(cardHTML).join('')}</div>
+    `;
+  });
+  document.getElementById('newSections').innerHTML = html;
+}
+
+// ====== Render: TAG tab ======
+function renderTagCloud() {
+  const cloud = document.getElementById('tagCloud');
+  cloud.innerHTML = '';
+  sortedTags.forEach(([t, c]) => {
+    const a = document.createElement('a');
+    a.href = '#';
+    let size;
+    if (c >= 4) size = 's4';
+    else if (c >= 3) size = 's3';
+    else if (c >= 2) size = 's2';
+    else size = 's1';
+    a.className = 'cc ' + size;
+    a.textContent = t;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      selectTag(t);
+    });
+    cloud.appendChild(a);
+  });
+}
+
+let currentTag = null;
+function selectTag(t) {
+  currentTag = t;
+  // Update cloud
+  document.querySelectorAll('#tagCloud .cc').forEach(c => {
+    c.classList.toggle('selected', c.textContent === t);
+  });
+  // Show filter status
+  document.getElementById('filterStatus').style.display = 'flex';
+  document.getElementById('selectedTagName').textContent = t;
+  // Filter & render
+  const matches = ideas.filter(i => i.tags.includes(t));
+  if (matches.length === 0) {
+    document.getElementById('tagResults').innerHTML = `
+      <div style="grid-column: 1/-1;">
+        <div class="empty-state">
+          <div class="emoji">🔍</div>
+          <h3>該当するアイディアがありません</h3>
+          <p>別のタグを試してみてください。</p>
+        </div>
+      </div>
+    `;
+  } else {
+    document.getElementById('tagResults').innerHTML = matches.map(cardHTML).join('');
+  }
+  // Scroll to results
+  setTimeout(() => {
+    document.getElementById('filterStatus').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }, 100);
+}
+document.getElementById('clearFilter').addEventListener('click', () => {
+  currentTag = null;
+  document.querySelectorAll('#tagCloud .cc').forEach(c => c.classList.remove('selected'));
+  document.getElementById('filterStatus').style.display = 'none';
+  document.getElementById('tagResults').innerHTML = '';
+});
+
+// ====== Tab switching ======
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.toggle('active', c.dataset.content === name);
+  });
+}
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => switchTab(t.dataset.tab));
+});
+
+// ====== Search ======
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) {
+    // Reset all - re-render
+    renderHot(); renderNew();
+    renderRanking(document.querySelector('#rankPeriod .pchip.active').dataset.period);
+    return;
+  }
+  // Filter across all ideas
+  const filtered = ideas.filter(i =>
+    i.title.toLowerCase().includes(q) ||
+    i.tagline.toLowerCase().includes(q) ||
+    i.dept.toLowerCase().includes(q) ||
+    i.author.toLowerCase().includes(q) ||
+    i.tags.some(t => t.toLowerCase().includes(q))
+  );
+  // Replace rising grid + new sections + rank list with filtered
+  document.getElementById('risingGrid').innerHTML = filtered.length
+    ? filtered.slice(0, 8).map(cardHTML).join('')
+    : '<div style="grid-column:1/-1;"><div class="empty-state"><div class="emoji">🔍</div><h3>「' + q + '」に該当するアイディアがありません</h3><p>別のキーワードを試してみてください。</p></div></div>';
+  document.getElementById('newSections').innerHTML = filtered.length
+    ? '<div class="grid-2">' + filtered.map(cardHTML).join('') + '</div>'
+    : '<div class="empty-state"><div class="emoji">🔍</div><h3>該当なし</h3></div>';
+  document.getElementById('rankList').innerHTML = filtered.slice(0, 10).map((i, idx) => `
+    <a class="rank-item" href="detail.html?id=${i.realId}">
+      <div class="rank-num">${String(idx+1).padStart(2,'0')}</div>
+      <div class="rank-thumb theme-${i.theme}"><div class="emoji-bg">${i.emoji}</div><div class="mini-logo">${i.title.slice(0,6)}</div></div>
+      <div class="rank-info">
+        <div class="rt">${i.title}</div>
+        <div class="rg">${i.tagline}</div>
+        <div class="rmeta"><span class="l">♥ ${i.likes}</span><span class="c">💬 ${i.comments}</span><span class="a">${i.dept}</span></div>
+      </div>
+    </a>
+  `).join('');
+});
+
+// ====== Initial render ======
+renderHot();
+renderRanking('week');
+renderNew();
+renderTagCloud();
+</script>
+
+</body>
+</html>

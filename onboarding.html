@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>キャンパスイノベーション｜はじめよう</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=RocknRoll+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --cream: #FBF5E5; --cream-2: #F2EAD0; --paper: #FFFDF6;
+    --ink: #14111B; --ink-2: #3A3340;
+    --vermillion: #E8412B; --sun: #FFCE2E; --mint: #6CD4B6;
+    --indigo: #4A45D6; --purple: #9333A8; --rose: #C13F77; --teal: #1D7A7A; --navy: #0E2C5C;
+  }
+  body {
+    font-family: 'Noto Sans JP', 'Zen Kaku Gothic New', system-ui, sans-serif;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(255,206,46,.22) 0%, transparent 60%),
+      radial-gradient(50% 40% at 90% 90%, rgba(232,65,43,.22) 0%, transparent 60%),
+      #14111B;
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    padding: 28px 16px 48px; color: var(--ink); -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 100%; max-width: 412px;
+    background: var(--cream); border-radius: 44px;
+    overflow: hidden; position: relative;
+    min-height: 740px;
+    box-shadow: 0 0 0 2px #2A2333, 0 0 0 12px #14111B, 0 0 0 13px #322B3D,
+      0 50px 100px -20px rgba(0,0,0,.65), 0 25px 50px -12px rgba(0,0,0,.5);
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(20,17,27,.05) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: .55; z-index: 1;
+  }
+  .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 28px; background: #14111B; border-radius: 16px; z-index: 5;
+  }
+  .status-bar {
+    height: 44px; display: flex; justify-content: space-between; align-items: center;
+    padding: 0 22px; font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 14px; color: var(--ink); position: relative; z-index: 2;
+  }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .battery { width: 26px; height: 12px; border-radius: 3px; border: 1.5px solid var(--ink); position: relative; }
+  .status-bar .battery::after { content:""; position: absolute; right:-3px; top:3px; width:2px; height:4px; background: var(--ink); border-radius: 0 1px 1px 0; }
+  .status-bar .battery::before { content:""; position: absolute; left:1px; top:1px; bottom:1px; width:70%; background: var(--ink); border-radius:1px; }
+
+  /* === Steps === */
+  .step {
+    display: none;
+    position: relative;
+    z-index: 2;
+    padding: 0 0 100px;
+    animation: slideIn .4s ease;
+  }
+  .step.active { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* === Progress dots === */
+  .progress-bar {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 6px 0 0;
+    padding: 0 22px;
+  }
+  .pdot {
+    width: 30px; height: 4px;
+    background: var(--cream-2);
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    transition: background .3s ease;
+  }
+  .pdot.done { background: var(--vermillion); }
+  .pdot.active { background: var(--ink); }
+
+  /* === STEP 0: Welcome === */
+  .welcome-hero {
+    padding: 30px 24px 0;
+    text-align: center;
+  }
+  .brand-mark-huge {
+    width: 132px; height: 132px;
+    margin: 30px auto 0;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+    color: var(--sun);
+    border-radius: 28px;
+    display: grid;
+    place-items: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 70px;
+    transform: rotate(-6deg);
+    box-shadow: 8px 8px 0 var(--vermillion), 16px 16px 0 var(--sun);
+    position: relative;
+    animation: bobbing 3s ease-in-out infinite;
+  }
+
+  /* === Hero Illustration: students gathering === */
+  .hero-illustration {
+    width: 100%;
+    max-width: 360px;
+    margin: 24px auto 0;
+    display: block;
+    aspect-ratio: 320 / 220;
+    overflow: visible;
+    animation: illustration-fade-in .8s ease-out;
+  }
+  @keyframes illustration-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-illustration .center-mark {
+    transform-origin: 160px 105px;
+    animation: bobbing-mark 3s ease-in-out infinite;
+  }
+  @keyframes bobbing-mark {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .hero-illustration .student-group {
+    transform-origin: center;
+  }
+  .hero-illustration .student-1 { animation: student-bob 4s ease-in-out infinite 0s; }
+  .hero-illustration .student-2 { animation: student-bob 4s ease-in-out infinite .6s; }
+  .hero-illustration .student-3 { animation: student-bob 4s ease-in-out infinite 1.2s; }
+  .hero-illustration .student-4 { animation: student-bob 4s ease-in-out infinite 1.8s; }
+  .hero-illustration .student-5 { animation: student-bob 4s ease-in-out infinite 2.4s; }
+  @keyframes student-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  .hero-illustration .bubble-pop {
+    animation: bubble-pulse 2.5s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes bubble-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  @keyframes bobbing {
+    0%, 100% { transform: rotate(-6deg) translateY(0); }
+    50% { transform: rotate(-6deg) translateY(-6px); }
+  }
+  .brand-mark-huge::after {
+    content: "";
+    position: absolute;
+    top: -8px; right: -8px;
+    width: 22px; height: 22px;
+    background: var(--vermillion);
+    border-radius: 50%;
+    border: 3px solid var(--cream);
+  }
+  .floating-emojis {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .floating-emojis span {
+    position: absolute;
+    font-size: 24px;
+    opacity: .5;
+    animation: float-soft 4s ease-in-out infinite;
+  }
+  .floating-emojis span:nth-child(1) { top: 12%; left: 8%; animation-delay: 0s; }
+  .floating-emojis span:nth-child(2) { top: 18%; right: 12%; animation-delay: .8s; }
+  .floating-emojis span:nth-child(3) { top: 38%; left: 12%; animation-delay: 1.4s; }
+  .floating-emojis span:nth-child(4) { top: 32%; right: 8%; animation-delay: 2.2s; }
+  @keyframes float-soft {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(8deg); }
+  }
+
+  .welcome-title {
+    margin: 18px 0 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1.18;
+    letter-spacing: -.025em;
+    color: var(--ink);
+  }
+  .welcome-title .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 4px;
+  }
+  .welcome-en {
+    margin: 6px 0 0;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: .25em;
+    color: var(--vermillion);
+  }
+  .welcome-tagline {
+    margin: 22px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+    font-weight: 500;
+    line-height: 1.7;
+  }
+  .welcome-stats {
+    margin: 26px 22px 0;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: 4px 4px 0 var(--ink);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .welcome-stats .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--ink);
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+  .welcome-stats .num .accent {
+    color: var(--vermillion);
+  }
+  .welcome-stats .label {
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  /* === Step header (steps 1-3) === */
+  .step-header {
+    padding: 18px 22px 14px;
+  }
+  .step-header .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 10px;
+    color: var(--vermillion); letter-spacing: .25em; text-transform: uppercase;
+  }
+  .step-header .kicker::before { content: ""; width: 22px; height: 2px; background: var(--vermillion); }
+  .step-header h1 {
+    margin: 8px 0 4px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900; font-size: 24px; letter-spacing: -.025em;
+    line-height: 1.18; color: var(--ink);
+  }
+  .step-header h1 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 4px;
+  }
+  .step-header p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    font-weight: 500;
+  }
+
+  /* === Form === */
+  .form-block {
+    padding: 0 22px 0;
+  }
+  .field { margin-top: 16px; }
+  .field-label {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .field-label .name {
+    font-weight: 900; font-size: 13px; color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+  }
+  .field-label .name .req { color: var(--vermillion); margin-left: 3px; }
+  .field-hint {
+    margin-top: 6px;
+    font-size: 10.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .input {
+    width: 100%;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 11px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    transition: box-shadow .15s ease;
+  }
+  .input:focus { box-shadow: 3px 3px 0 var(--vermillion); }
+  .input::placeholder { color: rgba(20,17,27,.32); }
+
+  /* Chips (universities, depts, years) */
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 4px;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 11.5px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+    user-select: none;
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.selected {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+  }
+
+  /* === STEP 2: Tag selection === */
+  .tag-counter-box {
+    margin: 0 22px 12px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: box-shadow .25s ease;
+  }
+  .tag-counter-box.valid {
+    box-shadow: 3px 3px 0 var(--mint);
+  }
+  .tag-counter-box .ic {
+    width: 32px; height: 32px;
+    background: var(--cream-2);
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    display: grid; place-items: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background .25s;
+  }
+  .tag-counter-box.valid .ic {
+    background: var(--mint);
+  }
+  .tag-counter-box .text { flex: 1; line-height: 1.3; }
+  .tag-counter-box .text strong {
+    font-weight: 900; font-size: 13px;
+  }
+  .tag-counter-box .text .sub {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 10px; color: var(--ink-2);
+    margin-top: 2px; letter-spacing: .04em;
+  }
+  .tag-counter-box .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--vermillion);
+    line-height: 1;
+  }
+  .tag-counter-box.valid .num { color: var(--mint); }
+  .tag-counter-box.valid .num::before { content: "✓ "; }
+
+  .tag-cloud {
+    padding: 0 22px;
+  }
+  .tag-cat {
+    margin-bottom: 14px;
+  }
+  .tag-cat .cat-label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: .15em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tag-cat .cat-label::after {
+    content: "";
+    flex: 1; height: 1px;
+    background: rgba(20,17,27,.15);
+    margin-left: 6px;
+  }
+  .tag-chip {
+    display: inline-flex; align-items: center;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 6px 11px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+    user-select: none;
+    margin: 0 4px 4px 0;
+  }
+  .tag-chip:hover { transform: translateY(-1px) scale(1.05); }
+  .tag-chip::before { content: "#"; opacity: .55; margin-right: 1px; }
+  .tag-chip.selected {
+    background: var(--ink);
+    color: var(--sun);
+    box-shadow: 2px 2px 0 var(--vermillion);
+    transform: scale(1.05);
+  }
+
+  /* === STEP 3: Avatar === */
+  .avatar-stage {
+    padding: 8px 22px 0;
+    text-align: center;
+  }
+  .avatar-preview {
+    width: 130px; height: 130px;
+    margin: 8px auto 0;
+    border-radius: 50%;
+    background: var(--cream-2);
+    border: 4px solid var(--ink);
+    overflow: hidden;
+    box-shadow: 6px 6px 0 var(--ink);
+    transition: background .35s ease;
+    position: relative;
+  }
+  .avatar-preview > svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .avatar-preview .verified {
+    position: absolute;
+    bottom: 4px; right: 4px;
+    width: 32px; height: 32px;
+    background: var(--vermillion);
+    border: 2.5px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--cream);
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .avatar-preview.theme-vermillion { background: linear-gradient(135deg, #FF7F3F, #E8412B); }
+  .avatar-preview.theme-indigo { background: linear-gradient(135deg, #7B6CFF, #4A45D6); }
+  .avatar-preview.theme-mint { background: linear-gradient(135deg, #6CD4B6, #1B7F5A); }
+  .avatar-preview.theme-sun { background: linear-gradient(135deg, #FFCE2E, #D4A100); color: var(--ink); }
+  .avatar-preview.theme-rose { background: linear-gradient(135deg, #FF93C5, #C13F77); }
+  .avatar-preview.theme-teal { background: linear-gradient(135deg, #48C7C7, #1D7A7A); }
+  .avatar-preview.theme-navy { background: linear-gradient(135deg, #3F6FB0, #0E2C5C); }
+  .avatar-preview.theme-purple { background: linear-gradient(135deg, #D27BFF, #9333A8); }
+
+  .avatar-name-mini {
+    margin-top: 14px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .avatar-handle-mini {
+    margin-top: 2px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--ink-2);
+  }
+
+  .avatar-controls {
+    margin: 24px 22px 0;
+  }
+  .control-label {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    color: var(--ink-2);
+    letter-spacing: .15em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .swatch {
+    aspect-ratio: 1.4;
+    border-radius: 12px;
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    transition: transform .15s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 2px 2px 0 transparent;
+  }
+  .swatch:hover { transform: scale(1.05); }
+  .swatch.selected {
+    box-shadow: 2px 2px 0 var(--ink);
+    transform: scale(1.04);
+  }
+  .swatch.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 18px; height: 18px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 900;
+  }
+
+  .initial-row {
+    display: flex; gap: 10px; align-items: center;
+  }
+  .initial-input {
+    width: 64px;
+    text-align: center;
+    font-family: 'RocknRoll One', sans-serif;
+    font-size: 22px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    padding: 8px 0;
+    color: var(--ink);
+    outline: none;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .initial-row .hint {
+    flex: 1;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  /* === STEP 4: Complete === */
+  .complete-wrap {
+    text-align: center;
+    padding: 40px 22px 0;
+    position: relative;
+  }
+  .confetti {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .confetti span {
+    position: absolute;
+    font-size: 24px;
+    animation: confetti-drop 2.5s ease-out infinite;
+  }
+  .confetti span:nth-child(1) { top: -30px; left: 10%; animation-delay: 0s; }
+  .confetti span:nth-child(2) { top: -30px; left: 30%; animation-delay: .3s; }
+  .confetti span:nth-child(3) { top: -30px; left: 50%; animation-delay: .6s; }
+  .confetti span:nth-child(4) { top: -30px; left: 70%; animation-delay: .15s; }
+  .confetti span:nth-child(5) { top: -30px; left: 90%; animation-delay: .45s; }
+  @keyframes confetti-drop {
+    0% { transform: translateY(0) rotate(0); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(220px) rotate(360deg); opacity: 0; }
+  }
+
+  .complete-wrap h1 {
+    margin: 12px 0 6px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .complete-wrap h1 .accent {
+    background: linear-gradient(transparent 60%, var(--sun) 60%);
+    padding: 0 4px;
+  }
+  .complete-wrap p {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* Final profile card preview */
+  .profile-preview-card {
+    margin: 22px 22px 0;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    box-shadow: 6px 6px 0 var(--vermillion);
+    overflow: hidden;
+    position: relative;
+  }
+  .profile-preview-card .ppc-stamp {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--sun);
+    color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transform: rotate(8deg);
+    border: 1.5px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+    letter-spacing: .15em;
+    z-index: 3;
+  }
+  .ppc-cover {
+    height: 60px;
+    background:
+      repeating-linear-gradient(
+        135deg,
+        #FFCE2E 0px, #FFCE2E 22px,
+        #E8412B 22px, #E8412B 44px,
+        #FBF5E5 44px, #FBF5E5 66px
+      );
+    position: relative;
+  }
+  .ppc-body {
+    padding: 0 18px 18px;
+    text-align: left;
+  }
+  .ppc-avatar-row {
+    display: flex;
+    align-items: flex-end;
+    margin-top: -32px;
+    margin-bottom: 8px;
+  }
+  .ppc-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--ink);
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--ink);
+    background: var(--cream-2);
+    flex-shrink: 0;
+  }
+  .ppc-avatar > svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .ppc-name {
+    margin: 0;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .ppc-handle {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--ink-2);
+    margin-top: 1px;
+  }
+  .ppc-pills {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    margin-top: 6px;
+  }
+  .ppc-pills .pp {
+    background: var(--cream);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+  }
+  .ppc-pills .pp.year { background: var(--ink); color: var(--sun); }
+
+  .ppc-tags {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(20,17,27,.18);
+  }
+  .ppc-tags .lbl {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    color: var(--vermillion);
+    letter-spacing: .15em;
+    margin-bottom: 5px;
+  }
+  .ppc-tags-list {
+    display: flex; flex-wrap: wrap; gap: 4px;
+  }
+  .ppc-tag {
+    background: var(--ink);
+    color: var(--sun);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 9.5px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: .04em;
+  }
+  .ppc-tag::before { content: "#"; opacity: .65; margin-right: 1px; }
+
+  /* === Bottom bar === */
+  .bottom-bar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 6;
+    background: var(--paper);
+    border-top: 2px solid var(--ink);
+    padding: 12px 18px 24px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .progress-mini {
+    display: flex; gap: 4px; align-items: center;
+    flex-shrink: 0;
+  }
+  .progress-mini .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--ink-2);
+    margin-left: 4px;
+    letter-spacing: .04em;
+  }
+  .pdot-small {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cream-2);
+    border: 1.5px solid var(--ink);
+  }
+  .pdot-small.done { background: var(--vermillion); }
+  .pdot-small.active { background: var(--ink); transform: scale(1.2); }
+
+  .btn {
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .btn:disabled { opacity: .35; cursor: not-allowed; }
+  .btn-back {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .btn-next {
+    flex: 1;
+    background: var(--ink);
+    color: var(--sun);
+  }
+  .btn-start {
+    flex: 1;
+    background: var(--vermillion);
+    color: var(--cream);
+    font-size: 14px;
+    padding: 14px;
+  }
+  .btn-finish {
+    flex: 1;
+    background: var(--vermillion);
+    color: var(--cream);
+    font-size: 14px;
+    padding: 14px;
+    box-shadow: 3px 3px 0 var(--sun);
+  }
+  .btn-skip {
+    background: transparent;
+    border: none;
+    color: var(--ink-2);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: underline;
+    letter-spacing: .04em;
+  }
+  .btn svg {
+    width: 14px; height: 14px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* Login link on welcome */
+  .login-link {
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--ink-2);
+    font-weight: 600;
+    text-align: center;
+  }
+  .login-link a {
+    color: var(--ink);
+    text-decoration: underline;
+    font-weight: 800;
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG Portrait Library ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="portrait-yuki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 22 50 22 Q72 22 72 45 Q70 30 50 28 Q35 28 28 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.4" fill="#14111B"/>
+      <circle cx="42" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <circle cx="58" cy="52" r="6.5" stroke="#14111B" stroke-width="1.8" fill="none"/>
+      <line x1="48.5" y1="52" x2="51.5" y2="52" stroke="#14111B" stroke-width="1.5"/>
+      <path d="M45 65 Q50 67 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-minami" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#6CD4B6"/>
+      <path d="M22 45 Q22 80 32 100 L68 100 Q78 80 78 45 L78 32 Q70 16 50 16 Q30 16 22 32 Z" fill="#14111B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M30 32 Q34 20 44 22 L42 38 Q36 40 30 38 Z" fill="#14111B"/>
+      <path d="M70 32 Q66 20 56 22 L58 38 Q64 40 70 38 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.6" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.6" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.35"/>
+    </symbol>
+    <symbol id="portrait-risa" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#C13F77"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <path d="M24 50 Q22 28 38 20 Q50 16 62 20 Q78 28 76 50 Q76 60 72 70 Q72 56 70 48 Q66 35 50 30 Q34 35 30 48 Q28 56 28 70 Q24 60 24 50 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-haruto" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0E2C5C"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 L32 22 L38 36 L42 18 L48 32 L52 18 L58 32 L62 18 L68 36 L72 22 L72 45 Q70 35 50 32 Q35 32 28 40 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <line x1="46" y1="65" x2="54" y2="65" stroke="#14111B" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-ryou" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#4A45D6"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 45 Q28 24 50 22 Q72 24 72 45 Q72 32 60 30 Q50 32 40 30 Q28 32 28 45 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M45 65 Q50 66 55 65" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-rio" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 50 Q26 26 50 22 Q74 26 72 50 Q72 65 68 70 L68 50 Q60 35 50 32 Q40 35 32 50 L32 70 Q28 65 28 50 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-yui" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M26 45 Q24 25 45 20 Q65 18 74 30 Q76 45 70 60 L70 50 Q60 38 48 35 Q35 38 30 50 Q26 60 26 45 Z" fill="#14111B"/>
+      <path d="M28 28 Q40 20 56 22 L52 36 Q40 38 28 36 Z" fill="#14111B"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 66 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-daichi" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#9333A8"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 40 Q28 22 50 22 Q72 22 72 40 Q72 28 50 26 Q35 28 28 40 Z" fill="#14111B"/>
+      <rect x="26" y="36" width="48" height="6" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+      <circle cx="42" cy="54" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="54" r="1.5" fill="#14111B"/>
+      <path d="M44 65 Q50 68 56 65" stroke="#14111B" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-mai" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#FFCE2E"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#9333A8" stroke="#14111B" stroke-width="2"/>
+      <path d="M22 50 Q20 25 36 18 Q50 14 64 18 Q80 25 78 50 L78 75 Q76 90 70 95 L70 50 Q66 38 50 33 Q34 38 30 50 L30 95 Q24 90 22 75 Z" fill="#14111B"/>
+      <rect x="42" y="72" width="16" height="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="21" ry="24" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <circle cx="42" cy="53" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="53" r="1.5" fill="#14111B"/>
+      <path d="M45 64 Q50 67 55 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="37" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+      <circle cx="63" cy="60" r="3" fill="#E8412B" opacity="0.4"/>
+    </symbol>
+    <symbol id="portrait-souta" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1D7A7A"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q28 22 50 22 Q72 22 72 42 L72 32 Q60 30 50 32 Q40 30 28 32 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-sasaki" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#E8412B"/>
+      <ellipse cx="50" cy="100" rx="42" ry="22" fill="#FBF5E5" stroke="#14111B" stroke-width="2"/>
+      <rect x="42" y="70" width="16" height="15" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+      <ellipse cx="50" cy="50" rx="22" ry="25" fill="#FFE0CC" stroke="#14111B" stroke-width="2"/>
+      <path d="M28 42 Q26 22 50 22 Q74 22 72 42 Q72 32 65 32 Q55 30 50 30 Q42 30 35 32 Q28 32 28 42 Z" fill="#14111B"/>
+      <circle cx="42" cy="52" r="1.5" fill="#14111B"/>
+      <circle cx="58" cy="52" r="1.5" fill="#14111B"/>
+      <path d="M44 64 Q50 67 56 64" stroke="#14111B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="portrait-pending" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#F2EAD0"/>
+      <circle cx="50" cy="50" r="35" fill="#FFFDF6" stroke="#14111B" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="50" y="65" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="36" fill="#14111B">?</text>
+    </symbol>
+  </defs>
+</svg>
+
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="icons">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="currentColor"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="4" y="4" width="2" height="6" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/><rect x="12" y="0" width="2" height="10" rx="1"/></svg>
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4 Q 7 -1 13 4"/><path d="M3 6 Q 7 2.5 11 6"/><circle cx="7" cy="8" r="1" fill="currentColor"/></svg>
+      <span class="battery"></span>
+    </div>
+  </div>
+
+  <!-- ===== STEP 0: Welcome ===== -->
+  <div class="step active" data-step="0">
+    <div class="welcome-hero">
+      <div class="floating-emojis">
+        <span>💡</span>
+        <span>⚡</span>
+        <span>🔥</span>
+        <span>✨</span>
+      </div>
+      <svg class="hero-illustration" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" aria-label="学生たちがアイディアを共有している風景">
+        <!-- Background scattered dots (riso style) -->
+        <g fill="#14111B" opacity="0.12">
+          <circle cx="20" cy="20" r="1.8"/>
+          <circle cx="38" cy="12" r="1.4"/>
+          <circle cx="295" cy="25" r="1.8"/>
+          <circle cx="280" cy="14" r="1.4"/>
+          <circle cx="15" cy="200" r="1.8"/>
+          <circle cx="305" cy="195" r="1.8"/>
+          <circle cx="160" cy="14" r="1.4"/>
+          <circle cx="160" cy="208" r="1.4"/>
+          <circle cx="105" cy="180" r="1.4"/>
+          <circle cx="215" cy="180" r="1.4"/>
+        </g>
+
+        <!-- Decorative dashed lines (connection between students and center) -->
+        <g stroke-dasharray="3 3" stroke-width="1.4" fill="none" opacity="0.42">
+          <path d="M 65 70 Q 110 88 130 100" stroke="#E8412B"/>
+          <path d="M 255 65 Q 220 85 190 100" stroke="#4A45D6"/>
+          <path d="M 60 152 Q 100 138 130 122" stroke="#6CD4B6"/>
+          <path d="M 260 155 Q 220 138 192 122" stroke="#C13F77"/>
+          <path d="M 160 198 Q 160 175 160 150" stroke="#9333A8"/>
+        </g>
+
+        <!-- Star sparkles -->
+        <g fill="#FFCE2E" stroke="#14111B" stroke-width="1">
+          <path d="M 280 50 L 282 56 L 288 56 L 283 60 L 285 66 L 280 62 L 275 66 L 277 60 L 272 56 L 278 56 Z" opacity="0.9"/>
+          <path d="M 40 145 L 42 149 L 46 149 L 43 152 L 44 156 L 40 153 L 36 156 L 37 152 L 34 149 L 38 149 Z" opacity="0.9"/>
+        </g>
+
+        <!-- Center: 閃 brand mark stack -->
+        <g class="center-mark" transform="translate(160 105) rotate(-6)">
+          <!-- shadow layers (stacked) -->
+          <rect x="-32" y="-32" width="64" height="64" rx="11" fill="#FFCE2E" transform="translate(8 8)"/>
+          <rect x="-32" y="-32" width="64" height="64" rx="11" fill="#E8412B" transform="translate(4 4)"/>
+          <!-- main mark -->
+          <rect x="-32" y="-32" width="64" height="64" rx="11" fill="#14111B" stroke="#14111B" stroke-width="2"/>
+          <text x="0" y="14" text-anchor="middle" font-family="RocknRoll One, sans-serif" font-size="44" font-weight="900" fill="#FFCE2E">閃</text>
+          <!-- vermillion dot -->
+          <circle cx="28" cy="-28" r="5.5" fill="#E8412B" stroke="#FBF5E5" stroke-width="2"/>
+        </g>
+
+        <!-- Student 1: top-left (yuki style - vermillion + glasses) -->
+        <g class="student-group student-1" transform="translate(50 55)">
+          <ellipse cx="0" cy="22" rx="22" ry="10" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="22" fill="#E8412B" stroke="#14111B" stroke-width="2"/>
+          <ellipse cx="0" cy="0" rx="11" ry="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+          <path d="M-11 -3 Q-11 -14 0 -15 Q11 -14 11 -3 Q9 -8 0 -9 Q-7 -9 -11 -6 Z" fill="#14111B"/>
+          <circle cx="-4.5" cy="-1" r="3" stroke="#14111B" stroke-width="1.2" fill="#FFE0CC"/>
+          <circle cx="4.5" cy="-1" r="3" stroke="#14111B" stroke-width="1.2" fill="#FFE0CC"/>
+          <line x1="-1.5" y1="-1" x2="1.5" y2="-1" stroke="#14111B" stroke-width="1"/>
+          <circle cx="-4.5" cy="-1" r="0.8" fill="#14111B"/>
+          <circle cx="4.5" cy="-1" r="0.8" fill="#14111B"/>
+          <path d="M-2.5 5 Q0 7 2.5 5" stroke="#14111B" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+        </g>
+
+        <!-- Student 2: top-right (minami style - mint + long hair) -->
+        <g class="student-group student-2" transform="translate(270 50)">
+          <ellipse cx="0" cy="22" rx="22" ry="10" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="22" fill="#6CD4B6" stroke="#14111B" stroke-width="2"/>
+          <path d="M-12 -2 Q-12 16 -8 22 L8 22 Q12 16 12 -2 L12 -10 Q8 -16 0 -16 Q-8 -16 -12 -10 Z" fill="#14111B"/>
+          <ellipse cx="0" cy="0" rx="10" ry="12" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+          <path d="M-9 -8 Q-7 -13 -3 -12 L-4 -2 Q-7 0 -10 -2 Z" fill="#14111B"/>
+          <path d="M9 -8 Q7 -13 3 -12 L4 -2 Q7 0 10 -2 Z" fill="#14111B"/>
+          <circle cx="-4" cy="0" r="1.4" fill="#14111B"/>
+          <circle cx="4" cy="0" r="1.4" fill="#14111B"/>
+          <path d="M-2.5 5 Q0 7 2.5 5" stroke="#14111B" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+          <circle cx="-6" cy="3" r="1.5" fill="#E8412B" opacity="0.4"/>
+          <circle cx="6" cy="3" r="1.5" fill="#E8412B" opacity="0.4"/>
+        </g>
+
+        <!-- Student 3: middle-left (haruto style - navy + spiky hair) -->
+        <g class="student-group student-3" transform="translate(40 145)">
+          <ellipse cx="0" cy="22" rx="22" ry="10" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="22" fill="#0E2C5C" stroke="#14111B" stroke-width="2"/>
+          <ellipse cx="0" cy="0" rx="11" ry="13" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+          <path d="M-11 -5 L-9 -16 L-6 -7 L-3 -17 L0 -8 L3 -17 L6 -7 L9 -16 L11 -5 Q9 -10 0 -10 Q-7 -10 -11 -5 Z" fill="#14111B"/>
+          <circle cx="-4" cy="0" r="1.4" fill="#14111B"/>
+          <circle cx="4" cy="0" r="1.4" fill="#14111B"/>
+          <line x1="-2.5" y1="6" x2="2.5" y2="6" stroke="#14111B" stroke-width="1.1" stroke-linecap="round"/>
+        </g>
+
+        <!-- Student 4: middle-right (risa style - rose + wavy bob) -->
+        <g class="student-group student-4" transform="translate(280 150)">
+          <ellipse cx="0" cy="22" rx="22" ry="10" fill="#FFCE2E" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="22" fill="#C13F77" stroke="#14111B" stroke-width="2"/>
+          <path d="M-12 0 Q-13 -12 -6 -16 Q0 -17 6 -16 Q13 -12 12 0 Q12 6 10 8 Q10 -2 7 -8 Q0 -10 -7 -8 Q-10 -2 -10 8 Q-12 6 -12 0 Z" fill="#14111B"/>
+          <ellipse cx="0" cy="0" rx="10" ry="12" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="-4" cy="0" r="1.4" fill="#14111B"/>
+          <circle cx="4" cy="0" r="1.4" fill="#14111B"/>
+          <path d="M-2.5 5 Q0 7 2.5 5" stroke="#14111B" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+          <circle cx="-6" cy="3" r="1.5" fill="#E8412B" opacity="0.45"/>
+          <circle cx="6" cy="3" r="1.5" fill="#E8412B" opacity="0.45"/>
+        </g>
+
+        <!-- Student 5: bottom-center (rio style - sun + short bob) -->
+        <g class="student-group student-5" transform="translate(160 175)">
+          <ellipse cx="0" cy="22" rx="22" ry="10" fill="#E8412B" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="22" fill="#FFCE2E" stroke="#14111B" stroke-width="2"/>
+          <path d="M-12 2 Q-13 -12 0 -16 Q13 -12 12 2 Q12 8 10 10 L10 0 Q6 -7 0 -8 Q-6 -7 -10 0 L-10 10 Q-12 8 -12 2 Z" fill="#14111B"/>
+          <ellipse cx="0" cy="0" rx="10" ry="12" fill="#FFE0CC" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="-4" cy="0" r="1.4" fill="#14111B"/>
+          <circle cx="4" cy="0" r="1.4" fill="#14111B"/>
+          <path d="M-2.5 5 Q0 7 2.5 5" stroke="#14111B" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+          <circle cx="-6" cy="3" r="1.5" fill="#E8412B" opacity="0.45"/>
+          <circle cx="6" cy="3" r="1.5" fill="#E8412B" opacity="0.45"/>
+        </g>
+
+        <!-- Idea bubble next to student 1 -->
+        <g class="bubble-pop" transform="translate(85 28)">
+          <ellipse cx="0" cy="0" rx="13" ry="11" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+          <circle cx="-9" cy="8" r="2.5" fill="#FBF5E5" stroke="#14111B" stroke-width="1"/>
+          <text x="0" y="4" text-anchor="middle" font-size="14">💡</text>
+        </g>
+
+        <!-- Heart bubble next to student 4 -->
+        <g class="bubble-pop" transform="translate(248 122)" style="animation-delay:.7s;">
+          <ellipse cx="0" cy="0" rx="11" ry="9" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+          <text x="0" y="3.5" text-anchor="middle" font-size="11">♥</text>
+          <circle cx="9" cy="7" r="2" fill="#FBF5E5" stroke="#14111B" stroke-width="1"/>
+        </g>
+
+        <!-- Lightning to student 3 -->
+        <g class="bubble-pop" transform="translate(82 122)" style="animation-delay:1.3s;">
+          <ellipse cx="0" cy="0" rx="11" ry="9" fill="#FBF5E5" stroke="#14111B" stroke-width="1.5"/>
+          <text x="0" y="3.5" text-anchor="middle" font-size="11">⚡</text>
+          <circle cx="-9" cy="7" r="2" fill="#FBF5E5" stroke="#14111B" stroke-width="1"/>
+        </g>
+      </svg>
+      <h1 class="welcome-title">あなたの<span class="accent">ひらめき</span>、<br>キャンパスから世界へ。</h1>
+      <div class="welcome-en">CAMPUS×INNOVATION</div>
+      <p class="welcome-tagline">大学生の「これあったらいいな」が、<br>未来の事業に変わる場所。</p>
+      <div class="welcome-stats">
+        <div class="num"><span class="accent">24,800</span></div>
+        <div class="label">人の大学生がアイディアを<br>シェアしています</div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <button class="btn btn-start" id="startBtn">
+        はじめる
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 1: About you ===== -->
+  <div class="step" data-step="1">
+    <div class="step-header">
+      <span class="kicker">— STEP 01 / 03</span>
+      <h1>はじめまして！<br><span class="accent">学籍情報</span>を教えて</h1>
+      <p>あなたに合うアイディアを届けるために使います。後から変更可能。</p>
+    </div>
+
+    <div class="form-block">
+      <div class="field">
+        <div class="field-label"><span class="name">お名前<span class="req">*</span></span></div>
+        <input id="nameInput" class="input" type="text" placeholder="例：田中 ユウキ" value="田中 ユウキ" />
+        <div class="field-hint">表示名として使われます。後から変更OK。</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="name">大学<span class="req">*</span></span></div>
+        <div class="chips" id="uniChips">
+          <span class="chip selected" data-uni="高崎経済大学">高崎経済大学</span>
+          <span class="chip" data-uni="東京大学">東京大学</span>
+          <span class="chip" data-uni="京都大学">京都大学</span>
+          <span class="chip" data-uni="早稲田大学">早稲田大学</span>
+          <span class="chip" data-uni="慶應義塾大学">慶應義塾大学</span>
+          <span class="chip" data-uni="大阪大学">大阪大学</span>
+          <span class="chip" data-uni="北海道大学">北海道大学</span>
+          <span class="chip" data-uni="東北大学">東北大学</span>
+          <span class="chip" data-uni="名古屋大学">名古屋大学</span>
+          <span class="chip" data-uni="九州大学">九州大学</span>
+        </div>
+        <div class="field-hint" style="margin-top:8px;">他の大学の方は <a href="#" style="color:var(--vermillion);">検索する →</a></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="name">学部<span class="req">*</span></span></div>
+        <div class="chips" id="deptChips">
+          <span class="chip selected" data-dept="経済学部">経済学部</span>
+          <span class="chip" data-dept="商学部">商学部</span>
+          <span class="chip" data-dept="法学部">法学部</span>
+          <span class="chip" data-dept="文学部">文学部</span>
+          <span class="chip" data-dept="教育学部">教育学部</span>
+          <span class="chip" data-dept="理学部">理学部</span>
+          <span class="chip" data-dept="工学部">工学部</span>
+          <span class="chip" data-dept="情報学部">情報学部</span>
+          <span class="chip" data-dept="医学部">医学部</span>
+          <span class="chip" data-dept="国際学部">国際学部</span>
+          <span class="chip" data-dept="体育学部">体育学部</span>
+          <span class="chip" data-dept="その他">その他</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="name">学年<span class="req">*</span></span></div>
+        <div class="chips" id="yearChips">
+          <span class="chip" data-year="1年">1年</span>
+          <span class="chip" data-year="2年">2年</span>
+          <span class="chip selected" data-year="3年">3年</span>
+          <span class="chip" data-year="4年">4年</span>
+          <span class="chip" data-year="院生">大学院</span>
+          <span class="chip" data-year="その他">その他</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="progress-mini">
+        <span class="pdot-small active"></span>
+        <span class="pdot-small"></span>
+        <span class="pdot-small"></span>
+        <span class="num">1/3</span>
+      </div>
+      <button class="btn btn-next" id="next1">
+        次へ
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: Interests ===== -->
+  <div class="step" data-step="2">
+    <div class="step-header">
+      <span class="kicker">— STEP 02 / 03</span>
+      <h1>興味のある<span class="accent">テーマ</span>は？</h1>
+      <p>選んだタグに関連するアイディアがフィードに優先表示されます。</p>
+    </div>
+
+    <div class="tag-counter-box" id="tagCounter">
+      <div class="ic" id="tagCounterIc">🎯</div>
+      <div class="text">
+        <strong id="tagCounterTitle">あと3つ以上選んでください</strong>
+        <div class="sub">3〜10個まで選択可能</div>
+      </div>
+      <div class="num" id="tagCounterNum">0</div>
+    </div>
+
+    <div class="tag-cloud" id="tagCloud">
+      <div class="tag-cat">
+        <div class="cat-label">🤖 TECH</div>
+        <span class="tag-chip" data-tag="AI">AI</span>
+        <span class="tag-chip" data-tag="LLM">LLM</span>
+        <span class="tag-chip" data-tag="機械学習">機械学習</span>
+        <span class="tag-chip" data-tag="IoT">IoT</span>
+        <span class="tag-chip" data-tag="データ活用">データ活用</span>
+      </div>
+      <div class="tag-cat">
+        <div class="cat-label">📚 STUDY</div>
+        <span class="tag-chip" data-tag="ノート">ノート</span>
+        <span class="tag-chip" data-tag="復習">復習</span>
+        <span class="tag-chip" data-tag="勉強会">勉強会</span>
+        <span class="tag-chip" data-tag="過去問">過去問</span>
+        <span class="tag-chip" data-tag="研究">研究</span>
+        <span class="tag-chip" data-tag="EDU">EDU TECH</span>
+      </div>
+      <div class="tag-cat">
+        <div class="cat-label">🍱 LIFE</div>
+        <span class="tag-chip" data-tag="学食">学食</span>
+        <span class="tag-chip" data-tag="グルメ">グルメ</span>
+        <span class="tag-chip" data-tag="節約">節約</span>
+        <span class="tag-chip" data-tag="時短">時短</span>
+        <span class="tag-chip" data-tag="ライフハック">ライフハック</span>
+        <span class="tag-chip" data-tag="健康">健康</span>
+      </div>
+      <div class="tag-cat">
+        <div class="cat-label">🤝 PEOPLE</div>
+        <span class="tag-chip" data-tag="コミュニティ">コミュニティ</span>
+        <span class="tag-chip" data-tag="マッチング">マッチング</span>
+        <span class="tag-chip" data-tag="サークル">サークル</span>
+        <span class="tag-chip" data-tag="新歓">新歓</span>
+        <span class="tag-chip" data-tag="国際">国際</span>
+      </div>
+      <div class="tag-cat">
+        <div class="cat-label">🌱 IMPACT</div>
+        <span class="tag-chip" data-tag="サステナ">サステナ</span>
+        <span class="tag-chip" data-tag="循環">循環</span>
+        <span class="tag-chip" data-tag="フリマ">フリマ</span>
+        <span class="tag-chip" data-tag="シェア">シェア</span>
+        <span class="tag-chip" data-tag="教科書">教科書</span>
+        <span class="tag-chip" data-tag="学割">学割</span>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-back" id="back2">戻る</button>
+      <div class="progress-mini">
+        <span class="pdot-small done"></span>
+        <span class="pdot-small active"></span>
+        <span class="pdot-small"></span>
+        <span class="num">2/3</span>
+      </div>
+      <button class="btn btn-next" id="next2" disabled>
+        次へ
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: Avatar ===== -->
+  <div class="step" data-step="3">
+    <div class="step-header">
+      <span class="kicker">— STEP 03 / 03</span>
+      <h1>あなたの<span class="accent">顔</span>を作ろう</h1>
+      <p>名前のイニシャルとカラーで、ステッカー風のアバターを作ります。</p>
+    </div>
+
+    <div class="avatar-stage">
+      <div class="avatar-preview" id="avatarPreview">
+        <svg viewBox="0 0 100 100" id="avatarPreviewSvg"><use href="#portrait-yuki"/></svg>
+        <span class="verified">✓</span>
+      </div>
+      <div class="avatar-name-mini" id="avatarName">田中 ユウキ</div>
+      <div class="avatar-handle-mini">@yuki_tanaka</div>
+    </div>
+
+    <div class="avatar-controls">
+      <div class="control-label">— カラーテーマ</div>
+      <div class="swatches" id="swatches">
+        <div class="swatch theme-vermillion selected" data-theme="vermillion"></div>
+        <div class="swatch theme-indigo" data-theme="indigo"></div>
+        <div class="swatch theme-mint" data-theme="mint"></div>
+        <div class="swatch theme-sun" data-theme="sun"></div>
+        <div class="swatch theme-rose" data-theme="rose"></div>
+        <div class="swatch theme-teal" data-theme="teal"></div>
+        <div class="swatch theme-navy" data-theme="navy"></div>
+        <div class="swatch theme-purple" data-theme="purple"></div>
+      </div>
+
+      <div class="control-label">— イニシャル</div>
+      <div class="initial-row">
+        <input id="initialInput" class="initial-input" type="text" maxlength="2" value="田" />
+        <div class="hint">名前の頭文字が自動でセットされます。漢字・ひらがな・絵文字でもOK。</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-back" id="back3">戻る</button>
+      <div class="progress-mini">
+        <span class="pdot-small done"></span>
+        <span class="pdot-small done"></span>
+        <span class="pdot-small active"></span>
+        <span class="num">3/3</span>
+      </div>
+      <button class="btn btn-next" id="next3">
+        完成 ✨
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 4: Complete ===== -->
+  <div class="step" data-step="4">
+    <div class="complete-wrap">
+      <div class="confetti">
+        <span>🎉</span>
+        <span>✨</span>
+        <span>🎊</span>
+        <span>⭐</span>
+        <span>💡</span>
+      </div>
+      <div style="font-size: 60px; line-height: 1;">🎉</div>
+      <h1>ようこそ、<br><span class="accent" id="completeName">田中 ユウキ</span> さん！</h1>
+      <p>セットアップ完了です。<br>あなたのフィードを準備しました。</p>
+    </div>
+
+    <div class="profile-preview-card">
+      <div class="ppc-stamp">JUST JOINED</div>
+      <div class="ppc-cover"></div>
+      <div class="ppc-body">
+        <div class="ppc-avatar-row">
+          <div class="ppc-avatar" id="ppcAvatar"><svg viewBox="0 0 100 100" id="ppcAvatarSvg"><use href="#portrait-yuki"/></svg></div>
+        </div>
+        <h2 class="ppc-name" id="ppcName">田中 ユウキ</h2>
+        <div class="ppc-handle">@yuki_tanaka</div>
+        <div class="ppc-pills">
+          <span class="pp" id="ppcUni">高崎経済大学</span>
+          <span class="pp" id="ppcDept">経済学部</span>
+          <span class="pp year" id="ppcYear">3年</span>
+        </div>
+        <div class="ppc-tags">
+          <div class="lbl">— 興味タグ</div>
+          <div class="ppc-tags-list" id="ppcTags"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <a class="btn btn-finish" href="campus_innovation_home.html">
+        ホームへ
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== State =====
+const state = {
+  step: 0,
+  name: '田中 ユウキ',
+  uni: '高崎経済大学',
+  dept: '経済学部',
+  year: '3年',
+  tags: [],
+  theme: 'vermillion',
+  initial: '田'
+};
+
+// ===== Step navigation =====
+function goToStep(n) {
+  state.step = n;
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.step) === n);
+  });
+  if (n === 4) renderComplete();
+  // scroll phone to top
+  document.querySelector('.phone').scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('startBtn').addEventListener('click', () => goToStep(1));
+document.getElementById('next1').addEventListener('click', () => {
+  // Sync state from form
+  state.name = document.getElementById('nameInput').value || '田中 ユウキ';
+  goToStep(2);
+});
+document.getElementById('back2').addEventListener('click', () => goToStep(1));
+document.getElementById('next2').addEventListener('click', () => goToStep(3));
+document.getElementById('back3').addEventListener('click', () => goToStep(2));
+document.getElementById('next3').addEventListener('click', () => goToStep(4));
+
+// ===== STEP 1: Name + chip selectors =====
+document.getElementById('nameInput').addEventListener('input', (e) => {
+  const v = e.target.value.trim();
+  state.name = v;
+  // Auto-set initial to first character
+  if (v.length > 0) {
+    state.initial = v.charAt(0);
+    document.getElementById('initialInput').value = state.initial;
+  }
+});
+
+['uniChips', 'deptChips', 'yearChips'].forEach(id => {
+  const stateKey = id.replace('Chips', '');
+  document.querySelectorAll(`#${id} .chip`).forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll(`#${id} .chip`).forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+      state[stateKey] = c.dataset[stateKey];
+    });
+  });
+});
+
+// ===== STEP 2: Tag selection =====
+document.querySelectorAll('.tag-chip').forEach(t => {
+  t.addEventListener('click', () => {
+    const tag = t.dataset.tag;
+    const idx = state.tags.indexOf(tag);
+    if (idx >= 0) {
+      state.tags.splice(idx, 1);
+      t.classList.remove('selected');
+    } else if (state.tags.length < 10) {
+      state.tags.push(tag);
+      t.classList.add('selected');
+    }
+    updateTagCounter();
+  });
+});
+
+function updateTagCounter() {
+  const num = state.tags.length;
+  const counterBox = document.getElementById('tagCounter');
+  const ic = document.getElementById('tagCounterIc');
+  const title = document.getElementById('tagCounterTitle');
+  const numEl = document.getElementById('tagCounterNum');
+  numEl.textContent = num;
+
+  if (num >= 3) {
+    counterBox.classList.add('valid');
+    ic.textContent = '✓';
+    title.textContent = `${num}個のタグを選びました！`;
+    document.getElementById('next2').disabled = false;
+  } else {
+    counterBox.classList.remove('valid');
+    ic.textContent = '🎯';
+    title.textContent = `あと${3 - num}つ以上選んでください`;
+    document.getElementById('next2').disabled = true;
+  }
+}
+updateTagCounter();
+
+// ===== STEP 3: Avatar =====
+// Theme to portrait mapping
+const themeToPortrait = {
+  vermillion: 'yuki',
+  indigo: 'ryou',
+  mint: 'minami',
+  sun: 'rio',
+  rose: 'risa',
+  teal: 'yui',
+  navy: 'haruto',
+  purple: 'daichi'
+};
+
+document.querySelectorAll('.swatch').forEach(s => {
+  s.addEventListener('click', () => {
+    document.querySelectorAll('.swatch').forEach(x => x.classList.remove('selected'));
+    s.classList.add('selected');
+    state.theme = s.dataset.theme;
+    const portraitId = themeToPortrait[state.theme] || 'yuki';
+    document.querySelector('#avatarPreviewSvg use').setAttribute('href', '#portrait-' + portraitId);
+  });
+});
+
+document.getElementById('initialInput').addEventListener('input', (e) => {
+  state.initial = e.target.value || '田';
+});
+
+// Update avatar preview name when arriving at step 3
+function syncAvatarPreview() {
+  document.getElementById('avatarName').textContent = state.name;
+}
+
+// Hook into goToStep for step 3
+const origGoToStep = goToStep;
+goToStep = function(n) {
+  origGoToStep(n);
+  if (n === 3) syncAvatarPreview();
+};
+
+// ===== STEP 4: Render complete =====
+function renderComplete() {
+  document.getElementById('completeName').textContent = state.name;
+  document.getElementById('ppcName').textContent = state.name;
+  document.getElementById('ppcUni').textContent = state.uni;
+  document.getElementById('ppcDept').textContent = state.dept;
+  document.getElementById('ppcYear').textContent = state.year;
+  const portraitId = themeToPortrait[state.theme] || 'yuki';
+  document.querySelector('#ppcAvatarSvg use').setAttribute('href', '#portrait-' + portraitId);
+  // Tags
+  const tagsList = document.getElementById('ppcTags');
+  tagsList.innerHTML = '';
+  state.tags.forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'ppc-tag';
+    span.textContent = t;
+    tagsList.appendChild(span);
+  });
+}
+</script>
+
+</body>
+</html>
